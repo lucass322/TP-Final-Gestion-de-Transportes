@@ -141,5 +141,21 @@ public class Viaje implements Reservable {
         System.out.println("No se encontro ningun pasajero con el DNI: " + dni);
         return null;
     }
+
+    public void agregarTramo(String nombreTramo, Viaje viajeTramo) {
+        if (nombreTramo != null && viajeTramo != null) {
+            historialViajes.put(nombreTramo, viajeTramo);
+            System.out.println("Tramo " + nombreTramo + " agregado al itinerario.");
+        }
+    }
+
+
+    public Viaje obtenerTramo(String nombreTramo) {
+        if (historialViajes.containsKey(nombreTramo)) {
+            return historialViajes.get(nombreTramo);
+        }
+        System.out.println("No se encontró el tramo: " + nombreTramo);
+        return null;
+    }
 }
 
