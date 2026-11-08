@@ -78,6 +78,7 @@
             </HBox>
         </children>
     </VBox>
+   <Label fx:id="lblError" focusTraversable="false" maxWidth="1.7976931348623157E308" styleClass="mensaje-error" visible="false" />
     <HBox alignment="CENTER" prefHeight="88.0" prefWidth="514.0" spacing="15.0" VBox.vgrow="NEVER">
         <children>
             <Button fx:id="btnIngresar" alignment="CENTER" onAction="#iniciarSesion" prefHeight="38.0" prefWidth="260.0" styleClass="button-login" text="Ingresar">

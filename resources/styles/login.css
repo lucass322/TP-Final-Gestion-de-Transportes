@@ -121,3 +121,8 @@
     -fx-font-family: "Arial";
 }
 
+.mensaje-error {
+    -fx-text-fill: #D9534F;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}

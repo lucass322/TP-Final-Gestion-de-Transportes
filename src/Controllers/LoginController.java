@@ -15,9 +15,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.Control;
 import java.util.Arrays;
 import javafx.concurrent.Task;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Utilidades.Validaciones;
 
 public class LoginController implements Initializable {
     private final FontIcon iconoUsuario = new FontIcon(FontAwesomeSolid.USER);
@@ -57,6 +61,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private Label lblCargando;
+
+    @FXML
+    private Label lblError;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -140,6 +147,18 @@ public class LoginController implements Initializable {
 
     @FXML
     private void iniciarSesion() {
+        //Se obtiene los valores de los campos usuario y password
+        String usuario = txtUsuario.getText();
+        String password = txtPassword.getText();
+
+        //Oculta cualquier mensaje de error anterior
+        lblError.setVisible(false);
+        lblError.setManaged(false);
+
+        if (Validaciones.campoVacio(usuario) || Validaciones.campoVacio(password)) {
+            mostrarError("Completá todos los campos."); //aparece el mensaje y después desaparece en 2 seg
+            return;
+        }
 
         contenedorCarga.setVisible(true);
         contenedorCarga.setManaged(true);
@@ -186,5 +205,21 @@ public class LoginController implements Initializable {
         contenedorCarga.setManaged(false);
 
         btnIngresar.setDisable(false);
+    }
+
+    private void mostrarError(String mensaje) {
+
+        lblError.setText(mensaje);
+        lblError.setVisible(true);
+        lblError.setManaged(true);
+
+        PauseTransition pausa = new PauseTransition(Duration.seconds(2));
+
+        pausa.setOnFinished(event -> {
+            lblError.setVisible(false);
+            lblError.setManaged(false);
+        });
+
+        pausa.play();
     }
 }
