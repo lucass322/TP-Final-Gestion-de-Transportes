@@ -28,6 +28,7 @@ public class LoginController implements Initializable {
     private final FontIcon iconoPassword = new FontIcon(FontAwesomeSolid.LOCK);
     private final FontIcon iconoMostrar = new FontIcon(FontAwesomeSolid.EYE);
     private final FontIcon iconoOcultar = new FontIcon(FontAwesomeSolid.EYE_SLASH);
+    private PauseTransition pausaError;
 
     @FXML
     private HBox contenedorUsuario;
@@ -151,10 +152,6 @@ public class LoginController implements Initializable {
         String usuario = txtUsuario.getText();
         String password = txtPassword.getText();
 
-        //Oculta cualquier mensaje de error anterior
-        lblError.setVisible(false);
-        lblError.setManaged(false);
-
         if (Validaciones.campoVacio(usuario) || Validaciones.campoVacio(password)) {
             mostrarError("Completá todos los campos."); //aparece el mensaje y después desaparece en 2 seg
             return;
@@ -208,6 +205,11 @@ public class LoginController implements Initializable {
     }
 
     private void mostrarError(String mensaje) {
+
+        //Si existe una pausa anterior, la detiene
+        if (pausaError != null) {
+            pausaError.stop();
+        }
 
         lblError.setText(mensaje);
         lblError.setVisible(true);
