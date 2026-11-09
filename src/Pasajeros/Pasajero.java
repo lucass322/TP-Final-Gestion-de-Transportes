@@ -1,6 +1,7 @@
 package Pasajeros;
 
 public class Pasajero {
+    private int id;
     private String dni;
     private String nombre;
     private String apellido;
@@ -16,6 +17,14 @@ public class Pasajero {
         this.email = email;
     }
 
+    public Pasajero(int id ,String dni, String nombre, String apellido, String telefono, String email) {
+        this.dni = dni;
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.email = email;
+    }
 
     public void mostrarDatosPasajero() {
         System.out.println("Pasajero: " + apellido + ", " + nombre + " | DNI: " + dni);
@@ -63,4 +72,7 @@ public class Pasajero {
         this.email = email;
     }
 
+    public int getId() {
+        return id;
+    }
 }
