@@ -1,3 +1,4 @@
+/* =============================== LOGIN =============================== */
 .button-login {
     -fx-background-color: #E8752F;
     -fx-text-fill: white;
@@ -69,11 +70,12 @@
     -fx-font-size: 14px;
 }
 
-.text-field:focused,
-.password-field:focused {
-    -fx-effect: none;
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
+.input-login:focused {
+    -fx-border-color: #FF8C42;
+    -fx-border-width: 1.5;
+    -fx-effect: dropshadow(gaussian, rgba(255, 140, 66, 0.20), 8, 0, 0, 0);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
 }
 
 .input-integrado {

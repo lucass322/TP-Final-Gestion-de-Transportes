@@ -1,3 +1,4 @@
+import DAO.UsuarioDAO;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +9,20 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        boolean existeRoot = usuarioDao.hayRoot();
+        String vista;
+        String titulo;
+
+        if(existeRoot) {
+            vista = "/views/Login.fxml";
+            titulo = "RutaGo - Iniciar sesión";
+        }else{
+            vista = "/views/RegistroRoot.fxml";
+            titulo = "RutaGo - Crear usuario ROOT";
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(vista));
 
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -16,10 +30,8 @@ public class Main extends Application {
         scene.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
 
         stage.setScene(scene);
-
-        stage.setTitle("RutaGo - Iniciar sesión");
-        stage.setWidth(600);
-        stage.setHeight(600);
+        stage.setTitle(titulo);
+        stage.sizeToScene();
         stage.setResizable(false);
         stage.show();
     }

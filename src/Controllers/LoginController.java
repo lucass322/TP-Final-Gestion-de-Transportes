@@ -1,5 +1,6 @@
 package Controllers;
 
+import DAO.UsuarioDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
@@ -162,31 +163,39 @@ public class LoginController implements Initializable {
 
         btnIngresar.setDisable(true);
 
-        Task<Void> tarea = new Task<>() {
+        lblCargando.setText("Verificando credenciales...");
+
+        Task<Boolean> tarea = new Task<>() {
 
             @Override
-            protected Void call() throws Exception {
+            protected Boolean call() throws Exception {
 
-                for (int i = 0; i <= 100; i++) {
-                    Thread.sleep(35);
-                    updateProgress(i, 100);
-                }
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-                return null;
+                return usuarioDAO.autenticarUsuario(usuario, password);
             }
         };
-
-        lblCargando.textProperty().bind(
-                tarea.progressProperty()
-                        .multiply(100)
-                        .asString("Cargando... %.0f %%")
-        );
 
         tarea.setOnSucceeded(event -> finalizarCarga());
 
         tarea.setOnFailed(event -> {
             finalizarCarga();
+
+            if(tarea.getValue()) {
+                System.out.println("\nInicio de sesión exitoso.");
+            }else{
+                System.out.println("\nError al iniciar sesión: " + tarea.getException().getMessage());
+            }
+
+        });
+
+        tarea.setOnFailed(event -> {
+
+            finalizarCarga();
+
             System.out.println("\nError al iniciar sesión: " + tarea.getException().getMessage());
+
+            mostrarError("Ocurrió un error al iniciar sesión.");
         });
 
         Thread hilo = new Thread(tarea);

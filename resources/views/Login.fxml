@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" alignment="CENTER" prefHeight="575.0" prefWidth="576.0" spacing="12.0" style="-fx-background-color: #20242D;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
+<VBox fx:id="root" alignment="CENTER" prefHeight="575.0" prefWidth="576.0" spacing="12.0" style="-fx-background-color: #20242D;" stylesheets="@../styles/login.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -34,12 +34,7 @@
             </Label>
             <HBox fx:id="contenedorUsuario" alignment="CENTER_LEFT" maxHeight="42.0" maxWidth="1.7976931348623157E308" minHeight="42.0" prefHeight="42.0" prefWidth="0.0" spacing="8.0" styleClass="contenedor-input">
                 <children>
-                    <TextField fx:id="txtUsuario" maxHeight="42.0" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar usuario" HBox.hgrow="ALWAYS">
-                        <styleClass>
-                            <String fx:value="input-login" />
-                            <String fx:value="input-integrado" />
-                        </styleClass>
-                    </TextField>
+                    <TextField fx:id="txtUsuario" maxHeight="42.0" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar usuario" styleClass="input-integrado" HBox.hgrow="ALWAYS" />
                 </children>
             </HBox>
         </children>
@@ -55,12 +50,7 @@
                 <children>
                     <HBox fx:id="contenedorPassword" alignment="CENTER_LEFT" maxHeight="42.0" minHeight="42.0" prefHeight="42.0" prefWidth="539.0" spacing="8.0" styleClass="contenedor-input" HBox.hgrow="ALWAYS">
                         <children>
-                            <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar contraseña" HBox.hgrow="ALWAYS">
-                                <styleClass>
-                                    <String fx:value="input-login" />
-                                    <String fx:value="input-integrado" />
-                                </styleClass>
-                            </PasswordField>
+                            <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar contraseña" styleClass="input-integrado" HBox.hgrow="ALWAYS" />
                             <TextField fx:id="txtPasswordVisible" focusTraversable="false" managed="false" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar contraseña" visible="false" HBox.hgrow="ALWAYS">
                                 <styleClass>
                                     <String fx:value="input-login" />
