@@ -1,0 +1,139 @@
+/* =============================== DASHBOARD ROOT =============================== */
+
+.dashboard-root {
+    -fx-background-color: #F5F5F5;
+}
+
+/* =============================== HEADER =============================== */
+
+.dashboard-header {
+    -fx-background-color: #1C1C1C;
+}
+
+.dashboard-logo {
+    -fx-text-fill: #FF8C42;
+    -fx-font-family: "Arial";
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.usuario-info {
+    -fx-alignment: center-right;
+}
+
+.usuario-info .label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+}
+
+.usuario-rol {
+    -fx-text-fill: #FF8C42;
+    -fx-font-family: "Arial";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* =============================== SIDEBAR =============================== */
+
+.dashboard-sidebar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E6E6E6;
+    -fx-border-width: 0 1px 0 0;
+}
+
+.sidebar-titulo {
+    -fx-text-fill: #888888;
+    -fx-font-family: "Arial";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1C1C1C;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-alignment: center-left;
+    -fx-padding: 10px 12px;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #F5F5F5;
+    -fx-text-fill: #E8752F;
+}
+
+.sidebar-button .ikonli-font-icon {
+    -fx-icon-size: 16px;
+    -fx-icon-color: #777777;
+}
+
+.sidebar-button:hover .ikonli-font-icon {
+    -fx-icon-color: #E8752F;
+}
+
+.sidebar-logout {
+    -fx-text-fill: #D9534F;
+}
+
+.sidebar-logout:hover {
+    -fx-background-color: #FCE8E8;
+    -fx-text-fill: #C9302C;
+}
+
+.sidebar-logout .ikonli-font-icon {
+    -fx-icon-color: #D9534F;
+}
+
+
+
+
+/* =============================== CONTENIDO =============================== */
+
+.dashboard-content {
+    -fx-background-color: #F5F5F5;
+}
+
+.dashboard-titulo {
+    -fx-text-fill: #1C1C1C;
+    -fx-font-family: "Arial";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-descripcion {
+    -fx-text-fill: #777777;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+}
+
+/* =============================== TARJETAS =============================== */
+
+.dashboard-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-color: #E6E6E6;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+.card-titulo {
+    -fx-text-fill: #777777;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+}
+
+.card-valor {
+    -fx-text-fill: #E8752F;
+    -fx-font-family: "Arial";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+/* ICONOS TARJETAS */
+.card-icon {
+    -fx-icon-size: 24px;
+    -fx-icon-color: #E8752F;
+}

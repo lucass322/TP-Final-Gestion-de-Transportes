@@ -1,6 +1,7 @@
 package Controllers;
 
 import DAO.UsuarioDAO;
+import Usuarios.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
@@ -18,6 +19,10 @@ import java.util.Arrays;
 import javafx.concurrent.Task;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -165,32 +170,57 @@ public class LoginController implements Initializable {
 
         lblCargando.setText("Verificando credenciales...");
 
-        Task<Boolean> tarea = new Task<>() {
+        Task<Usuario> tarea = new Task<>() {
 
             @Override
-            protected Boolean call() throws Exception {
+            protected Usuario call() throws Exception {
 
                 UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-                return usuarioDAO.autenticarUsuario(usuario, password);
+                return usuarioDAO.obtenerUsuarioAutenticado(usuario, password);
             }
         };
 
-        tarea.setOnSucceeded(event -> finalizarCarga());
-
-        tarea.setOnFailed(event -> {
+        tarea.setOnSucceeded(event -> {
             finalizarCarga();
 
-            if(tarea.getValue()) {
-                System.out.println("\nInicio de sesión exitoso.");
-            }else{
-                System.out.println("\nError al iniciar sesión: " + tarea.getException().getMessage());
+            Usuario usuarioAutenticado = tarea.getValue();
+
+            if (usuarioAutenticado == null) {
+                mostrarError("Usuario o contraseña incorrectos.");
+                return;
             }
 
+            System.out.println("\nInicio de sesión exitoso.");
+
+            String nombreRol = usuarioAutenticado.getRol().getNombreRol();
+
+            if (nombreRol.equals("ROOT")) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MenuPrincipalRoot.fxml"));
+
+                    Parent root = loader.load();
+
+                    MenuPrincipalRootController controller = loader.getController();
+                    controller.setUsuario(usuarioAutenticado);
+
+                    Stage stage = (Stage) btnIngresar.getScene().getWindow();
+
+                    Scene scene = new Scene(root);
+                    scene.getStylesheets().add(getClass().getResource("/styles/MenuPrincipalRoot.css").toExternalForm());
+
+                    stage.setScene(scene);
+                    stage.setTitle("RutaGo - Panel ROOT");
+                    stage.setResizable(false);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mostrarError("No se pudo cargar el panel de administración.");
+                }
+            }
         });
 
         tarea.setOnFailed(event -> {
-
             finalizarCarga();
 
             System.out.println("\nError al iniciar sesión: " + tarea.getException().getMessage());

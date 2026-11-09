@@ -82,7 +82,7 @@ public class UsuarioDAO {
     public Usuario buscarPorNombreUsuario(String nombreUsuario) throws SQLException {
         String sql = "SELECT u.idUsuario, u.nombreUsuario, u.passwordUsuario, u.email, u.habilitadoUsuario, " +
                 "r.idRol, r.nombreRol, r.habilitadoRol " +
-                "FROM usuarios u INNER JOIN roles r ON u.idUsuario = r.idRol " +
+                "FROM usuarios u INNER JOIN roles r ON u.idRol = r.idRol " +
                 "WHERE u.nombreUsuario = ?";
 
         try (Connection con = ConexionDB.conectar();
@@ -127,5 +127,26 @@ public class UsuarioDAO {
         }
 
         return Encriptacion.verificarPassword(passwordUsuario, usuario.getPasswordUsuario());
+    }
+
+    //Autentica al usuario verificando su existencia, estado de habilitación y contraseña.
+    // Si la autenticación es correcta, devuelve el objeto Usuario completo; de lo contrario, devuelve null.
+    public Usuario obtenerUsuarioAutenticado(String nombreUsuario, String passwordUsuario) throws SQLException {
+        Usuario usuario = buscarPorNombreUsuario(nombreUsuario);
+
+        if (usuario == null) {
+            return null;
+        }
+
+        if (!usuario.isHabilitadoUsuario() || !usuario.getRol().isHabilitadoRol()) {
+            return null;
+        }
+
+        if (!Encriptacion.verificarPassword(passwordUsuario, usuario.getPasswordUsuario())) {
+            return null;
+        }
+
+
+        return usuario;
     }
 }
