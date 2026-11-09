@@ -1,4 +1,5 @@
 import DAO.UsuarioDAO;
+import Database.InicializadorDB;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        InicializadorDB.inicializar();
+
         UsuarioDAO usuarioDao = new UsuarioDAO();
         boolean existeRoot = usuarioDao.hayRoot();
         String vista;
