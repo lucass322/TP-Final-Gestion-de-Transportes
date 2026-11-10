@@ -149,4 +149,9 @@ public class UsuarioDAO {
 
         return usuario;
     }
+
+
+    public void modificar(Usuario u){
+
+    }
 }

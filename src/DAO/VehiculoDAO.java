@@ -10,7 +10,7 @@ import Vehiculos.TiposVehiculos.Colectivo;
 import Vehiculos.TiposVehiculos.Tren;
 import Vehiculos.Vehiculo;
 
-public class VehiculoDAO {
+public class VehiculoDAO implements iDAO<Vehiculo> {
 
     public void alta(Vehiculo v) throws SQLException{
         String sql = "INSERT INTO vehiculos (tipo,id,patente,capacidadPasajeros,costoPorKm,activo,cantTurbinas,autonomiaKM,cantPisos,tieneBanio,cantVagones,tipoTraccion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";

@@ -7,7 +7,7 @@ import java.util.List;
 import Conexion.ConexionDB;
 import Pasajeros.Pasajero;
 
-public class PasajeroDAO {
+public class PasajeroDAO implements iDAO<Pasajero> {
 
     public void alta(Pasajero p) throws SQLException{
         String sql = "INSERT INTO pasajeros (dni,nombre,apellido,telefono,email) VALUES (?, ?, ?, ?, ?)";
@@ -42,7 +42,7 @@ public class PasajeroDAO {
         }
     }
 
-    public Pasajero consulta(int id) throws SQLException{
+    public Pasajero consultar(int id) throws SQLException{
         String sql = "SELECT * FROM pasajeros WHERE id = ?";
         try(Connection con = ConexionDB.conectar(); PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1,id);
