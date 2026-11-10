@@ -10,7 +10,7 @@ import Pasajeros.Pasajero;
 public class PasajeroDAO {
 
     public void alta(Pasajero p) throws SQLException{
-        String sql = "INSERT INTO pasajero (dni,nombre,apellido,telefono,email) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pasajeros (dni,nombre,apellido,telefono,email) VALUES (?, ?, ?, ?, ?)";
         try(Connection con = ConexionDB.conectar();
         PreparedStatement ps = con.prepareStatement(sql)){
             ps.setString(1, p.getDni());
@@ -23,7 +23,7 @@ public class PasajeroDAO {
     }
 
     public void baja(int id) throws SQLException{
-        String sql = "DELETE FROM pasajero WHERE id = ?";
+        String sql = "DELETE FROM pasajeros WHERE id = ?";
         try (Connection con=ConexionDB.conectar(); PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -31,7 +31,7 @@ public class PasajeroDAO {
     }
 
     public void modificar(Pasajero p) throws SQLException{
-        String sql="UPDATE pasajero SET dni = ?, nombre = ?, apellido = ?, telefono = ?, email = ? WHERE id=?";
+        String sql="UPDATE pasajeros SET dni = ?, nombre = ?, apellido = ?, telefono = ?, email = ? WHERE id=?";
         try(Connection con = ConexionDB.conectar();PreparedStatement ps = con.prepareStatement(sql)){
             ps.setString(1,p.getDni());
             ps.setString(2,p.getNombre());
