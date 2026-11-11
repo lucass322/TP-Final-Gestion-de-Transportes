@@ -194,28 +194,24 @@ public class DashboardController {
 
             lblCantidadUsuarios.setText(String.valueOf(usuarioDAO.contarUsuarios()));
             lblCantidadRoles.setText(String.valueOf(rolDAO.contarRoles()));
-            lblCantidadUsuariosHabilitados.setText(
-                    String.valueOf(usuarioDAO.contarUsuariosHabilitados())
-            );
+            lblCantidadUsuariosHabilitados.setText(String.valueOf(usuarioDAO.contarUsuariosHabilitados()));
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    private void mostrarGestionUsuarios() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/views/GestionUsuarios.fxml")
-            );
+        private void mostrarGestionUsuarios() {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionUsuarios.fxml"));
 
-            Parent vista = loader.load();
+                Parent vista = loader.load();
 
-            panelContenido.getChildren().setAll(vista);
+                panelContenido.getChildren().setAll(vista);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
 
     @FXML
     private void abrirGestionUsuarios() {
@@ -225,6 +221,7 @@ public class DashboardController {
     @FXML
     private void volverDashboard() {
         panelContenido.getChildren().setAll(contenedorDashboard);
+        cargarEstadisticas();
     }
 
     @FXML

@@ -27,8 +27,8 @@
                <children>
                   <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#abrirRegistro" styleClass="usuarios-button-primary" text="Registrar usuario" />
                   <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#abrirEdicion" styleClass="usuarios-button-secondary" text="Editar usuario" />
-                  <Button fx:id="btnBaja" mnemonicParsing="false" styleClass="usuarios-button-danger" text="Baja usuario" />
-                  <Button fx:id="btnAlta" mnemonicParsing="false" styleClass="usuarios-button-success" text="Alta usuario" />
+                  <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#baja" styleClass="usuarios-button-danger" text="Baja usuario" />
+                  <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#alta" styleClass="usuarios-button-success" text="Alta usuario" />
                </children>
             </HBox>
             <TableView fx:id="tablaUsuarios" prefHeight="450.0" prefWidth="200.0">

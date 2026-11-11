@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UsuarioDAO implements iDAO<Usuario>{
@@ -316,7 +317,30 @@ public class UsuarioDAO implements iDAO<Usuario>{
             return null;
         }
 
-
         return usuario;
+    }
+
+    public void cambiarEstado(List<Integer> idsUsuarios, boolean habilitado) throws SQLException {
+        if (idsUsuarios.isEmpty()) {
+            return;
+        }
+
+        String placeholders = String.join(", ", Collections.nCopies(idsUsuarios.size(), "?"));
+        //Genera un marcador (?) por cada usuario seleccionado para la cláusula IN.
+
+        String sql = "UPDATE usuarios SET habilitadoUsuario = ? WHERE idUsuario IN (" + placeholders + ")";
+        //Actualiza el estado de habilitación de varios usuarios según sus ID's.
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setBoolean(1, habilitado);
+
+            for (int i = 0; i < idsUsuarios.size(); i++) {
+                ps.setInt(i + 2, idsUsuarios.get(i));
+            }
+
+            ps.executeUpdate();
+        }
     }
 }
