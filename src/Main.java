@@ -30,7 +30,7 @@ public class Main extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
 
-        scene.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/styles/vistas/login.css").toExternalForm());
 
         stage.setScene(scene);
         stage.setTitle(titulo);

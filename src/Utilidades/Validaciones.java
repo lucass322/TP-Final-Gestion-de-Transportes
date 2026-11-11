@@ -16,4 +16,28 @@ public class Validaciones {
     public static boolean emailValido(String email) {
         return email != null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
+
+    public static boolean camposCompletos(
+            String nombreUsuario,
+            String email,
+            String password,
+            String confirmarPassword,
+            boolean rolSeleccionado
+    ) {
+        return !campoVacio(nombreUsuario)
+                && !campoVacio(email)
+                && !campoVacio(password)
+                && !campoVacio(confirmarPassword)
+                && rolSeleccionado;
+    }
+
+    public static boolean camposCompletos(
+            String nombreUsuario,
+            String email,
+            boolean rolSeleccionado
+    ) {
+        return !campoVacio(nombreUsuario)
+                && !campoVacio(email)
+                && rolSeleccionado;
+    }
 }

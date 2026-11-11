@@ -1,0 +1,143 @@
+/* ===============================
+   BOTÓN PRINCIPAL DEL LOGIN
+=============================== */
+.button-login {
+    -fx-background-color: -color-primary-dark;
+    -fx-text-fill: white;
+    -fx-font-family: -font-family;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-background-radius: 8;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-padding: 10 12 10 12;
+    -fx-cursor: hand;
+    -fx-effect: null;
+}
+
+.button-login:hover {
+    -fx-background-color: -color-primary;
+}
+
+.button-login:pressed {
+    -fx-background-color: #C45B20;
+}
+
+/* ===============================
+   BOTÓN OJO DEL LOGIN
+=============================== */
+.boton-ojo {
+    -fx-background-color: transparent;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-effect: none;
+}
+
+.boton-ojo:hover {
+    -fx-background-color: rgba(255, 140, 66, 0.10);
+}
+
+
+/* ===============================
+   BOTÓN SECUNDARIO DEL LOGIN
+=============================== */
+.button-login-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-border;
+    -fx-font-family: -font-family;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 12 10 12;
+    -fx-cursor: hand;
+}
+
+.button-login-secondary:hover {
+    -fx-background-color: #343A46;
+}
+
+.button-login-secondary:pressed {
+    -fx-background-color: #454D5B;
+}
+
+/* ===============================
+   BOTÓN PRINCIPAL
+=============================== */
+.button-primary {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.button-primary:hover {
+    -fx-background-color: -color-primary-dark;
+}
+
+
+/* ===============================
+   BOTÓN SECUNDARIO
+=============================== */
+.button-secondary {
+    -fx-background-color: -fx-color-border;
+    -fx-text-fill: -color-black;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: -color-gray-light;
+}
+
+/* ===============================
+   BOTONES FORMULARIO
+=============================== */
+.formulario-botones {
+    -fx-background-color: -color-white;
+    -fx-padding: 15px;
+    -fx-spacing: 20px;
+}
+
+/* ===============================
+   BOTÓN DE PELIGRO
+=============================== */
+.button-danger {
+    -fx-background-color: -color-danger;
+    -fx-text-fill: -color-white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.button-danger:hover {
+    -fx-background-color: -color-danger-dark;
+}
+
+/* ===============================
+   BOTÓN DE ÉXITO
+=============================== */
+.button-success {
+    -fx-background-color: -color-success;
+    -fx-text-fill: -color-white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.button-success:hover {
+    -fx-background-color: -color-success-dark;
+}

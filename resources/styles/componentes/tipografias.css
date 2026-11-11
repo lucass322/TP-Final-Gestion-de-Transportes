@@ -1,0 +1,25 @@
+/* ===============================
+   ETIQUETAS
+=============================== */
+.text-title {
+    -fx-text-fill: -color-black;
+    -fx-font-family: -font-family;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.text-label {
+    -fx-text-fill: -color-black;
+    -fx-font-family: -font-family;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* ===============================
+   TEXTOS SECUNDARIOS
+=============================== */
+.text-secondary {
+    -fx-text-fill: -color-gray;
+    -fx-font-family: -font-family;
+    -fx-font-size: 13px;
+}

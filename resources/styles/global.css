@@ -1,0 +1,25 @@
+/* ===============================
+   PALETA GLOBAL DE RUTAGO
+=============================== */
+
+.root {
+    -font-family: "Arial";
+
+    /* Colores principales */
+    -color-primary: #FF8C42;
+    -color-primary-dark: #E8752F;
+
+    /* Colores neutros */
+    -color-white: #FFFFFF;
+    -color-black: #1C1C1C;
+    -color-background: #F5F5F5;
+    -color-border: #E6E6E6;
+    -color-gray: #777777;
+    -color-gray-light: #D5D5D5;
+
+    /* Estados */
+    -color-danger: #D9534F;
+    -color-danger-dark: #C9302C;
+    -color-success: #4CAF50;
+    -color-success-dark: #3D9140;
+}

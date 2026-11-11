@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="contenedorNotificaciones" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FormularioUsuarioController">
+   <children>
+      <BorderPane prefHeight="500.0" prefWidth="600.0">
+         <top>
+            <VBox fx:id="contenedorCabecera" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="100.0" spacing="8.0" styleClass="formulario-header" BorderPane.alignment="CENTER_LEFT">
+               <children>
+                  <Label fx:id="lblTitulo" styleClass="formulario-titulo" text="Registrar usuario" />
+                  <Label fx:id="lblDescripcion" styleClass="formulario-descripcion" text="Completar los datos para registrar un nuevo usuario." />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </top>
+         <center>
+            <VBox fx:id="contenedorFormulario" prefHeight="200.0" prefWidth="100.0" spacing="15.0" styleClass="formulario-contenedor" BorderPane.alignment="CENTER_LEFT">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <Label fx:id="lblNombreUsuario" styleClass="formulario-label" text="Nombre de usuario" />
+                  <TextField fx:id="txtNombreUsuario" prefWidth="400.0" promptText="Ingresar nombre de usuario" styleClass="formulario-input" />
+                  <Label fx:id="lblEmail" styleClass="formulario-label" text="Correo electrónico" />
+                  <TextField fx:id="txtEmail" prefWidth="400.0" promptText="Ingresar correo electrónico" styleClass="formulario-input" />
+                  <Label fx:id="lblPassword" styleClass="formulario-label" text="Contraseña" />
+                  <PasswordField fx:id="txtPassword" prefWidth="400.0" promptText="Ingresar contraseña" styleClass="formulario-input" />
+                  <Label fx:id="lblConfirmarPassword" styleClass="formulario-label" text="Confirmar contraseña" />
+                  <PasswordField fx:id="txtConfirmarPassword" prefWidth="400.0" promptText="Repetir contraseña" styleClass="formulario-input" />
+                  <Label fx:id="lblRol" styleClass="formulario-label" text="Rol de usuario" />
+                  <ComboBox fx:id="cbRol" prefWidth="180.0" promptText="Seleccionar Rol" styleClass="formulario-input" />
+               </children>
+            </VBox>
+         </center>
+         <bottom>
+            <HBox fx:id="contenedorBotones" alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="200.0" spacing="20.0" styleClass="formulario-botones" BorderPane.alignment="CENTER_RIGHT">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" styleClass="formulario-button-secondary" text="Cancelar" />
+                  <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#registrar" styleClass="formulario-button-primary" text="Registrar" />
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+   <stylesheets>
+      <URL value="@../styles/global.css" />
+      <URL value="@../styles/formulario.css" />
+      <URL value="@../styles/componentes/botones.css" />
+   </stylesheets>
+</StackPane>

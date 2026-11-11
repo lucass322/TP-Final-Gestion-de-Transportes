@@ -1,0 +1,66 @@
+.formulario-header {
+    -fx-background-color: -color-white;
+    -fx-padding: 20px;
+}
+
+.formulario-titulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-black;
+}
+
+.formulario-descripcion {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-gray;
+}
+
+.formulario-contenedor {
+    -fx-background-color: -color-white;
+    -fx-padding: 20px;
+}
+
+.formulario-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-black;
+}
+
+.formulario-input {
+    -fx-background-color: -color-white;
+    -fx-border-color: -color-gray-light;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 9px;
+    -fx-font-size: 13px;
+}
+
+.formulario-input:focused {
+    -fx-border-color: -color-primary;
+    -fx-border-width: 1.5px;
+}
+
+.formulario-button-primary {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.formulario-button-primary:hover {
+    -fx-background-color: -color-primary-dark;
+}
+
+.formulario-button-secondary {
+    -fx-background-color: -color-border;
+    -fx-text-fill: -color-black;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.formulario-button-secondary:hover {
+    -fx-background-color: -color-gray-light;
+}

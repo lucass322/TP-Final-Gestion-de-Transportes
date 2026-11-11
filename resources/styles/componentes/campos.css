@@ -1,0 +1,81 @@
+/* ===============================
+   CAMPO DEL LOGIN
+=============================== */
+.input-login {
+    -fx-background-color: -color-white;
+    -fx-text-fill: #1C1C1C;
+    -fx-prompt-text-fill: #999999;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #D0D0D0;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.input-login:focused {
+    -fx-border-color: -color-primary;
+    -fx-border-width: 1.5;
+    -fx-effect: dropshadow(gaussian, rgba(255, 140, 66, 0.20), 8, 0, 0, 0);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+}
+
+/* ===============================
+   CAMPO INTEGRADO
+=============================== */
+.input-integrado {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+    -fx-border-radius: 0;
+    -fx-effect: none;
+    -fx-padding: 10 0 10 0;
+}
+
+
+/* ===============================
+   CAMPO ESTÁNDAR
+=============================== */
+.field-standard {
+    -fx-background-color: -fx-color-white;
+    -fx-border-color: -fx-color-gray-light;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 9px;
+    -fx-font-size: 13px;
+}
+
+.field-standard:focused {
+    -fx-border-color: -fx-color-primary;
+    -fx-border-width: 1.5px;
+}
+
+/* ===============================
+   CONTENEDOR DE CAMPO
+=============================== */
+.contenedor-input {
+    -fx-background-color: -color-white;
+    -fx-background-radius: 8;
+    -fx-border-color: #D0D0D0;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 0 10 0 10;
+    -fx-spacing: 8;
+}
+
+.contenedor-input-activo {
+    -fx-background-color: -color-white;
+    -fx-border-color: #C45B20;
+    -fx-border-width: 1.5;
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(255, 140, 66, 0.40),
+        9, 0, 0, 0
+    );
+}

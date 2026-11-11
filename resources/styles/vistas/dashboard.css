@@ -1,18 +1,17 @@
 /* =============================== DASHBOARD ROOT =============================== */
-
 .dashboard-root {
-    -fx-background-color: #F5F5F5;
+    -fx-background-color: color-background;
 }
 
-/* =============================== HEADER =============================== */
 
+/* =============================== HEADER =============================== */
 .dashboard-header {
-    -fx-background-color: #1C1C1C;
+    -fx-background-color: -color-black;
 }
 
 .dashboard-logo {
-    -fx-text-fill: #FF8C42;
-    -fx-font-family: "Arial";
+    -fx-text-fill: -color-primary;
+    -fx-font-family: -font-family;
     -fx-font-size: 26px;
     -fx-font-weight: bold;
 }
@@ -22,8 +21,8 @@
 }
 
 .usuario-info .label {
-    -fx-text-fill: #FFFFFF;
-    -fx-font-family: "Arial";
+    -fx-text-fill: -color-white;
+    -fx-font-family: -font-family;
     -fx-font-size: 13px;
 }
 
@@ -34,10 +33,10 @@
     -fx-font-weight: bold;
 }
 
-/* =============================== SIDEBAR =============================== */
 
+/* =============================== SIDEBAR =============================== */
 .dashboard-sidebar {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: -color-white;
     -fx-border-color: #E6E6E6;
     -fx-border-width: 0 1px 0 0;
 }
@@ -88,10 +87,7 @@
 }
 
 
-
-
 /* =============================== CONTENIDO =============================== */
-
 .dashboard-content {
     -fx-background-color: #F5F5F5;
 }
@@ -109,8 +105,8 @@
     -fx-font-size: 13px;
 }
 
-/* =============================== TARJETAS =============================== */
 
+/* =============================== TARJETAS =============================== */
 .dashboard-card {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 10px;

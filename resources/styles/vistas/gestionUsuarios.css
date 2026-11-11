@@ -1,0 +1,125 @@
+/* ==============================
+   GESTIÓN DE USUARIOS
+============================== */
+
+.usuarios-header {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 20px;
+}
+
+.usuarios-titulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1C1C1C;
+}
+
+/* ==============================
+   CONTENEDOR PRINCIPAL
+============================== */
+
+.usuarios-contenedor {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 20px;
+}
+
+/* ==============================
+   BOTONES
+============================== */
+
+.usuarios-button-primary {
+    -fx-background-color: #FF8C42;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.usuarios-button-primary:hover {
+    -fx-background-color: #E8752F;
+}
+
+.usuarios-button-secondary {
+    -fx-background-color: #E6E6E6;
+    -fx-text-fill: #1C1C1C;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.usuarios-button-secondary:hover {
+    -fx-background-color: #D5D5D5;
+}
+
+.usuarios-button-danger {
+    -fx-background-color: #D9534F;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.usuarios-button-danger:hover {
+    -fx-background-color: #C9302C;
+}
+
+.usuarios-button-success {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
+}
+
+.usuarios-button-success:hover {
+    -fx-background-color: #3D9140;
+}
+
+/* ==============================
+   TABLA DE USUARIOS
+============================== */
+
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E6E6E6;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #1C1C1C;
+}
+
+.table-view .column-header {
+    -fx-background-color: #1C1C1C;
+    -fx-size: 40px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #1C1C1C;
+    -fx-padding: 10px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #F7F7F7;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #FFFFFF;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #FFE0CC;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #1C1C1C;
+}

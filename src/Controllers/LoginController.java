@@ -108,6 +108,10 @@ public class LoginController implements Initializable {
         configurarFoco(contenedorUsuario, txtUsuario);
 
         configurarFoco(contenedorPassword, txtPassword, txtPasswordVisible);
+
+        txtUsuario.setOnAction(event -> txtPassword.requestFocus());
+        txtPassword.setOnAction(event -> iniciarSesion());
+        txtPasswordVisible.setOnAction(event -> iniciarSesion());
     }
 
     private void configurarFoco(HBox contenedor, Control... campos) {
@@ -197,21 +201,23 @@ public class LoginController implements Initializable {
 
             if (nombreRol.equals("ROOT")) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MenuPrincipalRoot.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
 
                     Parent root = loader.load();
 
-                    MenuPrincipalRootController controller = loader.getController();
+                    DashboardController controller = loader.getController();
                     controller.setUsuario(usuarioAutenticado);
 
                     Stage stage = (Stage) btnIngresar.getScene().getWindow();
 
                     Scene scene = new Scene(root);
-                    scene.getStylesheets().add(getClass().getResource("/styles/MenuPrincipalRoot.css").toExternalForm());
+                    scene.getStylesheets().add(getClass().getResource("/styles/vistas/dashboard.css").toExternalForm());
 
                     stage.setScene(scene);
                     stage.setTitle("RutaGo - Panel ROOT");
                     stage.setResizable(false);
+                    stage.sizeToScene();
+                    stage.centerOnScreen();
 
                 } catch (Exception e) {
                     e.printStackTrace();
