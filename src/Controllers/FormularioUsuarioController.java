@@ -235,6 +235,8 @@ public class FormularioUsuarioController {
         try {
             usuarioDAO.modificar(usuarioEditar);
 
+            cancelar(); //regresa al inicio y luego muestra la notificación
+
             Notificaciones.mostrarExito(contenedorNotificaciones, "Usuario actualizado correctamente.");
 
         } catch (SQLException e) {
