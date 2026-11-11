@@ -38,6 +38,13 @@
     -fx-padding: 10 0 10 0;
 }
 
+.input-login.input-integrado:focused {
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-effect: none;
+}
+
 
 /* ===============================
    CAMPO ESTÁNDAR

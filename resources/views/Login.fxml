@@ -35,7 +35,11 @@
             </Label>
             <HBox fx:id="contenedorUsuario" alignment="CENTER_LEFT" maxHeight="42.0" maxWidth="1.7976931348623157E308" minHeight="42.0" prefHeight="42.0" prefWidth="0.0" spacing="8.0" styleClass="contenedor-input">
                 <children>
-                    <TextField fx:id="txtUsuario" maxHeight="42.0" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar usuario" styleClass="input-integrado" HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="txtUsuario" maxHeight="42.0" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar usuario" HBox.hgrow="ALWAYS">
+                  <styleClass>
+                     <String fx:value="input-login" />
+                     <String fx:value="input-integrado" />
+                  </styleClass></TextField>
                 </children>
             </HBox>
         </children>
@@ -51,12 +55,16 @@
                 <children>
                     <HBox fx:id="contenedorPassword" alignment="CENTER_LEFT" maxHeight="42.0" minHeight="42.0" prefHeight="42.0" prefWidth="539.0" spacing="8.0" styleClass="contenedor-input" HBox.hgrow="ALWAYS">
                         <children>
-                            <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar contraseña" styleClass="input-integrado" HBox.hgrow="ALWAYS" />
+                            <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar contraseña" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="input-login" />
+                           <String fx:value="input-integrado" />
+                        </styleClass></PasswordField>
                             <TextField fx:id="txtPasswordVisible" focusTraversable="false" managed="false" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="0.0" promptText="Ingresar contraseña" visible="false" HBox.hgrow="ALWAYS">
-                                <styleClass>
-                                    <String fx:value="input-login" />
-                                    <String fx:value="input-integrado" />
-                                </styleClass>
+                        <styleClass>
+                           <String fx:value="input-login" />
+                           <String fx:value="input-integrado" />
+                        </styleClass>
                             </TextField>
                         </children>
                     </HBox>
@@ -83,7 +91,7 @@
     <VBox fx:id="contenedorCarga" alignment="CENTER" managed="false" prefHeight="112.0" prefWidth="514.0" spacing="10.0" visible="false" VBox.vgrow="NEVER">
         <children>
             <ProgressIndicator fx:id="progressLogin" focusTraversable="false" managed="true" maxHeight="71.0" maxWidth="58.0" minHeight="35.0" minWidth="8.0" prefHeight="41.0" prefWidth="58.0" progress="-1.0" styleClass="progress-login" VBox.vgrow="NEVER" />
-            <Label fx:id="lblCargando" alignment="CENTER" prefHeight="36.0" prefWidth="146.0" styleClass="text-loading" text="Cargando..." VBox.vgrow="NEVER" />
+            <Label fx:id="lblCargando" alignment="CENTER" prefHeight="36.0" prefWidth="146.0" styleClass="text-loading" VBox.vgrow="NEVER" />
         </children>
     </VBox>
    <stylesheets>

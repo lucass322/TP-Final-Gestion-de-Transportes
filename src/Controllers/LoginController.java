@@ -172,7 +172,7 @@ public class LoginController implements Initializable {
 
         btnIngresar.setDisable(true);
 
-        lblCargando.setText("Verificando credenciales...");
+        lblCargando.setText("Cargando...");
 
         Task<Usuario> tarea = new Task<>() {
 
