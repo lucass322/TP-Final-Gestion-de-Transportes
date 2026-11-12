@@ -64,7 +64,13 @@ public class GestionUsuariosController {
     private void initialize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
         colNombreUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colEmail.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        cellData.getValue().getPersona() != null
+                                ? cellData.getValue().getPersona().getEmail()
+                                : "Sin asignar"
+                )
+        );
         colRol.setCellValueFactory(cellData ->
                 new SimpleStringProperty(
                         cellData.getValue().getRol() != null

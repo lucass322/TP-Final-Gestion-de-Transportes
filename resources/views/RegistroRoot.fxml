@@ -46,15 +46,6 @@
                   <Insets left="10.0" top="25.0" />
                </VBox.margin>
             </VBox>
-            <VBox fx:id="contenedorEmail" alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="320.0" spacing="6.0">
-               <children>
-                  <Label styleClass="text-label" text="E-mail" />
-                  <TextField fx:id="txtEmail" promptText="Ingresar correo electrónico" styleClass="input-login" />
-               </children>
-               <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </VBox.margin>
-            </VBox>
             <VBox fx:id="contenedorPassword" alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="320.0" spacing="6.0">
                <children>
                   <Label styleClass="text-label" text="Contraseña" />

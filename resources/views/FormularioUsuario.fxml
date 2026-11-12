@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -27,26 +28,44 @@
             </VBox>
          </top>
          <center>
-            <VBox fx:id="contenedorFormulario" prefHeight="200.0" prefWidth="100.0" spacing="15.0" styleClass="formulario-contenedor" BorderPane.alignment="CENTER_LEFT">
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-               <children>
-                  <Label fx:id="lblNombreUsuario" styleClass="formulario-label" text="Nombre de usuario" />
-                  <TextField fx:id="txtNombreUsuario" prefWidth="400.0" promptText="Ingresar nombre de usuario" styleClass="formulario-input" />
-                  <Label fx:id="lblEmail" styleClass="formulario-label" text="Correo electrónico" />
-                  <TextField fx:id="txtEmail" prefWidth="400.0" promptText="Ingresar correo electrónico" styleClass="formulario-input" />
-                  <Label fx:id="lblPassword" styleClass="formulario-label" text="Contraseña" />
-                  <PasswordField fx:id="txtPassword" prefWidth="400.0" promptText="Ingresar contraseña" styleClass="formulario-input" />
-                  <Label fx:id="lblConfirmarPassword" styleClass="formulario-label" text="Confirmar contraseña" />
-                  <PasswordField fx:id="txtConfirmarPassword" prefWidth="400.0" promptText="Repetir contraseña" styleClass="formulario-input" />
-                  <Label fx:id="lblRol" styleClass="formulario-label" text="Rol de usuario" />
-                  <ComboBox fx:id="cbRol" prefWidth="180.0" promptText="Seleccionar Rol" styleClass="formulario-input" />
-               </children>
-            </VBox>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="600.0" styleClass="formulario-scroll" BorderPane.alignment="CENTER_LEFT">
+               <content>
+                  <VBox fx:id="contenedorFormulario" prefHeight="200.0" prefWidth="100.0" spacing="15.0" styleClass="formulario-contenedor">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label fx:id="lblDatosPersonales" styleClass="formulario-subtitulo" text="Datos Personales" />
+                        <Label fx:id="lblNombre" styleClass="formulario-label" text="Nombre" />
+                        <TextField fx:id="txtNombre" promptText="Ingresar nombre" styleClass="formulario-input" />
+                        <Label fx:id="lblApellido" styleClass="formulario-label" text="Apellido" />
+                        <TextField fx:id="txtApellido" promptText="Ingresar apellido" styleClass="formulario-input" />
+                        <Label fx:id="lblDni" styleClass="formulario-label" text="DNI" />
+                        <TextField fx:id="txtDni" promptText="Ingresar DNI" styleClass="formulario-input" />
+                        <Label styleClass="formulario-label" text="Teléfono" />
+                        <TextField fx:id="txtTelefono" promptText="Ingresar teléfono" styleClass="formulario-input" />
+                        <Label fx:id="lblEmail" styleClass="formulario-label" text="Correo electrónico" />
+                        <TextField fx:id="txtEmail" prefWidth="400.0" promptText="Ingresar correo electrónico" styleClass="formulario-input" />
+                        <Label fx:id="lblDatosCuenta" styleClass="formulario-subtitulo" text="Datos de la cuenta">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="lblNombreUsuario" styleClass="formulario-label" text="Nombre de usuario" />
+                        <TextField fx:id="txtNombreUsuario" prefWidth="400.0" promptText="Ingresar nombre de usuario" styleClass="formulario-input" />
+                        <Label fx:id="lblPassword" styleClass="formulario-label" text="Contraseña" />
+                        <PasswordField fx:id="txtPassword" prefWidth="400.0" promptText="Ingresar contraseña" styleClass="formulario-input" />
+                        <Label fx:id="lblConfirmarPassword" styleClass="formulario-label" text="Confirmar contraseña" />
+                        <PasswordField fx:id="txtConfirmarPassword" prefWidth="400.0" promptText="Repetir contraseña" styleClass="formulario-input" />
+                        <Label fx:id="lblRol" styleClass="formulario-label" text="Rol de usuario" />
+                        <ComboBox fx:id="cbRol" prefWidth="180.0" promptText="Seleccionar Rol" styleClass="formulario-input" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </center>
          <bottom>
-            <HBox fx:id="contenedorBotones" alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="200.0" spacing="20.0" styleClass="formulario-botones" BorderPane.alignment="CENTER_RIGHT">
+            <HBox fx:id="contenedorBotones" alignment="CENTER_RIGHT" prefHeight="15.0" prefWidth="600.0" spacing="20.0" styleClass="formulario-botones" BorderPane.alignment="CENTER_RIGHT">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>

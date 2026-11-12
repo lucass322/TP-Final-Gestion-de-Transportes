@@ -158,17 +158,6 @@ public class DashboardController {
                 btnConfiguracion.setManaged(true);
                 break;
 
-            case "Administrador":
-                btnEmpleados.setVisible(true);
-                btnEmpleados.setManaged(true);
-
-                btnReservas.setVisible(true);
-                btnReservas.setManaged(true);
-
-                btnViajes.setVisible(true);
-                btnViajes.setManaged(true);
-                break;
-
             case "Empleado":
                 btnReservas.setVisible(true);
                 btnReservas.setManaged(true);

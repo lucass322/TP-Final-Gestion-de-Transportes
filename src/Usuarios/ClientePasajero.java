@@ -14,7 +14,6 @@ public class ClientePasajero extends Usuario {
             switch (opcion){
                 case 1 -> setNombreUsuario(nuevoValor);
                 case 2 -> setPasswordUsuario(Encriptacion.hashearPassword(nuevoValor));
-                case 3 -> setEmail(nuevoValor);
             }
     }
 }

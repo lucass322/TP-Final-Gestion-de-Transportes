@@ -25,6 +25,14 @@
     -fx-text-fill: -color-black;
 }
 
+/* Títulos de las secciones del formulario */
+.formulario-subtitulo {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-primary;
+    -fx-padding: 0 0 5px 0;
+}
+
 .formulario-input {
     -fx-background-color: -color-white;
     -fx-border-color: -color-gray-light;
@@ -63,4 +71,40 @@
 
 .formulario-button-secondary:hover {
     -fx-background-color: -color-gray-light;
+}
+
+/* ScrollPane del formulario */
+.formulario-scroll {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/* Área visible del contenido */
+.formulario-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Barra vertical */
+.formulario-scroll > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+    -fx-padding: 2px;
+}
+
+/* Recorrido de la barra */
+.formulario-scroll > .scroll-bar:vertical > .track {
+    -fx-background-color: -color-border;
+    -fx-background-radius: 10px;
+}
+
+/* Indicador desplazable */
+.formulario-scroll > .scroll-bar:vertical > .thumb {
+    -fx-background-color: -color-primary;
+    -fx-background-radius: 10px;
+}
+
+/* Efecto al pasar el cursor */
+.formulario-scroll > .scroll-bar:vertical > .thumb:hover {
+    -fx-background-color: #C47A2C;
 }

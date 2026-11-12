@@ -27,9 +27,6 @@ public class RegistroRootController {
     private TextField txtNombreUsuario;
 
     @FXML
-    private TextField txtEmail;
-
-    @FXML
     private PasswordField txtPassword;
 
     @FXML
@@ -56,21 +53,14 @@ public class RegistroRootController {
     @FXML
     private void crearRoot() {
         String nombreUsuario = txtNombreUsuario.getText();
-        String email = txtEmail.getText();
         String password = txtPassword.getText();
         String confirmarPassword = txtConfirmarPassword.getText();
 
         if (Validaciones.campoVacio(nombreUsuario) ||
-                Validaciones.campoVacio(email) ||
                 Validaciones.campoVacio(password) ||
                 Validaciones.campoVacio(confirmarPassword)) {
 
             Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Todos los campos son obligatorios.");
-            return;
-        }
-
-        if (!Validaciones.emailValido(email)) {
-            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Correo electrónico no válido.");
             return;
         }
 
@@ -95,11 +85,6 @@ public class RegistroRootController {
                 return;
             }
 
-            if (usuarioDao.existeEmail(email)) {
-                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El correo electrónico ya está registrado.");
-                return;
-            }
-
             rol = rolDao.buscarRolPorNombre("ROOT");
 
             if(rol == null || !rol.isHabilitadoRol()) {
@@ -113,7 +98,7 @@ public class RegistroRootController {
             return;
         }
 
-        Usuario usuario = new Usuario(rol, nombreUsuario, password, email);
+        Usuario usuario = new Usuario(rol, nombreUsuario, password);
 
         // Se crea la tarea para registrar el usuario ROOT.
         Task<Boolean> tarea = new Task<>() {

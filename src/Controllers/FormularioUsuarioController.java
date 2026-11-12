@@ -4,6 +4,7 @@ import DAO.RolDAO;
 import DAO.UsuarioDAO;
 import Roles.Rol;
 import Usuarios.Usuario;
+import Personas.Persona;
 import Utilidades.Validaciones;
 import Utilidades.Notificaciones;
 
@@ -23,8 +24,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class FormularioUsuarioController {
-    @FXML private TextField txtNombreUsuario;
+    @FXML private TextField txtNombre;
+    @FXML private TextField txtApellido;
+    @FXML private TextField txtDni;
+    @FXML private TextField txtTelefono;
     @FXML private TextField txtEmail;
+    @FXML private TextField txtNombreUsuario;
     @FXML private PasswordField txtPassword;
     @FXML private PasswordField txtConfirmarPassword;
     @FXML private ComboBox<Rol> cbRol;
@@ -58,20 +63,20 @@ public class FormularioUsuarioController {
 
         btnRegistrar.setText("Guardar cambios");
 
-        lblPassword.setVisible(false);
-        lblPassword.setManaged(false);
-
-        txtPassword.setVisible(false);
-        txtPassword.setManaged(false);
-
-        lblConfirmarPassword.setVisible(false);
-        lblConfirmarPassword.setManaged(false);
-
-        txtConfirmarPassword.setVisible(false);
-        txtConfirmarPassword.setManaged(false);
-
         txtNombreUsuario.setText(usuario.getNombreUsuario());
-        txtEmail.setText(usuario.getEmail());
+
+        lblPassword.setText("Nueva contraseña (opcional)");
+        lblConfirmarPassword.setText("Confirmar nueva contraseña (opcional)");
+        txtPassword.clear();
+        txtConfirmarPassword.clear();
+
+        if (usuario.getPersona() != null) {
+            txtNombre.setText(usuario.getPersona().getNombre());
+            txtApellido.setText(usuario.getPersona().getApellido());
+            txtDni.setText(usuario.getPersona().getDni());
+            txtTelefono.setText(usuario.getPersona().getTelefono());
+            txtEmail.setText(usuario.getPersona().getEmail());
+        }
 
         cbRol.getItems().stream() //se carga automaticamente el rol actual del usuario, antes de editar
                 .filter(rol -> rol.getIdRol() == usuario.getRol().getIdRol())
@@ -123,18 +128,49 @@ public class FormularioUsuarioController {
         boolean rolSeleccionado = cbRol.getSelectionModel().getSelectedIndex() > 0;
 
         if (!Validaciones.camposCompletos(
-                txtNombreUsuario.getText(),
+                txtNombre.getText(),
+                txtApellido.getText(),
+                txtDni.getText(),
+                txtTelefono.getText(),
                 txtEmail.getText(),
+                txtNombreUsuario.getText(),
                 txtPassword.getText(),
                 txtConfirmarPassword.getText(),
                 rolSeleccionado
         )) {
             Notificaciones.mostrarAdvertencia(contenedorNotificaciones,"Todos los campos son obligatorios.");
+
             return;
         }
 
-        if (!Validaciones.emailValido(txtEmail.getText())) {
-            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,"Ingresá una dirección de correo electrónico válida.");
+        // Verifica que el nombre y el apellido contengan caracteres válidos.
+        if (!Validaciones.nombreValido(txtNombre.getText().trim()) ||
+                !Validaciones.nombreValido(txtApellido.getText().trim())) {
+
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,
+                    "El nombre y el apellido contienen caracteres no válidos.");
+
+            return;
+        }
+
+        // Verifica que el DNI tenga un formato válido.
+        if (!Validaciones.dniValido(txtDni.getText().trim())) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El DNI debe contener entre 7 y 8 dígitos.");
+
+            return;
+        }
+
+        // Verifica que el teléfono tenga un formato válido.
+        if (!Validaciones.telefonoValido(txtTelefono.getText().trim())) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El teléfono debe contener entre 8 y 15 dígitos.");
+
+            return;
+        }
+
+        // Verifica que el correo electrónico tenga un formato válido.
+        if (!Validaciones.emailValido(txtEmail.getText().trim())) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El correo electrónico no tiene un formato válido.");
+
             return;
         }
 
@@ -148,98 +184,195 @@ public class FormularioUsuarioController {
                 Notificaciones.mostrarAdvertencia(contenedorNotificaciones,"El nombre de usuario ya está registrado.");
                 return;
             }
-        } catch (SQLException e) {
-            Notificaciones.mostrarError(contenedorNotificaciones,"No se pudo verificar el nombre de usuario.");
-            e.printStackTrace();
-            return;
-        }
 
-        try {
+            // Verifica si el DNI ya está registrado.
+            if (usuarioDAO.existeDni(txtDni.getText().trim())) {
+                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El DNI ya está registrado.");
+                return;
+            }
+
+            //Verifica si el email ya está registrado.
             if (usuarioDAO.existeEmail(txtEmail.getText().trim())) {
                 Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El correo electrónico ya está registrado.");
                 return;
             }
         } catch (SQLException e) {
-            Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo verificar el correo electrónico.");
+            Notificaciones.mostrarError(contenedorNotificaciones,"\"No se pudieron verificar los datos.");
             e.printStackTrace();
             return;
         }
 
+        // Recupera el rol seleccionado.
         Rol rol = cbRol.getSelectionModel().getSelectedItem();
 
-        Usuario nuevoUsuario = new Usuario(
-                rol,
-                txtNombreUsuario.getText().trim(),
-                txtPassword.getText(),
+        // Crea el objeto Persona con los datos personales.
+        Persona nuevaPersona = new Persona(
+                txtNombre.getText().trim(),
+                txtApellido.getText().trim(),
+                txtDni.getText().trim(),
+                txtTelefono.getText().trim(),
                 txtEmail.getText().trim()
         );
 
-        try {
-                usuarioDAO.alta(nuevoUsuario);
-                Notificaciones.mostrarExito(contenedorNotificaciones,"Usuario registrado correctamente.");
+        // Crea el objeto Usuario asociado a la Persona.
+        Usuario nuevoUsuario = new Usuario(
+                nuevaPersona,
+                rol,
+                txtNombreUsuario.getText().trim(),
+                txtPassword.getText()
+        );
 
-                //limpia los campos
-                txtNombreUsuario.clear();
-                txtEmail.clear();
-                txtPassword.clear();
-                txtConfirmarPassword.clear();
-                cbRol.getSelectionModel().selectFirst();
+
+        try {
+            usuarioDAO.alta(nuevoUsuario);
+            Notificaciones.mostrarExito(contenedorNotificaciones,"Usuario registrado correctamente.");
+
+            // Limpia los datos personales.
+            txtNombre.clear();
+            txtApellido.clear();
+            txtDni.clear();
+            txtTelefono.clear();
+            txtEmail.clear();
+
+            // Limpia los datos de la cuenta.
+            txtNombreUsuario.clear();
+            txtPassword.clear();
+            txtConfirmarPassword.clear();
+
+            // Restablece la selección del rol.
+            cbRol.getSelectionModel().selectFirst();
         } catch (SQLException e) {
             Notificaciones.mostrarError(contenedorNotificaciones,"No se pudo registrar el usuario.");
             e.printStackTrace();
         }
-
     }
 
     private void actualizar() {
-        if (!Validaciones.camposCompletos(txtNombreUsuario.getText(),txtEmail.getText(),
-                cbRol.getSelectionModel().getSelectedIndex() > 0)) {
-            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,"Todos los campos son obligatorios.");
+        if (!Validaciones.camposCompletos(
+                txtNombre.getText(),
+                txtApellido.getText(),
+                txtDni.getText(),
+                txtTelefono.getText(),
+                txtEmail.getText(),
+                txtNombreUsuario.getText(),
+                cbRol.getSelectionModel().getSelectedIndex() > 0
+        )) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Todos los campos son obligatorios.");
+
             return;
         }
 
-        if (!Validaciones.emailValido(txtEmail.getText())) {
-            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,"Ingresá una dirección de correo electrónico válida.");
+        // Verifica que el nombre y el apellido contengan caracteres válidos.
+        if (!Validaciones.nombreValido(txtNombre.getText().trim()) ||
+                !Validaciones.nombreValido(txtApellido.getText().trim())) {
+
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,
+                    "El nombre y el apellido contienen caracteres no válidos.");
             return;
         }
+
+        // Verifica que el DNI tenga un formato válido.
+        if (!Validaciones.dniValido(txtDni.getText().trim())) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El DNI debe contener entre 7 y 8 dígitos.");
+
+            return;
+        }
+
+        // Verifica que el teléfono tenga un formato válido.
+        if (!Validaciones.telefonoValido(txtTelefono.getText().trim())) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El teléfono debe contener entre 8 y 15 dígitos.");
+
+            return;
+        }
+
+        // Verifica que el correo electrónico tenga un formato válido.
+        if (!Validaciones.emailValido(txtEmail.getText().trim())) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El correo electrónico no tiene un formato válido.");
+
+            return;
+        }
+
 
         try {
             if (usuarioDAO.existeNombreUsuario(txtNombreUsuario.getText().trim(),usuarioEditar.getIdUsuario())) {
                 Notificaciones.mostrarAdvertencia(contenedorNotificaciones,"El nombre de usuario ya está registrado.");
                 return;
             }
-        } catch (SQLException e) {
-            Notificaciones.mostrarError(contenedorNotificaciones,"No se pudo verificar el nombre de usuario.");
-            e.printStackTrace();
-            return;
-        }
 
-        try {
-            if (usuarioDAO.existeEmail(txtEmail.getText().trim(),usuarioEditar.getIdUsuario())) {
-                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El correo electrónico ya está registrado.");
+            // Verifica si el DNI pertenece a otro usuario.
+            if (usuarioDAO.existeDni(txtDni.getText().trim(),usuarioEditar.getIdUsuario())) {
+                Notificaciones.mostrarAdvertencia( contenedorNotificaciones, "El DNI ya está registrado.");
+
                 return;
             }
+
+            // Verifica si el email pertenece a otro usuario.
+            if (usuarioDAO.existeEmail(txtEmail.getText().trim(), usuarioEditar.getIdUsuario())) {
+                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El correo electrónico ya está registrado.");
+
+                return;
+            }
+
         } catch (SQLException e) {
-            Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo verificar el correo electrónico.");
+            Notificaciones.mostrarError(contenedorNotificaciones,"No se pudieron verificar los datos.");
             e.printStackTrace();
             return;
         }
 
-        usuarioEditar.setNombreUsuario(txtNombreUsuario.getText().trim());
-        usuarioEditar.setEmail(txtEmail.getText().trim());
-        usuarioEditar.setRol(cbRol.getSelectionModel().getSelectedItem());
+        // Recupera los valores de los campos de contraseña.
+        String password = txtPassword.getText();
+        String confirmarPassword = txtConfirmarPassword.getText();
 
-        //La contraseña no se modifica desde este formulario.
-        usuarioEditar.setPasswordUsuario(null);
+        // Comprueba si los campos están vacíos.
+        boolean passwordVacia = Validaciones.campoVacio(password);
+        boolean confirmarPasswordVacia = Validaciones.campoVacio(confirmarPassword);
+
+        // Si solamente se completa uno de los campos, muestra una advertencia.
+        if (passwordVacia != confirmarPasswordVacia) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Para cambiar la contraseña, completá ambos campos.");
+
+            return;
+        }
+
+        // Comprueba que las contraseñas coincidan cuando se desea modificarlas.
+        if (!passwordVacia && !password.equals(confirmarPassword)) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Las contraseñas no coinciden.");
+
+            return;
+        }
+
+        // Si ambos campos están vacíos, conserva la contraseña actual.
+        if (passwordVacia) {
+            usuarioEditar.setPasswordUsuario(null);
+        } else {
+            usuarioEditar.setPasswordUsuario(password);
+        }
+
+        // Recupera la Persona asociada al usuario.
+        Persona persona = usuarioEditar.getPersona();
+
+        // Actualiza los datos personales.
+        persona.setNombre(txtNombre.getText().trim());
+        persona.setApellido(txtApellido.getText().trim());
+        persona.setDni(txtDni.getText().trim());
+        persona.setTelefono(txtTelefono.getText().trim());
+        persona.setEmail(txtEmail.getText().trim());
+
+        usuarioEditar.setNombreUsuario(txtNombreUsuario.getText().trim());
+        usuarioEditar.setRol(cbRol.getSelectionModel().getSelectedItem());
 
         try {
             usuarioDAO.modificar(usuarioEditar);
+
+            usuarioEditar.setPasswordUsuario(null); // Evita conservar la contraseña sin hashear en el objeto Java.
 
             cancelar(); //regresa al inicio y luego muestra la notificación
 
             Notificaciones.mostrarExito(contenedorNotificaciones, "Usuario actualizado correctamente.");
 
         } catch (SQLException e) {
+            usuarioEditar.setPasswordUsuario(null);
+
             Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo actualizar el usuario.");
             e.printStackTrace();
         }
