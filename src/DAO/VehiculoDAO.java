@@ -13,7 +13,7 @@ import Vehiculos.Vehiculo;
 public class VehiculoDAO implements iDAO<Vehiculo> {
 
     public void alta(Vehiculo v) throws SQLException{
-        String sql = "INSERT INTO vehiculos (tipo,id,patente,capacidadPasajeros,costoPorKm,activo,cantTurbinas,autonomiaKM,cantPisos,tieneBanio,cantVagones,tipoTraccion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO vehiculos (tipo,id,patente,capacidadPasajeros,costoPorKm,activo,cantTurbinas,autonomiaKM,cantidadPisos,tieneBanio,cantVagones,tipoTraccion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         try (Connection con = ConexionDB.conectar(); PreparedStatement ps= con.prepareStatement(sql)){
             ps.setInt(2,v.getId());
             ps.setString(3, v.getPatente());
@@ -58,30 +58,34 @@ public class VehiculoDAO implements iDAO<Vehiculo> {
         }
     }
 
-    public void modificar(Vehiculo v) throws SQLException{
-        String sql = "UPDATE vehiculos patente = ?, capacidadPasajeros = ?, costoPorKm = ?, activo=?, autonomiaKm=?, cantTurbinas=?, cantidadPisos=?, tieneBanio=?,cantVagones=?,tipoTraccion=? WHERE id = ?";
-        try (Connection con = ConexionDB.conectar(); PreparedStatement ps = con.prepareStatement(sql)){
-            ps.setString(1,v.getPatente());
-            ps.setInt(2,v.getCapacidadPasajeros());
-            ps.setDouble(3,v.getCostoPorKm());
-            ps.setBoolean(4,v.isActivo());
+    public void modificar(Vehiculo v) throws SQLException {
+        String sql = "UPDATE vehiculos SET patente = ?, capacidadPasajeros = ?, costoPorKm = ?, activo = ?, autonomiaKM = ?, cantTurbinas = ?, cantidadPisos = ?, tieneBanio = ?, cantVagones = ?, tipoTraccion = ? WHERE id = ?";
+        try (Connection con = ConexionDB.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, v.getPatente());
+            ps.setInt(2, v.getCapacidadPasajeros());
+            ps.setDouble(3, v.getCostoPorKm());
+            ps.setBoolean(4, v.isActivo());
 
-            ps.setDouble(5,Types.DOUBLE);
-            ps.setInt(6,Types.INTEGER);
-            ps.setNull(7,Types.INTEGER);
-            ps.setNull(8,Types.BOOLEAN);
-            ps.setNull(9,Types.INTEGER);
-            ps.setNull(10,Types.VARCHAR);
-            if(v instanceof Avion a){
-                ps.setDouble(5,a.getAutonomiaKM());
-                ps.setInt(6,a.getCantTurbinas());
-            }   else if (v instanceof Colectivo c){
+            ps.setNull(5, Types.DOUBLE);
+            ps.setNull(6, Types.INTEGER);
+            ps.setNull(7, Types.INTEGER);
+            ps.setNull(8, Types.BOOLEAN);
+            ps.setNull(9, Types.INTEGER);
+            ps.setNull(10, Types.VARCHAR);
+
+            if (v instanceof Avion a) {
+                ps.setDouble(5, a.getAutonomiaKM());
+                ps.setInt(6, a.getCantTurbinas());
+            } else if (v instanceof Colectivo c) {
                 ps.setInt(7, c.getCantidadPisos());
-                ps.setBoolean(8,c.isTieneBaño());
-            }   else if (v instanceof Tren t){
-                ps.setInt(9,t.getCantVagones());
+                ps.setBoolean(8, c.isTieneBaño());
+            } else if (v instanceof Tren t) {
+                ps.setInt(9, t.getCantVagones());
                 ps.setString(10, t.getTipoTraccion());
             }
+
+            ps.setInt(11, v.getId());
+            ps.executeUpdate();
         }
     }
 

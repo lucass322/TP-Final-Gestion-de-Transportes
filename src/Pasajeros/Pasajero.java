@@ -36,6 +36,10 @@ public class Pasajero {
         return dni;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setDni(String dni) {
         this.dni = dni;
     }

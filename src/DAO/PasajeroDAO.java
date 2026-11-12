@@ -39,6 +39,7 @@ public class PasajeroDAO implements iDAO<Pasajero> {
             ps.setString(4,p.getTelefono());
             ps.setString(5,p.getEmail());
             ps.setInt(6,p.getId());
+            ps.executeUpdate();
         }
     }
 
@@ -48,7 +49,7 @@ public class PasajeroDAO implements iDAO<Pasajero> {
             ps.setInt(1,id);
             try (ResultSet rs = ps.executeQuery()){
                 if(rs.next()){
-                    return new Pasajero(rs.getInt("id"),rs.getString("dni"),rs.getString("nombre"),rs.getString("apellido"),rs.getString("telefono"),rs.getString("mail"));
+                    return new Pasajero(rs.getInt("id"),rs.getString("dni"),rs.getString("nombre"),rs.getString("apellido"),rs.getString("telefono"),rs.getString("email"));
                 }
             }
         }
