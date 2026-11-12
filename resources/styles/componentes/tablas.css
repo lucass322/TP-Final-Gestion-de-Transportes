@@ -1,0 +1,19 @@
+/* ===============================
+   FILAS
+=============================== */
+
+.table-row-cell:odd {
+    -fx-background-color: #F7F7F7;
+}
+
+.table-row-cell:even {
+    -fx-background-color: -fx-color-white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #FFE0CC;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: -fx-color-black;
+}

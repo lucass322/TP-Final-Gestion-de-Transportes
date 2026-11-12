@@ -1,0 +1,44 @@
+USE rutaGO_db;
+
+CREATE TABLE IF NOT EXISTS roles(
+	idRol INT AUTO_INCREMENT PRIMARY KEY,
+    nombreRol VARCHAR(30) NOT NULL UNIQUE,
+    habilitadoRol BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS personas(
+	idPersona INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(60) NOT NULL,
+    apellido VARCHAR(60) NOT NULL,
+    dni VARCHAR(20) NOT NULL UNIQUE,
+    telefono VARCHAR(30) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    habilitadoPersona BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS usuarios(
+	idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    idRol INT NOT NULL,
+    idPersona INT NULL UNIQUE,
+    nombreUsuario VARCHAR(50) NOT NULL UNIQUE,
+    passwordUsuario VARCHAR(255) NOT NULL,
+    habilitadoUsuario BOOLEAN NOT NULL DEFAULT TRUE,
+    
+    FOREIGN KEY (idRol) REFERENCES roles(idRol),
+    FOREIGN KEY (idPersona) REFERENCES personas (idPersona)
+);
+
+CREATE TABLE IF NOT EXISTS empleados(
+    idEmpleado INT AUTO_INCREMENT PRIMARY KEY,
+    idUsuario INT NOT NULL UNIQUE,
+
+    FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario)
+);
+
+CREATE TABLE IF NOT EXISTS pasajeros(
+    idPasajero INT AUTO_INCREMENT PRIMARY KEY,
+    idUsuario INT NOT NULL UNIQUE,
+
+    FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario)
+);
+

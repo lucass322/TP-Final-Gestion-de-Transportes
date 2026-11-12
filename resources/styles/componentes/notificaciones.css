@@ -1,0 +1,26 @@
+.notificacion {
+    -fx-padding: 14px 20px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.20), 10, 0, 0, 3);
+}
+
+.notificacion.exito {
+    -fx-background-color: #2E8B57;
+}
+
+.notificacion.error {
+    -fx-background-color: #D9534F;
+}
+
+.notificacion.advertencia {
+    -fx-background-color: #E6A23C;
+}
+
+.notificacion.informacion {
+    -fx-background-color: #3B82B8;
+}

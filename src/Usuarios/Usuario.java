@@ -1,40 +1,50 @@
 package Usuarios;
 
 import Roles.Rol;
+import Personas.Persona;
 
 public class Usuario {
     private int idUsuario;
     private Rol rol;
     private String nombreUsuario;
     private String passwordUsuario;
-    private String email;
     private boolean habilitadoUsuario;
+    private Persona persona;
 
     public Usuario() {
 
     }
 
-    public Usuario(Rol rol, String nombreUsuario, String passwordUsuario, String email) {
+    // Constructor para usuarios sin persona asociada (ROOT).
+    public Usuario(Rol rol, String nombreUsuario, String passwordUsuario) {
         this.rol = rol;
         this.nombreUsuario = nombreUsuario;
         this.passwordUsuario = passwordUsuario;
-        this.email = email;
     }
 
-    public Usuario(int idUsuario, Rol rol, String nombreUsuario, String passwordUsuario, String email, boolean habilitadoUsuario) {
-        this.idUsuario = idUsuario;
+    public Usuario(Persona persona, Rol rol, String nombreUsuario, String passwordUsuario) {
+        this.persona = persona;
         this.rol = rol;
         this.nombreUsuario = nombreUsuario;
         this.passwordUsuario = passwordUsuario;
-        this.email = email;
+    }
+
+    public Usuario(int idUsuario, Persona persona, Rol rol, String nombreUsuario, String passwordUsuario, boolean habilitadoUsuario) {
+        this.idUsuario = idUsuario;
+        this.persona = persona;
+        this.rol = rol;
+        this.nombreUsuario = nombreUsuario;
+        this.passwordUsuario = passwordUsuario;
         this.habilitadoUsuario = habilitadoUsuario;
     }
 
     public int getIdUsuario() {
+
         return idUsuario;
     }
 
     public void setIdUsuario(int idUsuario) {
+
         this.idUsuario = idUsuario;
     }
 
@@ -62,13 +72,6 @@ public class Usuario {
         this.passwordUsuario = passwordUsuario;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public boolean isHabilitadoUsuario() {
         return habilitadoUsuario;
@@ -78,12 +81,20 @@ public class Usuario {
         this.habilitadoUsuario = habilitadoUsuario;
     }
 
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
     @Override
     public String toString() {
         return "\nID: " + idUsuario + "\n" +
+                "| Persona: " + (persona != null ? persona.getNombre() + " " + persona.getApellido() : "Sin asignar") + "\n" +
                 "| Usuario: " + nombreUsuario + "\n" +
-                "| E-mail: " + email + "\n" +
                 "| Rol: " + (rol != null ? rol.getNombreRol() : "Sin asignar") + "\n" +
-                "| Habilitado: " + habilitadoUsuario;
+                "| Habilitado: " + (habilitadoUsuario ? "Sí" : "No");
     }
 }

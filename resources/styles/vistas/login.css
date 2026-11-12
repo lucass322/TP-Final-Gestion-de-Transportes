@@ -1,0 +1,5 @@
+/* =============================== LOGIN =============================== */
+
+.progress-login {
+    -fx-progress-color: -color-primary;
+}

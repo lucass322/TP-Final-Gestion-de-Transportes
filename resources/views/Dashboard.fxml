@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,8 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" styleClass="dashboard-root" stylesheets="@../styles/menuPrincipalRoot.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MenuPrincipalRootController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" styleClass="dashboard-root" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DashboardController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0" spacing="15.0" styleClass="dashboard-header" BorderPane.alignment="CENTER_LEFT">
          <BorderPane.margin>
@@ -39,12 +39,15 @@
          </padding>
          <children>
             <Label fx:id="lblTituloMenu" styleClass="sidebar-titulo" text="ADMINISTRACIÓN" />
-            <Button fx:id="btnDashboard" mnemonicParsing="false" styleClass="sidebar-button" text="Dashboard" />
-            <Button fx:id="btnUsuarios" mnemonicParsing="false" styleClass="sidebar-button" text="Usuarios" />
+            <Button fx:id="btnDashboard" mnemonicParsing="false" onAction="#volverDashboard" styleClass="sidebar-button" text="Dashboard" />
             <Button fx:id="btnRoles" mnemonicParsing="false" styleClass="sidebar-button" text="Roles" />
+            <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#abrirGestionUsuarios" styleClass="sidebar-button" text="Usuarios" />
+            <Button fx:id="btnEmpleados" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionEmpleados" styleClass="sidebar-button" text="Empleados" visible="false" />
+            <Button fx:id="btnReservas" focusTraversable="false" managed="false" mnemonicParsing="false" styleClass="sidebar-button" text="Reservas" visible="false" />
+            <Button fx:id="btnViajes" focusTraversable="false" managed="false" mnemonicParsing="false" styleClass="sidebar-button" text="Viajes" visible="false" />
             <Button fx:id="btnConfiguracion" mnemonicParsing="false" styleClass="sidebar-button" text="Configuración" />
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-            <Button fx:id="btnCerrarSesion" mnemonicParsing="false" text="Cerrar sesión">
+            <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión">
                <styleClass>
                   <String fx:value="sidebar-button" />
                   <String fx:value="sidebar-logout" />
@@ -102,4 +105,8 @@
          </children>
       </StackPane>
    </center>
+   <stylesheets>
+      <URL value="@../styles/global.css" />
+      <URL value="@../styles/vistas/dashboard.css" />
+   </stylesheets>
 </BorderPane>

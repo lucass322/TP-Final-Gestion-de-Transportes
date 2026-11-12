@@ -1,82 +1,42 @@
 package Pasajeros;
 
-public class Pasajero {
-    private int id;
-    private String dni;
-    private String nombre;
-    private String apellido;
-    private String telefono;
-    private String email;
+import Usuarios.Usuario;
+import Personas.Persona;
+import Roles.Rol;
+import Usuarios.Usuario;
+import Utilidades.Encriptacion;
 
-    // Constructor
-    public Pasajero(String dni, String nombre, String apellido, String telefono, String email) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.email = email;
+
+public class Pasajero extends Usuario {
+    private int idPasajero;
+
+    public Pasajero(int idPasajero, int idUsuario, Persona persona, Rol rol, String nombreUsuario,
+                    String passwordUsuario, boolean habilitadoUsuario) {
+
+        super(idUsuario, persona, rol, nombreUsuario,
+                passwordUsuario, habilitadoUsuario);
+
+        this.idPasajero = idPasajero;
     }
 
-    public Pasajero(int id ,String dni, String nombre, String apellido, String telefono, String email) {
-        this.dni = dni;
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.email = email;
+    public void verPerfil(){
+        System.out.println(super.toString());
+        System.out.println("| Tipo usuario: Pasajero");
+        System.out.println("| ID Pasajero: " + idPasajero);
     }
 
-    public void mostrarDatosPasajero() {
-        System.out.println("Pasajero: " + apellido + ", " + nombre + " | DNI: " + dni);
-        System.out.println("Contacto: " + telefono + " - " + email);
+    public void editarPerfil(int opcion, String nuevoValor){
+        switch (opcion){
+            case 1 -> setNombreUsuario(nuevoValor);
+            case 2 -> setPasswordUsuario(nuevoValor);
+        }
     }
 
-    // Getters y Setters
-    public String getDni() {
-        return dni;
+    public int getIdPasajero() {
+        return idPasajero;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getId() {
-        return id;
+    public void setIdPasajero(int idPasajero) {
+        this.idPasajero = idPasajero;
     }
 }

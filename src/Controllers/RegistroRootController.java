@@ -5,17 +5,16 @@ import DAO.UsuarioDAO;
 import Roles.Rol;
 import Usuarios.Usuario;
 import Utilidades.Validaciones;
+import Utilidades.Notificaciones;
+
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.animation.FadeTransition;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,16 +27,10 @@ public class RegistroRootController {
     private TextField txtNombreUsuario;
 
     @FXML
-    private TextField txtEmail;
-
-    @FXML
     private PasswordField txtPassword;
 
     @FXML
     private PasswordField txtConfirmarPassword;
-
-    @FXML
-    private Label lblMensaje;
 
     @FXML
     private Button btnCrearRoot;
@@ -49,6 +42,9 @@ public class RegistroRootController {
     private Label lblCargando;
 
     @FXML
+    private StackPane contenedorNotificaciones;
+
+    @FXML
     private void initialize() {
         contenedorCarga.setVisible(false);
         contenedorCarga.setManaged(false);
@@ -57,26 +53,19 @@ public class RegistroRootController {
     @FXML
     private void crearRoot() {
         String nombreUsuario = txtNombreUsuario.getText();
-        String email = txtEmail.getText();
         String password = txtPassword.getText();
         String confirmarPassword = txtConfirmarPassword.getText();
 
         if (Validaciones.campoVacio(nombreUsuario) ||
-                Validaciones.campoVacio(email) ||
                 Validaciones.campoVacio(password) ||
                 Validaciones.campoVacio(confirmarPassword)) {
 
-            mostrarMensaje("Todos los campos son obligatorios.", false, null);
-            return;
-        }
-
-        if (!Validaciones.emailValido(email)) {
-            mostrarMensaje("Correo electrónico no válido.", false, null);
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Todos los campos son obligatorios.");
             return;
         }
 
         if (!password.equals(confirmarPassword)) {
-            mostrarMensaje("Las contraseñas no coinciden.", false, null);
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Las contraseñas no coinciden.");
             return;
         }
 
@@ -87,41 +76,37 @@ public class RegistroRootController {
         //Se verifica los datos en la base de datos.
         try {
             if(usuarioDao.hayRoot()) {
-                mostrarMensaje("Ya existe un usuario ROOT registrado.", false, null);
+                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Ya existe un usuario ROOT registrado.");
                 return;
             }
 
             if(usuarioDao.existeNombreUsuario(nombreUsuario)) {
-                mostrarMensaje("El nombre de usuario ya está registrado.", false, null);
-                return;
-            }
-
-            if (usuarioDao.existeEmail(email)) {
-                mostrarMensaje("El correo electrónico ya está registrado.", false, null);
+                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El nombre de usuario ya está registrado.");
                 return;
             }
 
             rol = rolDao.buscarRolPorNombre("ROOT");
 
             if(rol == null || !rol.isHabilitadoRol()) {
-                mostrarMensaje("El rol ROOT no está disponible.", false, null);
+                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El rol ROOT no está disponible.");
                 return;
             }
 
         }catch (SQLException e) {
-            mostrarMensaje("No se pudieron verificar los datos.", false, null);
+            Notificaciones.mostrarError(contenedorNotificaciones, "No se pudieron verificar los datos.");
             System.err.println("\nError en el registro: " + e.getMessage());
             return;
         }
 
-        Usuario usuario = new Usuario(rol, nombreUsuario, password, email);
+        Usuario usuario = new Usuario(rol, nombreUsuario, password);
 
         // Se crea la tarea para registrar el usuario ROOT.
         Task<Boolean> tarea = new Task<>() {
 
             @Override
             protected Boolean call() throws Exception {
-                return usuarioDao.registrarUsuario(usuario);
+                usuarioDao.alta(usuario);
+                return true;
             }
         };
 
@@ -130,9 +115,9 @@ public class RegistroRootController {
             finalizarCarga();
 
             if (tarea.getValue()) {
-                mostrarMensaje("Usuario ROOT creado correctamente.",true, this::abrirLogin);
+                Notificaciones.mostrarExito(contenedorNotificaciones, "Usuario ROOT creado correctamente.", this::abrirLogin);
             } else {
-                mostrarMensaje("No se pudo registrar el usuario ROOT.", false, null);
+                Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo registrar el usuario ROOT.");
             }
         });
 
@@ -142,7 +127,7 @@ public class RegistroRootController {
 
             System.err.println("Error al registrar usuario ROOT: " + tarea.getException().getMessage());
 
-            mostrarMensaje("Error al registrar el usuario ROOT.", false, null);
+            Notificaciones.mostrarError(contenedorNotificaciones, "Error al registrar el usuario ROOT.");
         });
 
         //Se muestra el indicador de carga.
@@ -166,7 +151,7 @@ public class RegistroRootController {
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            scene.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/styles/vistas/login.css").toExternalForm());
 
             Stage stage = (Stage) btnCrearRoot.getScene().getWindow();
 
@@ -183,41 +168,5 @@ public class RegistroRootController {
         contenedorCarga.setVisible(false);
         contenedorCarga.setManaged(false);
         btnCrearRoot.setDisable(false);
-    }
-
-    /**
-     * Muestra un mensaje con una animación de aparición gradual.
-     *
-     * @param mensaje Texto que se desea mostrar.
-     */
-    private void mostrarMensaje(String mensaje, boolean exitoso, Runnable accionFinal) {
-
-        lblMensaje.setText(mensaje);
-
-        lblMensaje.getStyleClass().removeAll("mensaje-error", "mensaje-exito");
-
-        lblMensaje.getStyleClass().add(exitoso ? "mensaje-exito" : "mensaje-error");
-
-        lblMensaje.setOpacity(0);
-
-        FadeTransition aparecer = new FadeTransition(Duration.millis(350), lblMensaje);
-        aparecer.setFromValue(0);
-        aparecer.setToValue(1);
-
-        PauseTransition pausa = new PauseTransition(Duration.seconds(3));
-
-        FadeTransition desaparecer = new FadeTransition(Duration.millis(350), lblMensaje);
-        desaparecer.setFromValue(1);
-        desaparecer.setToValue(0);
-
-        SequentialTransition secuencia = new SequentialTransition(aparecer, pausa, desaparecer);
-
-        secuencia.setOnFinished(event -> {
-            if (accionFinal != null) {
-                accionFinal.run();
-            }
-        });
-
-        secuencia.play();
     }
 }

@@ -1,0 +1,55 @@
+/* ===============================
+   MENSAJE DE ERROR
+=============================== */
+.message-error {
+    -fx-text-fill: #D9534F;
+    -fx-font-family: -font-family;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+/* ===============================
+   MENSAJE DE ÉXITO
+=============================== */
+.message-success {
+    -fx-text-fill: #2E8B57;
+    -fx-font-family: -font-family;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+/* ===============================
+   MENSAJE INFORMATIVO
+=============================== */
+.message-info {
+    -fx-text-fill: -fx-color-gray;
+    -fx-font-family: -font-family;
+    -fx-font-size: 11px;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+/* ===============================
+   MENSAJE DE ADVERTENCIA
+=============================== */
+.message-warning {
+    -fx-text-fill: #E6A23C;
+    -fx-font-family: -font-family;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+/* ===============================
+   TEXTO DE CARGA
+=============================== */
+.text-loading {
+    -fx-font-family: -font-family;
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-border;
+}
