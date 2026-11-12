@@ -3,6 +3,7 @@ package Controllers;
 import DAO.UsuarioDAO;
 import Usuarios.Usuario;
 import Utilidades.Notificaciones;
+import Utilidades.Tablas;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
@@ -43,8 +44,6 @@ public class GestionUsuariosController {
     @FXML
     private TableColumn<Usuario, String> colNombreUsuario;
     @FXML
-    private TableColumn<Usuario, String> colEmail;
-    @FXML
     private TableColumn<Usuario, String> colRol;
     @FXML
     private TableColumn<Usuario, String> colEstado;
@@ -64,13 +63,7 @@ public class GestionUsuariosController {
     private void initialize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
         colNombreUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
-        colEmail.setCellValueFactory(cellData ->
-                new SimpleStringProperty(
-                        cellData.getValue().getPersona() != null
-                                ? cellData.getValue().getPersona().getEmail()
-                                : "Sin asignar"
-                )
-        );
+
         colRol.setCellValueFactory(cellData ->
                 new SimpleStringProperty(
                         cellData.getValue().getRol() != null
@@ -85,9 +78,15 @@ public class GestionUsuariosController {
                                 : "Deshabilitado"
                 )
         );
+
+        Tablas.centrarColumnas(
+                colId,
+                colNombreUsuario,
+                colRol,
+                colEstado);
+
         colId.setStyle("-fx-alignment: CENTER;");
         colNombreUsuario.setStyle("-fx-alignment: CENTER;");
-        colEmail.setStyle("-fx-alignment: CENTER;");
         colRol.setStyle("-fx-alignment: CENTER;");
         colEstado.setStyle("-fx-alignment: CENTER;");
 

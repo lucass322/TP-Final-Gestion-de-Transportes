@@ -1,28 +1,25 @@
 package Controllers;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 import DAO.EmpleadoDAO;
 import Empleados.Empleado;
 import Utilidades.Notificaciones;
+import Utilidades.Tablas;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.application.Platform;
 import javafx.scene.control.SelectionMode;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+
+import javax.swing.text.Utilities;
 import java.io.IOException;
 
 import java.sql.SQLException;
@@ -31,24 +28,18 @@ import java.util.ArrayList;
 
 public class GestionEmpleadosController {
 
-    @FXML private HBox contenedorCabecera;
-    @FXML private Label lblTitulo;
-
-    @FXML private VBox contenedorPrincipal;
-    @FXML private HBox contenedorAcciones;
-
     @FXML private Button btnEditar;
     @FXML private Button btnBaja;
     @FXML private Button btnAlta;
 
-    //tabla empleado
+    //tabla de empleados
     @FXML private TableView<Empleados.Empleado> tablaEmpleados;
     @FXML private TableColumn<Empleado, Integer> colId;
     @FXML private TableColumn<Empleado, String> colNombreUsuario;
     @FXML private TableColumn<Empleado, String> colRol;
     @FXML private TableColumn<Empleado, String> colEstado;
 
-    //tabla datos personales
+    //tabla de datos personales
     @FXML
     private TableView<Empleado> tablaDatosPersonales;
     @FXML private TableColumn<Empleado, String> colNombre;
@@ -122,18 +113,17 @@ public class GestionEmpleadosController {
                 new SimpleStringProperty(datos.getValue().getPersona() != null
                         ? datos.getValue().getPersona().getEmail() : ""));
 
-        //tabla usuarios
-        colId.setStyle("-fx-alignment: CENTER;");
-        colNombreUsuario.setStyle("-fx-alignment: CENTER;");
-        colRol.setStyle("-fx-alignment: CENTER;");
-        colEstado.setStyle("-fx-alignment: CENTER;");
-
-        //tabla datos personales
-        colNombre.setStyle("-fx-alignment: CENTER;");
-        colApellido.setStyle("-fx-alignment: CENTER;");
-        colDni.setStyle("-fx-alignment: CENTER;");
-        colTelefono.setStyle("-fx-alignment: CENTER;");
-        colEmail.setStyle("-fx-alignment: CENTER;");
+        Tablas.centrarColumnas(
+                colId,
+                colNombreUsuario,
+                colRol,
+                colEstado,
+                colNombre,
+                colApellido,
+                colDni,
+                colTelefono,
+                colEmail
+        );
     }
 
     private void configurarSeleccionEmpleados() {
