@@ -135,14 +135,30 @@ public class UsuarioDAO implements iDAO<Usuario>{
         String sqlUsuario = "INSERT INTO usuarios (idRol, idPersona, nombreUsuario, passwordUsuario) " +
                 "VALUES (?, ?, ?, ?)";
 
+        String sqlEmpleado = "INSERT INTO empleados (idUsuario) VALUES (?)";
+
+        String sqlPasajero = "INSERT INTO pasajeros (idUsuario) VALUES (?)";
+
         if (usuario.getRol() == null) {
             throw new SQLException("El usuario no tiene un rol asignado.");
         }
 
-        boolean esRoot = "ROOT".equalsIgnoreCase(usuario.getRol().getNombreRol());
+        String nombreRol = usuario.getRol().getNombreRol();
+
+        boolean esRoot = "ROOT".equalsIgnoreCase(nombreRol);
+        boolean esEmpleado = "EMPLEADO".equalsIgnoreCase(nombreRol);
+        boolean esCliente = "CLIENTE".equalsIgnoreCase(nombreRol);
+
+        if (!esRoot && !esEmpleado && !esCliente) {
+            throw new SQLException("El rol seleccionado no es válido.");
+        }
 
         if (usuario.getPersona() == null && !esRoot) {
             throw new SQLException("El usuario debe tener una persona asociada.");
+        }
+
+        if (esRoot && usuario.getPersona() != null) {
+            throw new SQLException("ROOT no debe tener una persona asociada.");
         }
 
         try (Connection con = ConexionDB.conectar()) {
@@ -153,7 +169,7 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
                 Integer idPersona = null;
 
-                // Registra los datos personales si el usuario tiene una Persona asociada.
+                // Registra la persona y recupera su ID.
                 if (usuario.getPersona() != null) {
 
                     try (PreparedStatement psPersona = con.prepareStatement(
@@ -168,18 +184,22 @@ public class UsuarioDAO implements iDAO<Usuario>{
                         psPersona.executeUpdate();
 
                         try (ResultSet rs = psPersona.getGeneratedKeys()) {
+
                             if (rs.next()) {
                                 idPersona = rs.getInt(1);
                                 usuario.getPersona().setIdPersona(idPersona);
                             } else {
-                                throw new SQLException("Error al obtener el ID de la persona.");
+                                throw new SQLException("No se pudo obtener el ID de la persona.");
                             }
                         }
                     }
                 }
 
-                // Registra la cuenta de usuario.
-                try (PreparedStatement psUsuario = con.prepareStatement(sqlUsuario)) {
+                // Registra el usuario y recupera su ID.
+                int idUsuario;
+
+                try (PreparedStatement psUsuario = con.prepareStatement(
+                        sqlUsuario, Statement.RETURN_GENERATED_KEYS)) {
 
                     psUsuario.setInt(1, usuario.getRol().getIdRol());
 
@@ -190,17 +210,44 @@ public class UsuarioDAO implements iDAO<Usuario>{
                     }
 
                     psUsuario.setString(3, usuario.getNombreUsuario());
-                    psUsuario.setString(4, Encriptacion.hashearPassword(usuario.getPasswordUsuario()));
+                    psUsuario.setString(4,
+                            Encriptacion.hashearPassword(usuario.getPasswordUsuario()));
 
                     psUsuario.executeUpdate();
+
+                    try (ResultSet rs = psUsuario.getGeneratedKeys()) {
+
+                        if (rs.next()) {
+                            idUsuario = rs.getInt(1);
+                            usuario.setIdUsuario(idUsuario);
+                        } else {
+                            throw new SQLException("No se pudo obtener el ID del usuario.");
+                        }
+                    }
                 }
 
-                // Confirma la transacción.
+                // Registra la entidad correspondiente según el rol.
+                if (esEmpleado) {
+
+                    try (PreparedStatement psEmpleado = con.prepareStatement(sqlEmpleado)) {
+                        psEmpleado.setInt(1, idUsuario);
+                        psEmpleado.executeUpdate();
+                    }
+
+                } else if (esCliente) {
+
+                    try (PreparedStatement psPasajero = con.prepareStatement(sqlPasajero)) {
+                        psPasajero.setInt(1, idUsuario);
+                        psPasajero.executeUpdate();
+                    }
+                }
+
+                // Confirma todas las operaciones.
                 con.commit();
 
             } catch (SQLException e) {
 
-                // Revierte los cambios si ocurre algún error.
+                // Revierte todas las operaciones si ocurre algún error.
                 con.rollback();
                 throw e;
             }
@@ -237,6 +284,18 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
         String sqlUsuario = "UPDATE usuarios SET idRol = ?, nombreUsuario = ? WHERE idUsuario = ?";
 
+        // Elimina la asociación anterior.
+        String sqlEliminarEmpleado = "DELETE FROM empleados WHERE idUsuario = ?";
+        String sqlEliminarPasajero = "DELETE FROM pasajeros WHERE idUsuario = ?";
+
+        // Crea la nueva asociación.
+        String sqlInsertarEmpleado = "INSERT INTO empleados (idUsuario) VALUES (?)";
+        String sqlInsertarPasajero = "INSERT INTO pasajeros (idUsuario) VALUES (?)";
+
+        String nombreRolActual = null;
+        int idPersonaActual;
+        String nombreRolNuevo = null;
+
         if (usuario.getRol() == null) {
             throw new SQLException("El usuario no tiene un rol asignado.");
         }
@@ -249,7 +308,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
             try {
 
                 // Verifica el rol actual del usuario en la base de datos.
-                int idPersonaActual;
 
                 try (PreparedStatement psRol = con.prepareStatement(sqlRolActual)) {
 
@@ -265,6 +323,8 @@ public class UsuarioDAO implements iDAO<Usuario>{
                         if ("ROOT".equalsIgnoreCase(rs.getString("nombreRol"))) {
                             throw new SQLException("El usuario ROOT no puede modificarse.");
                         }
+
+                        nombreRolActual = rs.getString("nombreRol");
 
                         idPersonaActual = rs.getInt("idPersona");
 
@@ -297,8 +357,18 @@ public class UsuarioDAO implements iDAO<Usuario>{
                             throw new SQLException("El rol seleccionado no existe.");
                         }
 
+                        // Recupera el nombre del nuevo rol.
+                        nombreRolNuevo = rs.getString("nombreRol");
+
                         if ("ROOT".equalsIgnoreCase(rs.getString("nombreRol"))) {
                             throw new SQLException("No se puede asignar el rol ROOT mediante una edición.");
+                        }
+
+                        // Comprueba que el rol seleccionado sea válido.
+                        if (!"EMPLEADO".equalsIgnoreCase(nombreRolNuevo) &&
+                                !"CLIENTE".equalsIgnoreCase(nombreRolNuevo)) {
+
+                            throw new SQLException("El rol seleccionado no es válido.");
                         }
                     }
                 }
@@ -324,6 +394,43 @@ public class UsuarioDAO implements iDAO<Usuario>{
                     psUsuario.setInt(3, usuario.getIdUsuario());
 
                     psUsuario.executeUpdate();
+                }
+
+                // Comprueba si cambió el rol del usuario.
+                if (!nombreRolActual.equalsIgnoreCase(nombreRolNuevo)) {
+
+                    // Si pasa de EMPLEADO a CLIENTE.
+                    if ("EMPLEADO".equalsIgnoreCase(nombreRolActual) &&
+                            "CLIENTE".equalsIgnoreCase(nombreRolNuevo)) {
+
+                        // Elimina su registro de empleados.
+                        try (PreparedStatement psEliminar = con.prepareStatement(sqlEliminarEmpleado)) {
+                            psEliminar.setInt(1, usuario.getIdUsuario());
+                            psEliminar.executeUpdate();
+                        }
+
+                        // Crea su registro de pasajero.
+                        try (PreparedStatement psInsertar = con.prepareStatement(sqlInsertarPasajero)) {
+                            psInsertar.setInt(1, usuario.getIdUsuario());
+                            psInsertar.executeUpdate();
+                        }
+
+                        // Si pasa de CLIENTE a EMPLEADO.
+                    } else if ("CLIENTE".equalsIgnoreCase(nombreRolActual) &&
+                            "EMPLEADO".equalsIgnoreCase(nombreRolNuevo)) {
+
+                        // Elimina su registro de pasajeros.
+                        try (PreparedStatement psEliminar = con.prepareStatement(sqlEliminarPasajero)) {
+                            psEliminar.setInt(1, usuario.getIdUsuario());
+                            psEliminar.executeUpdate();
+                        }
+
+                        // Crea su registro de empleado.
+                        try (PreparedStatement psInsertar = con.prepareStatement(sqlInsertarEmpleado)) {
+                            psInsertar.setInt(1, usuario.getIdUsuario());
+                            psInsertar.executeUpdate();
+                        }
+                    }
                 }
 
                 // Actualiza la contraseña únicamente si se ingresó una nueva.

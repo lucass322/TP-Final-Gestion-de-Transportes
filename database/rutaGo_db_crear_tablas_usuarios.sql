@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS personas(
 CREATE TABLE IF NOT EXISTS usuarios(
 	idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     idRol INT NOT NULL,
-    idPersona INT NOT NULL UNIQUE,
+    idPersona INT NULL UNIQUE,
     nombreUsuario VARCHAR(50) NOT NULL UNIQUE,
     passwordUsuario VARCHAR(255) NOT NULL,
     habilitadoUsuario BOOLEAN NOT NULL DEFAULT TRUE,
@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS empleados(
     FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario)
 );
 
-CREATE TABLE IF NOT EXISTS clientes(
-    idCliente INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS pasajeros(
+    idPasajero INT AUTO_INCREMENT PRIMARY KEY,
     idUsuario INT NOT NULL UNIQUE,
 
     FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario)
