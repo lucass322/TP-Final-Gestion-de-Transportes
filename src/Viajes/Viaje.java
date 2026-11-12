@@ -100,22 +100,38 @@ public class Viaje implements Reservable {
 
 
     public void agregarPasajero(Pasajero pasajero) throws PasajeroExistenteExcepcion {
-        if (pasajero != null && !pasajeros.contains(pasajero)) {
+
+        if (pasajero != null &&
+                pasajero.getPersona() != null &&
+                !pasajeros.contains(pasajero)) {
+
             pasajeros.add(pasajero);
-            System.out.println("Pasajero " + pasajero.getNombre() + " agregado al viaje.");
+
+            System.out.println("Pasajero " +
+                    pasajero.getPersona().getNombre() + " agregado al viaje.");
+
         } else {
-            throw new PasajeroExistenteExcepcion("El pasajero ya está en el viaje o es inválido.");
+            throw new PasajeroExistenteExcepcion(
+                    "El pasajero ya está en el viaje o es inválido."
+            );
         }
     }
 
     @Override
     public boolean reservarAsiento(Pasajero pasajero, String codigoAsiento) {
+        if (pasajero == null || pasajero.getPersona() == null) {
+            return false;
+        }
+
         if (!asientosOcupados.contains(codigoAsiento)) {
             asientosOcupados.add(codigoAsiento);
-            System.out.println("Asiento " + codigoAsiento + " reservado para " + pasajero.getNombre());
+
+            System.out.println("Asiento " + codigoAsiento + " reservado para " + pasajero.getPersona().getNombre());
+
             return true;
         }
         System.out.println("El asiento ya está ocupado.");
+
         return false;
     }
 
@@ -133,12 +149,15 @@ public class Viaje implements Reservable {
 
     public Pasajero buscarPasajerosPorDni(String dni) {
         for (Pasajero p : pasajeros) {
-            if (p.getDni().equalsIgnoreCase(dni)) {
-                System.out.println("Pasajero encontrado: " + p.getNombre() + "" + p.getApellido());
+            if (p.getPersona().getDni().equalsIgnoreCase(dni)) {
+                System.out.println("Pasajero encontrado: " + p.getPersona().getNombre() + "" +
+                        p.getPersona().getApellido());
+
                 return p;
             }
         }
         System.out.println("No se encontro ningun pasajero con el DNI: " + dni);
+
         return null;
     }
 

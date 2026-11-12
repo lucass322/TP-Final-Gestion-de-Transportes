@@ -207,6 +207,26 @@ public class DashboardController {
         mostrarGestionUsuarios();
     }
 
+    private void mostrarGestionEmpleados() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/views/GestionEmpleados.fxml")
+            );
+
+            Parent vista = loader.load();
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirGestionEmpleados() {
+        mostrarGestionEmpleados();
+    }
+
     @FXML
     private void volverDashboard() {
         panelContenido.getChildren().setAll(contenedorDashboard);

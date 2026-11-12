@@ -2,6 +2,8 @@ package Controllers;
 
 import DAO.RolDAO;
 import DAO.UsuarioDAO;
+import Empleados.Empleado;
+import DAO.EmpleadoDAO;
 import Roles.Rol;
 import Usuarios.Usuario;
 import Personas.Persona;
@@ -45,8 +47,10 @@ public class FormularioUsuarioController {
 
     private final RolDAO rolDAO = new RolDAO();
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final EmpleadoDAO empleadoDAO = new EmpleadoDAO();
     private Usuario usuarioEditar;
     private boolean modoEdicion = false;
+    private boolean edicionEmpleado = false;
 
     @FXML
     private void initialize() {
@@ -57,6 +61,7 @@ public class FormularioUsuarioController {
     public void prepararEdicion(Usuario usuario) {
         this.usuarioEditar = usuario;
         this.modoEdicion = true;
+        this.edicionEmpleado = usuario instanceof Empleado;
 
         lblTitulo.setText("Editar usuario");
         lblDescripcion.setText("Modificar los datos del usuario seleccionado.");
@@ -82,6 +87,8 @@ public class FormularioUsuarioController {
                 .filter(rol -> rol.getIdRol() == usuario.getRol().getIdRol())
                 .findFirst()
                 .ifPresent(rol -> cbRol.getSelectionModel().select(rol));
+
+        cbRol.setDisable(usuario instanceof Empleado);
     }
 
     private void cargarRoles() {
@@ -104,7 +111,9 @@ public class FormularioUsuarioController {
     @FXML
     private void cancelar() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionUsuarios.fxml"));
+            String vistaDestino = edicionEmpleado ? "/views/GestionEmpleados.fxml" : "/views/GestionUsuarios.fxml";
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(vistaDestino));
 
             Parent vista = loader.load();
 
@@ -362,13 +371,19 @@ public class FormularioUsuarioController {
         usuarioEditar.setRol(cbRol.getSelectionModel().getSelectedItem());
 
         try {
-            usuarioDAO.modificar(usuarioEditar);
+            if (usuarioEditar instanceof Empleado) {
+                empleadoDAO.modificar((Empleado) usuarioEditar);
+            } else {
+                usuarioDAO.modificar(usuarioEditar);
+            }
 
             usuarioEditar.setPasswordUsuario(null); // Evita conservar la contraseña sin hashear en el objeto Java.
 
+            String mensaje = edicionEmpleado ? "Empleado actualizado correctamente." : "Usuario actualizado correctamente.";
+
             cancelar(); //regresa al inicio y luego muestra la notificación
 
-            Notificaciones.mostrarExito(contenedorNotificaciones, "Usuario actualizado correctamente.");
+            Notificaciones.mostrarExito(contenedorNotificaciones, mensaje);
 
         } catch (SQLException e) {
             usuarioEditar.setPasswordUsuario(null);

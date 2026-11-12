@@ -23,7 +23,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
          <children>
-            <HBox fx:id="contenedorAcciones" alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox fx:id="contenedorAcciones" alignment="BOTTOM_LEFT" prefHeight="28.0" prefWidth="910.0" spacing="10.0">
                <children>
                   <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#abrirRegistro" styleClass="usuarios-button-primary" text="Registrar usuario" />
                   <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#abrirEdicion" styleClass="usuarios-button-secondary" text="Editar usuario" />
