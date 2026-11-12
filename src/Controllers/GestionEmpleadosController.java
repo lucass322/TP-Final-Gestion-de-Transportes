@@ -41,21 +41,31 @@ public class GestionEmpleadosController {
     @FXML private Button btnBaja;
     @FXML private Button btnAlta;
 
+    //tabla empleado
     @FXML private TableView<Empleados.Empleado> tablaEmpleados;
-
     @FXML private TableColumn<Empleado, Integer> colId;
     @FXML private TableColumn<Empleado, String> colNombreUsuario;
-    @FXML private TableColumn<Empleado, String> colEmail;
     @FXML private TableColumn<Empleado, String> colRol;
     @FXML private TableColumn<Empleado, String> colEstado;
+
+    //tabla datos personales
+    @FXML
+    private TableView<Empleado> tablaDatosPersonales;
+    @FXML private TableColumn<Empleado, String> colNombre;
+    @FXML private TableColumn<Empleado, String> colApellido;
+    @FXML private TableColumn<Empleado, String> colDni;
+    @FXML private TableColumn<Empleado, String> colTelefono;
+    @FXML private TableColumn<Empleado, String> colEmail;
 
     private final EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 
     private void cargarEmpleados() {
         try {
-            List<Empleado> empleados = empleadoDAO.listar();
+            ObservableList<Empleado> listaEmpleados =
+                    FXCollections.observableArrayList(empleadoDAO.listar());
 
-            tablaEmpleados.setItems(FXCollections.observableArrayList(empleados));
+            tablaEmpleados.setItems(listaEmpleados);
+            tablaDatosPersonales.setItems(listaEmpleados);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,14 +86,6 @@ public class GestionEmpleadosController {
                 )
         );
 
-        colEmail.setCellValueFactory(datos ->
-                new SimpleStringProperty(
-                        datos.getValue().getPersona() != null
-                                ? datos.getValue().getPersona().getEmail()
-                                : ""
-                )
-        );
-
         colRol.setCellValueFactory(datos ->
                 new SimpleStringProperty(
                         datos.getValue().getRol() != null
@@ -99,6 +101,39 @@ public class GestionEmpleadosController {
                                 : "Deshabilitado"
                 )
         );
+
+        colNombre.setCellValueFactory(datos ->
+                new SimpleStringProperty(datos.getValue().getPersona() != null
+                        ? datos.getValue().getPersona().getNombre() : ""));
+
+        colApellido.setCellValueFactory(datos ->
+                new SimpleStringProperty(datos.getValue().getPersona() != null
+                        ? datos.getValue().getPersona().getApellido() : ""));
+
+        colDni.setCellValueFactory(datos ->
+                new SimpleStringProperty(datos.getValue().getPersona() != null
+                        ? datos.getValue().getPersona().getDni() : ""));
+
+        colTelefono.setCellValueFactory(datos ->
+                new SimpleStringProperty(datos.getValue().getPersona() != null
+                        ? datos.getValue().getPersona().getTelefono() : ""));
+
+        colEmail.setCellValueFactory(datos ->
+                new SimpleStringProperty(datos.getValue().getPersona() != null
+                        ? datos.getValue().getPersona().getEmail() : ""));
+
+        //tabla usuarios
+        colId.setStyle("-fx-alignment: CENTER;");
+        colNombreUsuario.setStyle("-fx-alignment: CENTER;");
+        colRol.setStyle("-fx-alignment: CENTER;");
+        colEstado.setStyle("-fx-alignment: CENTER;");
+
+        //tabla datos personales
+        colNombre.setStyle("-fx-alignment: CENTER;");
+        colApellido.setStyle("-fx-alignment: CENTER;");
+        colDni.setStyle("-fx-alignment: CENTER;");
+        colTelefono.setStyle("-fx-alignment: CENTER;");
+        colEmail.setStyle("-fx-alignment: CENTER;");
     }
 
     private void configurarSeleccionEmpleados() {
