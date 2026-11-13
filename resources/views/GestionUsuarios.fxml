@@ -11,13 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="650.0" prefWidth="950.0" stylesheets="@../styles/vistas/gestionUsuarios.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GestionUsuariosController">
-   <top>
-      <HBox fx:id="contenedorCabecera" alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="200.0" spacing="10.0" styleClass="usuarios-header" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="lblTitulo" styleClass="usuarios-titulo" text="Gestión de usuarios" />
-         </children>
-      </HBox>
-   </top>
    <center>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="formulario-scroll" BorderPane.alignment="TOP_LEFT">
          <content>
@@ -55,4 +48,12 @@
          </content>
       </ScrollPane>
    </center>
+   <top>
+      <VBox styleClass="usuarios-header" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblTitulo" styleClass="usuarios-titulo" text="Gestión de usuarios" />
+            <Label styleClass="usuarios-descripcion" text="Administrá los usuarios del sistema, consultá su información y gestioná sus permisos y estados de acceso." />
+         </children>
+      </VBox>
+   </top>
 </BorderPane>

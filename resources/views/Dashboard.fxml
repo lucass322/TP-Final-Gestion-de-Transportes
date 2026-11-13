@@ -40,7 +40,7 @@
          <children>
             <Label fx:id="lblTituloMenu" styleClass="sidebar-titulo" text="ADMINISTRACIÓN" />
             <Button fx:id="btnDashboard" mnemonicParsing="false" onAction="#volverDashboard" styleClass="sidebar-button" text="Dashboard" />
-            <Button fx:id="btnRoles" mnemonicParsing="false" styleClass="sidebar-button" text="Roles" />
+            <Button fx:id="btnRoles" mnemonicParsing="false" onAction="#abrirGestionRoles" styleClass="sidebar-button" text="Roles" />
             <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#abrirGestionUsuarios" styleClass="sidebar-button" text="Usuarios" />
             <Button fx:id="btnEmpleados" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionEmpleados" styleClass="sidebar-button" text="Empleados" visible="false" />
             <Button fx:id="btnReservas" focusTraversable="false" managed="false" mnemonicParsing="false" styleClass="sidebar-button" text="Reservas" visible="false" />

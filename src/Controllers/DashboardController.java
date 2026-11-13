@@ -189,18 +189,37 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
-        private void mostrarGestionUsuarios() {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionUsuarios.fxml"));
 
-                Parent vista = loader.load();
+    private void mostrarGestionRoles() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionRoles.fxml"));
 
-                panelContenido.getChildren().setAll(vista);
+            Parent vista = loader.load();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void abrirGestionRoles() {
+        mostrarGestionRoles();
+    }
+
+    private void mostrarGestionUsuarios() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionUsuarios.fxml"));
+
+            Parent vista = loader.load();
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void abrirGestionUsuarios() {

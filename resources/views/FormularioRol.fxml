@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FormularioRolController">
+
+    <BorderPane prefHeight="400.0" prefWidth="500.0">
+
+        <top>
+            <VBox spacing="8.0" styleClass="formulario-header">
+                <padding>
+                    <Insets bottom="20" left="25" right="25" top="20" />
+                </padding>
+
+                <Label styleClass="formulario-titulo" text="Registrar rol" />
+
+                <Label styleClass="formulario-descripcion" text="Completá el nombre para crear un nuevo rol en el sistema." />
+            </VBox>
+        </top>
+
+        <center>
+            <VBox spacing="10.0" styleClass="formulario-contenedor">
+                <padding>
+                    <Insets bottom="25" left="25" right="25" top="25" />
+                </padding>
+
+                <Label styleClass="formulario-label" text="Nombre del rol" />
+
+                <TextField fx:id="txtNombreRol" promptText="Ingresá el nombre del rol" styleClass="formulario-input" />
+            </VBox>
+        </center>
+
+        <bottom>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+
+                <padding>
+                    <Insets bottom="20" left="25" right="25" top="15" />
+                </padding>
+
+                <Button fx:id="btnCancelar" onAction="#cancelar" styleClass="formulario-button-secondary" text="Cancelar" />
+
+                <Button fx:id="btnAgregar" onAction="#agregar" styleClass="formulario-button-primary" text="Agregar" />
+            </HBox>
+        </bottom>
+
+    </BorderPane>
+   <stylesheets>
+      <URL value="@../styles/global.css" />
+      <URL value="@../styles/formulario.css" />
+   </stylesheets>
+</StackPane>

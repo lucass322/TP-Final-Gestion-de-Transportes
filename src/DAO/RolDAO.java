@@ -64,7 +64,7 @@ public class RolDAO implements iDAO<Rol>{
             throw new IllegalArgumentException("Ya existe un rol con ese nombre.");
         }
 
-        String sql = "INSERT INTO roles (nombreRol, habilitadoRol) VALUES (?)";
+        String sql = "INSERT INTO roles (nombreRol) VALUES (?)";
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -74,15 +74,41 @@ public class RolDAO implements iDAO<Rol>{
         }
     }
 
-    @Override
-    public void baja(int id) throws SQLException {
-        String sql = "UPDATE roles SET habilitadoRol = false WHERE idRol = ? AND nombreRol <> 'ROOT'"; //excluye ROOT
+    public void alta(int id) throws SQLException {
+
+        String sql = """
+            UPDATE roles
+            SET habilitadoRol = true
+            WHERE idRol = ? AND UPPER (nombreRol) <> 'ROOT'
+            """;
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-            ps.executeUpdate();
+
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas == 0) {
+                throw new SQLException("No se encontró el rol o no se pudo habilitar.");
+            }
+        }
+    }
+
+    @Override
+    public void baja(int id) throws SQLException {
+        String sql = "UPDATE roles SET habilitadoRol = false WHERE idRol = ? AND UPPER(nombreRol) <> 'ROOT'"; //excluye ROOT
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas == 0) {
+                throw new SQLException("No se encontró el rol o no se pudo deshabilitar.");
+            }
         }
     }
 
@@ -94,6 +120,10 @@ public class RolDAO implements iDAO<Rol>{
 
         Rol rolActual = consultar(rol.getIdRol());
 
+        if (rolActual == null) {
+            throw new SQLException("No se encontró el rol o está deshabilitado.");
+        }
+
         if (rolActual != null && "ROOT".equalsIgnoreCase(rolActual.getNombreRol())) {
             throw new IllegalArgumentException("No se puede modificar el rol ROOT."); //evita modificar el rol root
         }
@@ -104,7 +134,7 @@ public class RolDAO implements iDAO<Rol>{
             throw new IllegalArgumentException("Ya existe un rol con ese nombre.");
         }
 
-        String sql = "UPDATE roles SET nombreRol = ? WHERE idRol = ? AND nombreRol <> 'ROOT'"; //excluye ROOT
+        String sql = "UPDATE roles SET nombreRol = ? WHERE idRol = ? AND UPPER (nombreRol) <> 'ROOT'"; //excluye ROOT
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -112,7 +142,11 @@ public class RolDAO implements iDAO<Rol>{
             ps.setString(1, rol.getNombreRol());
             ps.setInt(2, rol.getIdRol());
 
-            ps.executeUpdate();
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas == 0) {
+                throw new SQLException("No se pudo modificar el rol.");
+            }
         }
     }
 
@@ -147,8 +181,8 @@ public class RolDAO implements iDAO<Rol>{
         String sql = """
             SELECT idRol, nombreRol, habilitadoRol
             FROM roles
-            WHERE habilitadoRol = TRUE
-            AND nombreRol <> 'ROOT'
+            WHERE UPPER(nombreRol) <> 'ROOT'
+            ORDER BY idRol ASC
             """;
 
         try (Connection con = ConexionDB.conectar();
