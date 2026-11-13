@@ -97,7 +97,7 @@ public class RolDAO implements iDAO<Rol>{
 
     @Override
     public void baja(int id) throws SQLException {
-        String sql = "UPDATE roles SET habilitadoRol = false WHERE idRol = ? AND UPPER(nombreRol) <> 'ROOT'"; //excluye ROOT
+        String sql = "UPDATE roles SET habilitadoRol = false WHERE idRol = ? AND UPPER(nombreRol)    <> 'ROOT'"; //excluye ROOT
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {

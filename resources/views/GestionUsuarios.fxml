@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="650.0" prefWidth="950.0" stylesheets="@../styles/vistas/gestionUsuarios.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GestionUsuariosController">
+<BorderPane prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GestionUsuariosController">
    <center>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="formulario-scroll" BorderPane.alignment="TOP_LEFT">
          <content>
@@ -52,8 +53,14 @@
       <VBox styleClass="usuarios-header" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="lblTitulo" styleClass="usuarios-titulo" text="Gestión de usuarios" />
-            <Label styleClass="usuarios-descripcion" text="Administrá los usuarios del sistema, consultá su información y gestioná sus permisos y estados de acceso." />
+            <Label styleClass="text-secondary" text="Administrá los usuarios del sistema, consultá su información y gestioná sus permisos y estados de acceso." />
          </children>
       </VBox>
    </top>
+   <stylesheets>
+      <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/tipografias.css" />
+      <URL value="@../styles/vistas/gestionUsuarios.css" />
+      <URL value="@../styles/componentes/tablas.css" />
+   </stylesheets>
 </BorderPane>

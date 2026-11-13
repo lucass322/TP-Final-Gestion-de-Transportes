@@ -1,13 +1,54 @@
-/* ===============================
+/* ==============================
+   TABLA GENERAL
+============================== */
+
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E6E6E6;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-table-cell-border-color: transparent;
+}
+
+/* ==============================
+   ENCABEZADOS
+============================== */
+
+.table-view .column-header-background {
+    -fx-background-color: #1C1C1C;
+}
+
+.table-view .column-header {
+    -fx-background-color: #1C1C1C;
+    -fx-size: 40px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+}
+
+/* ==============================
+   CELDAS
+============================== */
+
+.table-view .table-cell {
+    -fx-text-fill: #1C1C1C;
+    -fx-alignment: CENTER;
+    -fx-padding: 10px;
+}
+
+/* ==============================
    FILAS
-=============================== */
+============================== */
 
 .table-row-cell:odd {
     -fx-background-color: #F7F7F7;
 }
 
 .table-row-cell:even {
-    -fx-background-color: -fx-color-white;
+    -fx-background-color: #FFFFFF;
 }
 
 .table-row-cell:selected {
@@ -15,5 +56,59 @@
 }
 
 .table-row-cell:selected .table-cell {
-    -fx-text-fill: -fx-color-black;
+    -fx-text-fill: #1C1C1C;
+}
+
+/* ==============================
+   FILAS AL PASAR EL MOUSE
+============================== */
+
+.table-row-cell:hover {
+    -fx-background-color: #FFF1E8;
+}
+
+.table-row-cell:selected:hover {
+    -fx-background-color: #FFE0CC;
+}
+
+/* ==============================
+   PLACEHOLDER
+============================== */
+
+.table-view .placeholder .label {
+    -fx-text-fill: #777777;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell {
+-fx-background-color: #FFFFFF;
+}
+
+.table-row-cell {
+-fx-background-color: #FFE0CC;
+}
+
+.table-row-cell .table-cell {
+-fx-text-fill: #1C1C1C;
+}
+
+/* ==============================
+FILAS AL PASAR EL MOUSE
+============================== */
+
+.table-row-cell {
+-fx-background-color: #FFF1E8;
+}
+
+.table-row-cell:selected {
+-fx-background-color: #FFE0CC;
+}
+
+/* ==============================
+PLACEHOLDER
+============================== */
+
+.table-view .placeholder .label {
+-fx-text-fill: #777777;
+-fx-font-size: 13px;
 }

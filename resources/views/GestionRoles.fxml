@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GestionRolesController">
    <children>
       <BorderPane prefHeight="650.0" prefWidth="950.0">
@@ -24,7 +23,7 @@
                   </padding>
                   <children>
                       <Label styleClass="usuarios-titulo" text="Gestión de roles" />
-                      <Label styleClass="usuarios-descripcion" text="Administrá los roles y sus permisos dentro de RutaGo." />
+                      <Label styleClass="text-secondary" text="Administrá los roles y sus permisos dentro de RutaGo." />
                   </children>
               </VBox>
           </top>
@@ -76,6 +75,8 @@
    </children>
    <stylesheets>
       <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/tipografias.css" />
       <URL value="@../styles/vistas/gestionUsuarios.css" />
+      <URL value="@../styles/componentes/tablas.css" />
    </stylesheets>
 </StackPane>
