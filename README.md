@@ -89,8 +89,8 @@ Actualmente, el proyecto se encuentra en desarrollo.
 - [x] Visualización y ocultación de contraseña.
 - [x] Iconografía mediante Ikonli.
 - [x] Indicadores visuales de foco en los campos de entrada.
-- [ ] Validación de credenciales.
-- [ ] Integración con la base de datos.
+- [x] Validación de credenciales.
+- [x] Integración con la base de datos.
 
 
 ## Autoría
