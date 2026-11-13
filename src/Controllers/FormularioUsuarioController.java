@@ -4,6 +4,7 @@ import DAO.RolDAO;
 import DAO.UsuarioDAO;
 import Empleados.Empleado;
 import DAO.EmpleadoDAO;
+import Excepciones.PasajeroExistenteExcepcion;
 import Roles.Rol;
 import Usuarios.Usuario;
 import Personas.Persona;
@@ -83,7 +84,7 @@ public class FormularioUsuarioController {
             txtEmail.setText(usuario.getPersona().getEmail());
         }
 
-        cbRol.getItems().stream() //se carga automaticamente el rol actual del usuario, antes de editar
+        cbRol.getItems().stream() //se carga automáticamente el rol actual del usuario, antes de editar
                 .filter(rol -> rol.getIdRol() == usuario.getRol().getIdRol())
                 .findFirst()
                 .ifPresent(rol -> cbRol.getSelectionModel().select(rol));
@@ -206,7 +207,7 @@ public class FormularioUsuarioController {
                 return;
             }
         } catch (SQLException e) {
-            Notificaciones.mostrarError(contenedorNotificaciones,"\"No se pudieron verificar los datos.");
+            Notificaciones.mostrarError(contenedorNotificaciones,"No se pudieron verificar los datos.");
             e.printStackTrace();
             return;
         }
@@ -234,7 +235,7 @@ public class FormularioUsuarioController {
 
         try {
             usuarioDAO.alta(nuevoUsuario);
-            Notificaciones.mostrarExito(contenedorNotificaciones,"Usuario registrado correctamente.");
+            Notificaciones.mostrarExito(contenedorNotificaciones, "Usuario registrado correctamente.");
 
             // Limpia los datos personales.
             txtNombre.clear();
@@ -250,6 +251,10 @@ public class FormularioUsuarioController {
 
             // Restablece la selección del rol.
             cbRol.getSelectionModel().selectFirst();
+
+        }catch (PasajeroExistenteExcepcion e) {
+            Notificaciones.mostrarError(contenedorNotificaciones, e.getMessage());
+
         } catch (SQLException e) {
             Notificaciones.mostrarError(contenedorNotificaciones,"No se pudo registrar el usuario.");
             e.printStackTrace();

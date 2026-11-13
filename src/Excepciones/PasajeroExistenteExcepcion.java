@@ -1,7 +1,10 @@
 package Excepciones;
 
-public class PasajeroExistenteExcepcion extends Exception {
+import java.sql.SQLException;
+
+public class PasajeroExistenteExcepcion extends SQLException {
     public PasajeroExistenteExcepcion(String message) {
+
         super(message);
     }
 }

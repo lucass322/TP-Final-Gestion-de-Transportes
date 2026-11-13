@@ -5,6 +5,7 @@ import Personas.Persona;
 import Roles.Rol;
 import Usuarios.Usuario;
 import Utilidades.Encriptacion;
+import Excepciones.PasajeroExistenteExcepcion;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ public class UsuarioDAO implements iDAO<Usuario>{
     }
 
     @Override
-    public void alta(Usuario usuario) throws SQLException {
+    public void alta(Usuario usuario) throws SQLException, PasajeroExistenteExcepcion {
 
         String sqlPersona = "INSERT INTO personas (nombre, apellido, dni, telefono, email) " +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -138,6 +139,15 @@ public class UsuarioDAO implements iDAO<Usuario>{
         String sqlEmpleado = "INSERT INTO empleados (idUsuario) VALUES (?)";
 
         String sqlPasajero = "INSERT INTO pasajeros (idUsuario) VALUES (?)";
+
+        String sqlExistePasajero = """
+            SELECT 1
+            FROM pasajeros pa
+            INNER JOIN usuarios u ON pa.idUsuario = u.idUsuario
+            INNER JOIN personas per ON u.idPersona = per.idPersona
+            WHERE per.dni = ?
+            LIMIT 1
+        """;
 
         if (usuario.getRol() == null) {
             throw new SQLException("El usuario no tiene un rol asignado.");
@@ -168,6 +178,22 @@ public class UsuarioDAO implements iDAO<Usuario>{
             try {
 
                 Integer idPersona = null;
+
+                // Comprueba si el DNI ya pertenece a un pasajero.
+                if (esCliente) {
+
+                    try (PreparedStatement psExiste = con.prepareStatement(sqlExistePasajero)) {
+
+                        psExiste.setString(1, usuario.getPersona().getDni());
+
+                        try (ResultSet rs = psExiste.executeQuery()) {
+
+                            if (rs.next()) {
+                                throw new PasajeroExistenteExcepcion("Ya existe un pasajero registrado con ese DNI.");
+                            }
+                        }
+                    }
+                }
 
                 // Registra la persona y recupera su ID.
                 if (usuario.getPersona() != null) {
@@ -292,9 +318,9 @@ public class UsuarioDAO implements iDAO<Usuario>{
         String sqlInsertarEmpleado = "INSERT INTO empleados (idUsuario) VALUES (?)";
         String sqlInsertarPasajero = "INSERT INTO pasajeros (idUsuario) VALUES (?)";
 
-        String nombreRolActual = null;
+        String nombreRolActual;
         int idPersonaActual;
-        String nombreRolNuevo = null;
+        String nombreRolNuevo;
 
         if (usuario.getRol() == null) {
             throw new SQLException("El usuario no tiene un rol asignado.");
