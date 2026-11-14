@@ -1,0 +1,72 @@
+
+/* ===============================
+   CONFIGURACIÓN - TÍTULOS
+=============================== */
+
+.configuracion-titulo {
+    -fx-text-fill: -color-black;
+    -fx-font-family: -font-family;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.configuracion-descripcion {
+    -fx-text-fill: -color-gray;
+    -fx-font-family: -font-family;
+    -fx-font-size: 14px;
+}
+
+
+/* ===============================
+   TARJETAS DE CONFIGURACIÓN
+=============================== */
+
+.configuracion-card {
+    -fx-background-color: -color-white;
+    -fx-background-radius: 12px;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+}
+
+
+/* ===============================
+   TÍTULOS Y DESCRIPCIONES
+=============================== */
+
+.configuracion-card-titulo {
+    -fx-text-fill: -color-black;
+    -fx-font-family: -font-family;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.configuracion-card-descripcion {
+    -fx-text-fill: -color-gray;
+    -fx-font-family: -font-family;
+    -fx-font-size: 13px;
+}
+
+
+/* ===============================
+   BOTONES
+=============================== */
+
+.configuracion-boton {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-white;
+    -fx-font-family: -font-family;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 9px 16px;
+    -fx-cursor: hand;
+}
+
+.configuracion-boton:hover {
+    -fx-background-color: -color-primary-dark;
+}
+
+.configuracion-boton:pressed {
+    -fx-background-color: #C45B20;
+}

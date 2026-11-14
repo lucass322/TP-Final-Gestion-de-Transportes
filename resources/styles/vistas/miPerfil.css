@@ -1,0 +1,47 @@
+
+/* Encabezado */
+.perfil-titulo {
+    -fx-font-family: "Arial";
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1C1C1C;
+}
+
+.perfil-descripcion {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #777777;
+}
+
+/* Tarjetas */
+.perfil-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #F5B183;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 12px;
+    -fx-padding: 25px;
+}
+
+/* Títulos de las tarjetas */
+.perfil-card-titulo {
+    -fx-font-family: "Arial";
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1C1C1C;
+}
+
+/* Etiquetas de los campos */
+.perfil-label {
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-text-fill: #777777;
+}
+
+/* Valores de los campos */
+.perfil-valor {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5F5F5F;
+}

@@ -246,6 +246,29 @@ public class DashboardController {
         mostrarGestionEmpleados();
     }
 
+    private void mostrarConfiguracion() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Configuracion.fxml"));
+
+            Parent vista = loader.load();
+
+            ConfiguracionController controller = loader.getController();
+            controller.setUsuario(usuarioActual);
+            controller.setPanelContenido(panelContenido);
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirConfiguracion() {
+        mostrarConfiguracion();
+    }
+
+
     @FXML
     private void volverDashboard() {
         panelContenido.getChildren().setAll(contenedorDashboard);

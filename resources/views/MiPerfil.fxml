@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MiPerfilController">
+
+    <top>
+        <VBox spacing="6.0">
+            <padding>
+                <Insets bottom="20.0" left="30.0" right="30.0" top="25.0" />
+            </padding>
+
+            <Label styleClass="perfil-titulo" text="Mi perfil" />
+            <Label styleClass="perfil-descripcion" text="Consultá los datos de tu cuenta." />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox alignment="TOP_LEFT" spacing="20.0">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
+            </padding>
+
+            <VBox spacing="18.0" styleClass="configuracion-card">
+                <Label styleClass="perfil-card-titulo" text="Información personal" />
+
+                <GridPane hgap="35.0" vgap="20.0">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50.0" />
+                        <ColumnConstraints percentWidth="50.0" />
+                    </columnConstraints>
+
+                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label styleClass="perfil-label" text="Nombre" />
+                        <Label fx:id="lblNombre" styleClass="perfil-valor" text="—" />
+                    </VBox>
+
+                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label styleClass="perfil-label" text="Apellido" />
+                        <Label fx:id="lblApellido" styleClass="perfil-valor" text="—" />
+                    </VBox>
+
+                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label styleClass="perfil-label" text="DNI" />
+                        <Label fx:id="lblDni" styleClass="perfil-valor" text="—" />
+                    </VBox>
+
+                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label styleClass="perfil-label" text="Teléfono" />
+                        <Label fx:id="lblTelefono" styleClass="perfil-valor" text="—" />
+                    </VBox>
+
+                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label styleClass="perfil-label" text="Correo electrónico" />
+                        <Label fx:id="lblEmail" styleClass="perfil-valor" text="—" />
+                    </VBox>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+            </VBox>
+
+            <VBox spacing="18.0" styleClass="configuracion-card">
+                <Label styleClass="perfil-card-titulo" text="Información de la cuenta" />
+
+                <HBox spacing="35.0">
+                    <VBox spacing="5.0" styleClass="perfil-card">
+                        <Label styleClass="perfil-label" text="Nombre de usuario" />
+                        <Label fx:id="lblNombreUsuario" styleClass="perfil-valor" text="—" />
+                    </VBox>
+
+                    <VBox spacing="5.0" styleClass="perfil-card">
+                        <Label styleClass="perfil-label" text="Rol" />
+                        <Label fx:id="lblRol" styleClass="perfil-valor" text="—" />
+                    </VBox>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+   <stylesheets>
+      <URL value="@../styles/global.css" />
+      <URL value="@../styles/vistas/miPerfil.css" />
+   </stylesheets>
+
+</BorderPane>

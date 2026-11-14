@@ -45,7 +45,7 @@
             <Button fx:id="btnEmpleados" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionEmpleados" styleClass="sidebar-button" text="Empleados" visible="false" />
             <Button fx:id="btnReservas" focusTraversable="false" managed="false" mnemonicParsing="false" styleClass="sidebar-button" text="Reservas" visible="false" />
             <Button fx:id="btnViajes" focusTraversable="false" managed="false" mnemonicParsing="false" styleClass="sidebar-button" text="Viajes" visible="false" />
-            <Button fx:id="btnConfiguracion" mnemonicParsing="false" styleClass="sidebar-button" text="Configuración" />
+            <Button fx:id="btnConfiguracion" mnemonicParsing="false" onAction="#abrirConfiguracion" styleClass="sidebar-button" text="Configuración" />
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión">
                <styleClass>
