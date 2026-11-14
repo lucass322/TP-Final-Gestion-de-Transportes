@@ -88,7 +88,7 @@
 /* Barra vertical */
 .formulario-scroll > .scroll-bar:vertical {
     -fx-background-color: transparent;
-    -fx-pref-width: 10px;
+    -fx-pref-width: 15px;
     -fx-padding: 2px;
 }
 
@@ -106,5 +106,5 @@
 
 /* Efecto al pasar el cursor */
 .formulario-scroll > .scroll-bar:vertical > .thumb:hover {
-    -fx-background-color: #C47A2C;
+    -fx-background-color: -color-primary-dark;
 }

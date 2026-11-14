@@ -12,6 +12,7 @@ import Utilidades.Validaciones;
 import Utilidades.Notificaciones;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -21,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -45,6 +47,7 @@ public class FormularioUsuarioController {
 
     @FXML
     private StackPane contenedorNotificaciones;
+    private boolean desdeLogin = false;
 
     private final RolDAO rolDAO = new RolDAO();
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -52,6 +55,10 @@ public class FormularioUsuarioController {
     private Usuario usuarioEditar;
     private boolean modoEdicion = false;
     private boolean edicionEmpleado = false;
+
+    public void setDesdeLogin(boolean desdeLogin) {
+        this.desdeLogin = desdeLogin;
+    }
 
     @FXML
     private void initialize() {
@@ -112,16 +119,33 @@ public class FormularioUsuarioController {
     @FXML
     private void cancelar() {
         try {
-            String vistaDestino = edicionEmpleado ? "/views/GestionEmpleados.fxml" : "/views/GestionUsuarios.fxml";
+            if (desdeLogin) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml") );
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(vistaDestino));
+                Parent vista = loader.load();
 
-            Parent vista = loader.load();
+                Stage stage = (Stage) btnCancelar.getScene().getWindow();
 
-            BorderPane root = (BorderPane) btnCancelar.getScene().getRoot();
-            StackPane panelContenido = (StackPane) root.getCenter();
+                Scene scene = new Scene(vista);
 
-            panelContenido.getChildren().setAll(vista);
+                stage.setScene(scene);
+                stage.setTitle("RutaGo - Iniciar sesión");
+                stage.setResizable(false);
+                stage.sizeToScene();
+                stage.centerOnScreen();
+
+            } else {
+                String vistaDestino = edicionEmpleado ? "/views/GestionEmpleados.fxml" : "/views/GestionUsuarios.fxml";
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(vistaDestino));
+
+                Parent vista = loader.load();
+
+                BorderPane root = (BorderPane) btnCancelar.getScene().getRoot();
+                StackPane panelContenido = (StackPane) root.getCenter();
+
+                panelContenido.getChildren().setAll(vista);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -195,12 +219,6 @@ public class FormularioUsuarioController {
                 return;
             }
 
-            // Verifica si el DNI ya está registrado.
-            if (usuarioDAO.existeDni(txtDni.getText().trim())) {
-                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El DNI ya está registrado.");
-                return;
-            }
-
             //Verifica si el email ya está registrado.
             if (usuarioDAO.existeEmail(txtEmail.getText().trim())) {
                 Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El correo electrónico ya está registrado.");
@@ -235,6 +253,14 @@ public class FormularioUsuarioController {
 
         try {
             usuarioDAO.alta(nuevoUsuario);
+
+            if (desdeLogin) {
+                Notificaciones.mostrarExito(contenedorNotificaciones, "Cuenta registrada correctamente.",
+                        this::volverAlLogin);
+
+                return;
+            }
+
             Notificaciones.mostrarExito(contenedorNotificaciones, "Usuario registrado correctamente.");
 
             // Limpia los datos personales.
@@ -253,7 +279,7 @@ public class FormularioUsuarioController {
             cbRol.getSelectionModel().selectFirst();
 
         }catch (PasajeroExistenteExcepcion e) {
-            Notificaciones.mostrarError(contenedorNotificaciones, e.getMessage());
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, e.getMessage());
 
         } catch (SQLException e) {
             Notificaciones.mostrarError(contenedorNotificaciones,"No se pudo registrar el usuario.");
@@ -400,5 +426,26 @@ public class FormularioUsuarioController {
 
     public void setContenedorNotificaciones(StackPane contenedorNotificaciones) {
         this.contenedorNotificaciones = contenedorNotificaciones;
+    }
+
+    private void volverAlLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/views/Login.fxml"));
+
+            Parent vista = loader.load();
+
+            Stage stage = (Stage) btnRegistrar.getScene().getWindow();
+
+            Scene scene = new Scene(vista);
+
+            stage.setScene(scene);
+            stage.setTitle("RutaGo - Iniciar sesión");
+            stage.setResizable(false);
+            stage.sizeToScene();
+            stage.centerOnScreen();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

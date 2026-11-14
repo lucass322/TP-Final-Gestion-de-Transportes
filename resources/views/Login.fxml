@@ -81,7 +81,7 @@
                     <Font size="14.0" />
                 </font>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="260.0" styleClass="button-login-secondary" text="Registrarse">
+            <Button fx:id="btnRegistrarse" alignment="CENTER" mnemonicParsing="false" onAction="#abrirRegistro" prefHeight="38.0" prefWidth="260.0" styleClass="button-login-secondary" text="Registrarse">
                 <font>
                     <Font size="14.0" />
                 </font>

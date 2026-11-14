@@ -43,9 +43,6 @@ public class LoginController implements Initializable {
     private TextField txtUsuario;
 
     @FXML
-    private HBox contenedorPasswordCompleto;
-
-    @FXML
     private HBox contenedorPassword;
 
     @FXML
@@ -62,9 +59,6 @@ public class LoginController implements Initializable {
 
     @FXML
     private VBox contenedorCarga;
-
-    @FXML
-    private ProgressIndicator progressLogin;
 
     @FXML
     private Label lblCargando;
@@ -112,6 +106,31 @@ public class LoginController implements Initializable {
         txtUsuario.setOnAction(event -> txtPassword.requestFocus());
         txtPassword.setOnAction(event -> iniciarSesion());
         txtPasswordVisible.setOnAction(event -> iniciarSesion());
+    }
+
+    @FXML
+    private void abrirRegistro() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormularioUsuario.fxml"));
+
+            Parent root = loader.load();
+
+            FormularioUsuarioController controller = loader.getController();
+            controller.setDesdeLogin(true);
+
+            Stage stage = (Stage) btnIngresar.getScene().getWindow();
+
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+            stage.setTitle("RutaGo - Registrarse");
+            stage.sizeToScene();
+            stage.centerOnScreen();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarError("No se pudo abrir el formulario de registro.");
+        }
     }
 
     private void configurarFoco(HBox contenedor, Control... campos) {
