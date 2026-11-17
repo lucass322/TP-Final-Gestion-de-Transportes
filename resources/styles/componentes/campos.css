@@ -3,7 +3,7 @@
 =============================== */
 .input-login {
     -fx-background-color: -color-white;
-    -fx-text-fill: #1C1C1C;
+    -fx-text-fill: -color-black;
     -fx-prompt-text-fill: #999999;
     -fx-background-radius: 8;
     -fx-border-radius: 8;
@@ -50,8 +50,8 @@
    CAMPO ESTÁNDAR
 =============================== */
 .field-standard {
-    -fx-background-color: -fx-color-white;
-    -fx-border-color: -fx-color-gray-light;
+    -fx-background-color: -color-white;
+    -fx-border-color: color-gray-light;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
     -fx-padding: 9px;
@@ -59,7 +59,7 @@
 }
 
 .field-standard:focused {
-    -fx-border-color: -fx-color-primary;
+    -fx-border-color: -color-primary;
     -fx-border-width: 1.5px;
 }
 
@@ -80,9 +80,5 @@
     -fx-background-color: -color-white;
     -fx-border-color: #C45B20;
     -fx-border-width: 1.5;
-    -fx-effect: dropshadow(
-        gaussian,
-        rgba(255, 140, 66, 0.40),
-        9, 0, 0, 0
-    );
+    -fx-effect: dropshadow(gaussian, rgba(255, 140, 66, 0.40), 9, 0, 0, 0);
 }

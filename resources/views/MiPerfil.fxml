@@ -13,23 +13,23 @@
 <BorderPane prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MiPerfilController">
 
     <top>
-        <VBox spacing="6.0">
+        <VBox prefHeight="78.0" prefWidth="950.0" spacing="6.0">
             <padding>
-                <Insets bottom="20.0" left="30.0" right="30.0" top="25.0" />
+                <Insets bottom="10.0" left="25.0" right="25.0" top="25.0" />
             </padding>
 
-            <Label styleClass="perfil-titulo" text="Mi perfil" />
-            <Label styleClass="perfil-descripcion" text="Consultá los datos de tu cuenta." />
+            <Label styleClass="text-title" text="Mi perfil" />
+            <Label styleClass="text-secondary" text="Consultar los datos de tu cuenta." />
         </VBox>
     </top>
 
     <center>
         <VBox alignment="TOP_LEFT" spacing="20.0">
             <padding>
-                <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
+                <Insets bottom="30.0" left="25.0" right="25.0" top="10.0" />
             </padding>
 
-            <VBox spacing="18.0" styleClass="configuracion-card">
+            <VBox maxHeight="1.7976931348623157E308" spacing="18.0" styleClass="configuracion-card">
                 <Label styleClass="perfil-card-titulo" text="Información personal" />
 
                 <GridPane hgap="35.0" vgap="20.0">
@@ -38,27 +38,27 @@
                         <ColumnConstraints percentWidth="50.0" />
                     </columnConstraints>
 
-                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
                         <Label styleClass="perfil-label" text="Nombre" />
                         <Label fx:id="lblNombre" styleClass="perfil-valor" text="—" />
                     </VBox>
 
-                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
                         <Label styleClass="perfil-label" text="Apellido" />
                         <Label fx:id="lblApellido" styleClass="perfil-valor" text="—" />
                     </VBox>
 
-                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                         <Label styleClass="perfil-label" text="DNI" />
                         <Label fx:id="lblDni" styleClass="perfil-valor" text="—" />
                     </VBox>
 
-                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                         <Label styleClass="perfil-label" text="Teléfono" />
                         <Label fx:id="lblTelefono" styleClass="perfil-valor" text="—" />
                     </VBox>
 
-                    <VBox spacing="5.0" styleClass="perfil-card" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                         <Label styleClass="perfil-label" text="Correo electrónico" />
                         <Label fx:id="lblEmail" styleClass="perfil-valor" text="—" />
                     </VBox>
@@ -74,12 +74,12 @@
                 <Label styleClass="perfil-card-titulo" text="Información de la cuenta" />
 
                 <HBox spacing="35.0">
-                    <VBox spacing="5.0" styleClass="perfil-card">
+                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                         <Label styleClass="perfil-label" text="Nombre de usuario" />
                         <Label fx:id="lblNombreUsuario" styleClass="perfil-valor" text="—" />
                     </VBox>
 
-                    <VBox spacing="5.0" styleClass="perfil-card">
+                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                         <Label styleClass="perfil-label" text="Rol" />
                         <Label fx:id="lblRol" styleClass="perfil-valor" text="—" />
                     </VBox>
@@ -89,6 +89,7 @@
     </center>
    <stylesheets>
       <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/tipografias.css" />
       <URL value="@../styles/vistas/miPerfil.css" />
    </stylesheets>
 

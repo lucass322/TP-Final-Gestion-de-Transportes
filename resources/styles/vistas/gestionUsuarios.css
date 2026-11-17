@@ -3,14 +3,14 @@
 ============================== */
 
 .usuarios-header {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: -color-white;
     -fx-padding: 20px;
 }
 
 .usuarios-titulo {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1C1C1C;
+    -fx-text-fill: -color-black;
 }
 
 /* ==============================
@@ -18,7 +18,7 @@
 ============================== */
 
 .usuarios-contenedor {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: -color-white;
     -fx-padding: 20px;
 }
 
@@ -27,7 +27,7 @@
 ============================== */
 
 .usuarios-button-primary {
-    -fx-background-color: #FF8C42;
+    -fx-background-color: -color-primary;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;
@@ -36,12 +36,12 @@
 }
 
 .usuarios-button-primary:hover {
-    -fx-background-color: #E8752F;
+    -fx-background-color: -color-primary-dark;
 }
 
 .usuarios-button-secondary {
-    -fx-background-color: #E6E6E6;
-    -fx-text-fill: #1C1C1C;
+    -fx-background-color: -color-border;
+    -fx-text-fill: -color-black;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;
     -fx-padding: 10px 16px;
@@ -49,11 +49,11 @@
 }
 
 .usuarios-button-secondary:hover {
-    -fx-background-color: #D5D5D5;
+    -fx-background-color: -color-gray-light;
 }
 
 .usuarios-button-danger {
-    -fx-background-color: #D9534F;
+    -fx-background-color: -color-danger;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;
@@ -62,11 +62,11 @@
 }
 
 .usuarios-button-danger:hover {
-    -fx-background-color: #C9302C;
+    -fx-background-color: -color-danger-dark;
 }
 
 .usuarios-button-success {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: -color-success;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;
@@ -75,5 +75,5 @@
 }
 
 .usuarios-button-success:hover {
-    -fx-background-color: #3D9140;
+    -fx-background-color: -color-success-dark;
 }
