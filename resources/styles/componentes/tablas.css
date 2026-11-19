@@ -3,8 +3,8 @@
 ============================== */
 
 .table-view {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #E6E6E6;
+    -fx-background-color: -color-white;
+    -fx-border-color: -color-border;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
     -fx-table-cell-border-color: transparent;
@@ -15,16 +15,16 @@
 ============================== */
 
 .table-view .column-header-background {
-    -fx-background-color: #1C1C1C;
+    -fx-background-color: -color-black;
 }
 
 .table-view .column-header {
-    -fx-background-color: #1C1C1C;
+    -fx-background-color: -color-black;
     -fx-size: 40px;
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: #FFFFFF;
+    -fx-text-fill: -color-white;
     -fx-font-weight: bold;
     -fx-alignment: CENTER;
 }
@@ -34,7 +34,7 @@
 ============================== */
 
 .table-view .table-cell {
-    -fx-text-fill: #1C1C1C;
+    -fx-text-fill: -color-black;
     -fx-alignment: CENTER;
     -fx-padding: 10px;
 }
@@ -48,19 +48,23 @@
 }
 
 .table-row-cell:even {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: -color-white;
 }
+
+/* ==============================
+   SELECCIÓN
+============================== */
 
 .table-row-cell:selected {
     -fx-background-color: #FFE0CC;
 }
 
 .table-row-cell:selected .table-cell {
-    -fx-text-fill: #1C1C1C;
+    -fx-text-fill: -color-black;
 }
 
 /* ==============================
-   FILAS AL PASAR EL MOUSE
+   HOVER
 ============================== */
 
 .table-row-cell:hover {
@@ -76,39 +80,6 @@
 ============================== */
 
 .table-view .placeholder .label {
-    -fx-text-fill: #777777;
+    -fx-text-fill: -color-gray;
     -fx-font-size: 13px;
-}
-
-.table-row-cell {
--fx-background-color: #FFFFFF;
-}
-
-.table-row-cell {
--fx-background-color: #FFE0CC;
-}
-
-.table-row-cell .table-cell {
--fx-text-fill: #1C1C1C;
-}
-
-/* ==============================
-FILAS AL PASAR EL MOUSE
-============================== */
-
-.table-row-cell {
--fx-background-color: #FFF1E8;
-}
-
-.table-row-cell:selected {
--fx-background-color: #FFE0CC;
-}
-
-/* ==============================
-PLACEHOLDER
-============================== */
-
-.table-view .placeholder .label {
--fx-text-fill: #777777;
--fx-font-size: 13px;
 }

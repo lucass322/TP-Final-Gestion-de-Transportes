@@ -45,13 +45,13 @@
     -fx-effect: none;
 }
 
-
 /* ===============================
    CAMPO ESTÁNDAR
 =============================== */
 .field-standard {
     -fx-background-color: -color-white;
-    -fx-border-color: color-gray-light;
+    -fx-border-color: -color-gray-light;
+    -fx-border-width: 1px;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
     -fx-padding: 9px;

@@ -20,9 +20,9 @@
                     <Insets bottom="20" left="25" right="25" top="20" />
                 </padding>
 
-                <Label styleClass="formulario-titulo" text="Registrar rol" />
+                <Label styleClass="vista-titulo" text="Registrar rol" />
 
-                <Label styleClass="formulario-descripcion" text="Completá el nombre para crear un nuevo rol en el sistema." />
+                <Label styleClass="vista-descripcion" text="Completá el nombre para crear un nuevo rol en el sistema." />
             </VBox>
         </top>
 
@@ -34,7 +34,7 @@
 
                 <Label styleClass="formulario-label" text="Nombre del rol" />
 
-                <TextField fx:id="txtNombreRol" promptText="Ingresá el nombre del rol" styleClass="formulario-input" />
+                <TextField fx:id="txtNombreRol" promptText="Ingresá el nombre del rol" styleClass="field-standard" />
             </VBox>
         </center>
 
@@ -45,9 +45,9 @@
                     <Insets bottom="20" left="25" right="25" top="15" />
                 </padding>
 
-                <Button fx:id="btnCancelar" onAction="#cancelar" styleClass="formulario-button-secondary" text="Cancelar" />
+                <Button fx:id="btnCancelar" onAction="#cancelar" styleClass="button-secondary" text="Cancelar" />
 
-                <Button fx:id="btnAgregar" onAction="#agregar" styleClass="formulario-button-primary" text="Agregar" />
+                <Button fx:id="btnAgregar" onAction="#agregar" styleClass="button-primary" text="Agregar" />
             </HBox>
         </bottom>
 
@@ -55,5 +55,8 @@
    <stylesheets>
       <URL value="@../styles/global.css" />
       <URL value="@../styles/formulario.css" />
+      <URL value="@../styles/componentes/vistas.css" />
+      <URL value="@../styles/componentes/campos.css" />
+      <URL value="@../styles/componentes/botones.css" />
    </stylesheets>
 </StackPane>

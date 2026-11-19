@@ -89,7 +89,7 @@
    BOTÓN SECUNDARIO
 =============================== */
 .button-secondary {
-    -fx-background-color: -fx-color-border;
+    -fx-background-color: -color-border;
     -fx-text-fill: -color-black;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;

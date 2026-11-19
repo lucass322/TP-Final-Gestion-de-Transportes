@@ -18,8 +18,8 @@
                 <Insets bottom="10.0" left="25.0" right="25.0" top="25.0" />
             </padding>
 
-            <Label styleClass="text-title" text="Mi perfil" />
-            <Label styleClass="text-secondary" text="Consultar los datos de tu cuenta." />
+            <Label styleClass="vista-titulo" text="Mi perfil" />
+            <Label styleClass="vista-descripcion" text="Consultar los datos de tu cuenta." />
         </VBox>
     </top>
 
@@ -90,6 +90,7 @@
    <stylesheets>
       <URL value="@../styles/global.css" />
       <URL value="@../styles/componentes/tipografias.css" />
+      <URL value="@../styles/componentes/vistas.css" />
       <URL value="@../styles/vistas/miPerfil.css" />
    </stylesheets>
 

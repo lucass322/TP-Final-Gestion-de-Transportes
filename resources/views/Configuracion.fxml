@@ -49,7 +49,7 @@
                 <Label styleClass="configuracion-card-titulo" text="Seguridad" />
                 <Label styleClass="configuracion-card-descripcion" text="Actualizá tu contraseña y protegé tu cuenta." wrapText="true" />
 
-                <Button styleClass="configuracion-boton" text="Cambiar contraseña" />
+                <Button onAction="#abrirSeguridad" styleClass="configuracion-boton" text="Cambiar contraseña" />
             </VBox>
 
             <VBox fx:id="tarjetaNotificaciones" spacing="12.0" styleClass="configuracion-card" GridPane.columnIndex="0" GridPane.rowIndex="1">

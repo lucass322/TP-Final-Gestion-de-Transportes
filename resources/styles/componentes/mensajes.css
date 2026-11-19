@@ -26,7 +26,7 @@
    MENSAJE INFORMATIVO
 =============================== */
 .message-info {
-    -fx-text-fill: -fx-color-gray;
+    -fx-text-fill: -color-gray;
     -fx-font-family: -font-family;
     -fx-font-size: 11px;
     -fx-text-alignment: center;

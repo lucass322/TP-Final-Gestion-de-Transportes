@@ -14,10 +14,10 @@
 <BorderPane prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GestionEmpleadosController">
 
     <top>
-        <VBox fx:id="contenedorCabecera" alignment="CENTER_LEFT" prefHeight="80.0" spacing="10.0" styleClass="usuarios-header" BorderPane.alignment="CENTER">
+        <VBox fx:id="contenedorCabecera" alignment="CENTER_LEFT" prefHeight="80.0" spacing="10.0" styleClass="vista-header" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="lblTitulo" styleClass="usuarios-titulo" text="Gestión de empleados" />
-            <Label styleClass="text-secondary" text="Administrá los roles del sistema, modificá sus nombres y controlá los permisos de acceso mediante su habilitación o deshabilitación." />
+                <Label fx:id="lblTitulo" styleClass="vista-titulo" text="Gestión de empleados" />
+            <Label styleClass="text-secondary" text="Administrá los empleados, consultá sus datos personales y gestioná sus estados de acceso." />
             </children>
         </VBox>
     </top>
@@ -34,11 +34,11 @@
                   <children>
                       <HBox fx:id="contenedorAcciones" alignment="BOTTOM_LEFT" spacing="10.0">
                           <children>
-                              <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#abrirEdicion" styleClass="usuarios-button-secondary" text="EDITAR" />
+                              <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#abrirEdicion" styleClass="button-secondary" text="EDITAR" />
       
-                              <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#baja" styleClass="usuarios-button-danger" text="BAJA" />
+                              <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#baja" styleClass="button-danger" text="BAJA" />
       
-                              <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#alta" styleClass="usuarios-button-success" text="ALTA" />
+                              <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#alta" styleClass="button-success" text="ALTA" />
                           </children>
                       </HBox>
       
@@ -61,7 +61,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                           </columnResizePolicy>
                       </TableView>
-                  <Label styleClass="usuarios-titulo" text="Datos personales  de empleados" />
+                  <Label styleClass="vista-subtitulo" text="Datos personales de empleados" />
                   <TableView fx:id="tablaDatosPersonales" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="860.0">
                     <columns>
                       <TableColumn fx:id="colNombre" prefWidth="130.0" text="Nombre" />
@@ -86,8 +86,9 @@
     </center>
    <stylesheets>
       <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/botones.css" />
       <URL value="@../styles/componentes/tipografias.css" />
-      <URL value="@../styles/vistas/gestionUsuarios.css" />
       <URL value="@../styles/componentes/tablas.css" />
+      <URL value="@../styles/componentes/vistas.css" />
    </stylesheets>
 </BorderPane>

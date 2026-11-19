@@ -1,0 +1,33 @@
+/* ==============================
+   ENCABEZADO GENERAL
+============================== */
+.vista-header {
+    -fx-background-color: -color-white;
+    -fx-padding: 20px;
+}
+
+/* ==============================
+   DESCRIPCIÓN
+============================== */
+.vista-descripcion {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-gray;
+}
+
+/* ==============================
+   TÍTULO
+============================== */
+.vista-titulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-black;
+}
+
+/* ==============================
+   SUBTÍTULO
+============================== */
+.vista-subtitulo {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-black;
+}

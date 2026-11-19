@@ -17,12 +17,12 @@
       <BorderPane prefHeight="650.0" prefWidth="950.0">
       
           <top>
-              <VBox styleClass="usuarios-header">
+              <VBox styleClass="vista-header">
                   <padding>
                       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                   </padding>
                   <children>
-                      <Label styleClass="usuarios-titulo" text="Gestión de roles" />
+                      <Label styleClass="vista-titulo" text="Gestión de roles" />
                       <Label styleClass="text-secondary" text="Administrá los roles y sus permisos dentro de RutaGo." />
                   </children>
               </VBox>
@@ -39,13 +39,13 @@
                         <children>
                             <HBox spacing="10.0">
                                 <children>
-                                    <Button fx:id="btnRegistrar" onAction="#abrirRegistro" styleClass="usuarios-button-primary" text="REGISTRAR" />
+                                    <Button fx:id="btnRegistrar" onAction="#abrirRegistro" styleClass="button-primary" text="REGISTRAR" />
             
-                                    <Button fx:id="btnEditar" onAction="#abrirEdicion" styleClass="usuarios-button-secondary" text="EDITAR" />
+                                    <Button fx:id="btnEditar" onAction="#abrirEdicion" styleClass="button-secondary" text="EDITAR" />
             
-                                    <Button fx:id="btnBaja" onAction="#baja" styleClass="usuarios-button-danger" text="BAJA" />
+                                    <Button fx:id="btnBaja" onAction="#baja" styleClass="button-danger" text="BAJA" />
             
-                                    <Button fx:id="btnAlta" onAction="#alta" styleClass="usuarios-button-success" text="ALTA" />
+                                    <Button fx:id="btnAlta" onAction="#alta" styleClass="button-success" text="ALTA" />
                                 </children>
                             </HBox>
             
@@ -75,7 +75,9 @@
    </children>
    <stylesheets>
       <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/botones.css" />
       <URL value="@../styles/componentes/tipografias.css" />
+      <URL value="@../styles/componentes/vistas.css" />
       <URL value="@../styles/vistas/gestionUsuarios.css" />
       <URL value="@../styles/componentes/tablas.css" />
    </stylesheets>

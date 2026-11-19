@@ -22,10 +22,10 @@
                <children>
                   <HBox fx:id="contenedorAcciones" alignment="BOTTOM_LEFT" prefHeight="28.0" prefWidth="910.0" spacing="10.0">
                      <children>
-                        <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#abrirRegistro" styleClass="usuarios-button-primary" text="REGISTRAR" />
-                        <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#abrirEdicion" styleClass="usuarios-button-secondary" text="EDITAR" />
-                        <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#baja" styleClass="usuarios-button-danger" text="BAJA" />
-                        <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#alta" styleClass="usuarios-button-success" text="ALTA" />
+                        <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#abrirRegistro" styleClass="button-primary" text="REGISTRAR" />
+                        <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#abrirEdicion" styleClass="button-secondary" text="EDITAR" />
+                        <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#baja" styleClass="button-danger" text="BAJA" />
+                        <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#alta" styleClass="button-success" text="ALTA" />
                      </children>
                   </HBox>
                   <TableView fx:id="tablaUsuarios" prefHeight="450.0" prefWidth="860.0">
@@ -50,17 +50,18 @@
       </ScrollPane>
    </center>
    <top>
-      <VBox styleClass="usuarios-header" BorderPane.alignment="CENTER">
+      <VBox styleClass="vista-header" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="lblTitulo" styleClass="usuarios-titulo" text="Gestión de usuarios" />
+            <Label fx:id="lblTitulo" styleClass="vista-titulo" text="Gestión de usuarios" />
             <Label styleClass="text-secondary" text="Administrá los usuarios del sistema, consultá su información y gestioná sus permisos y estados de acceso." />
          </children>
       </VBox>
    </top>
    <stylesheets>
       <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/botones.css" />
       <URL value="@../styles/componentes/tipografias.css" />
-      <URL value="@../styles/vistas/gestionUsuarios.css" />
+      <URL value="@../styles/componentes/vistas.css" />
       <URL value="@../styles/componentes/tablas.css" />
    </stylesheets>
 </BorderPane>

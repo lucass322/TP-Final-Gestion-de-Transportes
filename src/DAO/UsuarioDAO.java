@@ -486,6 +486,23 @@ public class UsuarioDAO implements iDAO<Usuario>{
         }
     }
 
+    public void actualizarPassword(int idUsuario, String passwordNueva) throws SQLException {
+
+        String sql = "UPDATE usuarios SET passwordUsuario = ? WHERE idUsuario = ?";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, Encriptacion.hashearPassword(passwordNueva));
+            ps.setInt(2, idUsuario);
+
+            int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas == 0) {
+                throw new SQLException("No se pudo actualizar la contraseña del usuario.");
+            }
+        }
+    }
 
     @Override
     public Usuario consultar(int id) throws SQLException {

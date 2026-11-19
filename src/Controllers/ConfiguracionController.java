@@ -1,6 +1,8 @@
 package Controllers;
 
 import Usuarios.Usuario;
+import Controllers.SeguridadController;
+
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -56,6 +58,26 @@ public class ConfiguracionController {
 
             MiPerfilController controller = loader.getController();
             controller.setUsuario(usuarioActual);
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirSeguridad() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/views/Seguridad.fxml")
+            );
+
+            Parent vista = loader.load();
+
+            SeguridadController controller = loader.getController();
+            controller.setUsuario(usuarioActual);
+            controller.setPanelContenido(panelContenido);
 
             panelContenido.getChildren().setAll(vista);
 
