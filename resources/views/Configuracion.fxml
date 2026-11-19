@@ -38,7 +38,7 @@
                 <Label styleClass="configuracion-card-titulo" text="Mi perfil" />
                 <Label styleClass="configuracion-card-descripcion" text="Consultá y modificá tus datos personales." wrapText="true" />
 
-                <Button onAction="#abrirPerfil" styleClass="configuracion-boton" text="Ver perfil" />
+                <Button onAction="#abrirPerfil" styleClass="button-primary" text="Ver perfil" />
             </VBox>
 
             <VBox fx:id="tarjetaSeguridad" spacing="12.0" styleClass="configuracion-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -49,7 +49,7 @@
                 <Label styleClass="configuracion-card-titulo" text="Seguridad" />
                 <Label styleClass="configuracion-card-descripcion" text="Actualizá tu contraseña y protegé tu cuenta." wrapText="true" />
 
-                <Button onAction="#abrirSeguridad" styleClass="configuracion-boton" text="Cambiar contraseña" />
+                <Button onAction="#abrirSeguridad" styleClass="button-primary" text="Cambiar contraseña" />
             </VBox>
 
             <VBox fx:id="tarjetaNotificaciones" spacing="12.0" styleClass="configuracion-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
@@ -60,7 +60,7 @@
                 <Label styleClass="configuracion-card-titulo" text="Notificaciones" />
                 <Label styleClass="configuracion-card-descripcion" text="Administra los avisos y alertas de RutaGo." wrapText="true" />
 
-                <Button styleClass="configuracion-boton" text="Configurar avisos" />
+                <Button styleClass="button-primary" text="Configurar avisos" />
             </VBox>
 
             <VBox fx:id="tarjetaAcercaDe" spacing="12.0" styleClass="configuracion-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -71,7 +71,7 @@
                 <Label styleClass="configuracion-card-titulo" text="Acerca de" />
                 <Label styleClass="configuracion-card-descripcion" text="Conocé más sobre RutaGo y sus desarrolladores." wrapText="true" />
 
-                <Button styleClass="configuracion-boton" text="Ver información" />
+                <Button styleClass="button-primary" text="Ver información" />
             </VBox>
          <columnConstraints>
             <ColumnConstraints />
@@ -86,6 +86,7 @@
     </center>
    <stylesheets>
       <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/botones.css" />
       <URL value="@../styles/vistas/configuracion.css" />
    </stylesheets>
 
