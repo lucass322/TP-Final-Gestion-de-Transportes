@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,8 +43,7 @@ public class FormularioUsuarioController {
     @FXML private Button btnRegistrar;
     @FXML private Label lblTitulo;
     @FXML private Label lblDescripcion;
-    @FXML private Label lblPassword;
-    @FXML private Label lblConfirmarPassword;
+    @FXML private VBox contenedorPassword;
 
     @FXML
     private StackPane contenedorNotificaciones;
@@ -62,6 +62,8 @@ public class FormularioUsuarioController {
 
     @FXML
     private void initialize() {
+        contenedorPassword.setVisible(true);
+        contenedorPassword.setManaged(true);
 
         cargarRoles();
     }
@@ -71,17 +73,15 @@ public class FormularioUsuarioController {
         this.modoEdicion = true;
         this.edicionEmpleado = usuario instanceof Empleado;
 
+        contenedorPassword.setVisible(false);
+        contenedorPassword.setManaged(false);
+
         lblTitulo.setText("Editar usuario");
         lblDescripcion.setText("Modificar los datos del usuario seleccionado.");
 
         btnRegistrar.setText("Guardar cambios");
 
         txtNombreUsuario.setText(usuario.getNombreUsuario());
-
-        lblPassword.setText("Nueva contraseña (opcional)");
-        lblConfirmarPassword.setText("Confirmar nueva contraseña (opcional)");
-        txtPassword.clear();
-        txtConfirmarPassword.clear();
 
         if (usuario.getPersona() != null) {
             txtNombre.setText(usuario.getPersona().getNombre());
@@ -210,6 +210,12 @@ public class FormularioUsuarioController {
 
         if (!txtPassword.getText().equals(txtConfirmarPassword.getText())) {
             Notificaciones.mostrarAdvertencia(contenedorNotificaciones,"Las contraseñas no coinciden.");
+            return;
+        }
+
+        if (!Validaciones.passwordValida(txtPassword.getText())) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,
+                    "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
             return;
         }
 
@@ -359,35 +365,6 @@ public class FormularioUsuarioController {
             return;
         }
 
-        // Recupera los valores de los campos de contraseña.
-        String password = txtPassword.getText();
-        String confirmarPassword = txtConfirmarPassword.getText();
-
-        // Comprueba si los campos están vacíos.
-        boolean passwordVacia = Validaciones.campoVacio(password);
-        boolean confirmarPasswordVacia = Validaciones.campoVacio(confirmarPassword);
-
-        // Si solamente se completa uno de los campos, muestra una advertencia.
-        if (passwordVacia != confirmarPasswordVacia) {
-            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Para cambiar la contraseña, completá ambos campos.");
-
-            return;
-        }
-
-        // Comprueba que las contraseñas coincidan cuando se desea modificarlas.
-        if (!passwordVacia && !password.equals(confirmarPassword)) {
-            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Las contraseñas no coinciden.");
-
-            return;
-        }
-
-        // Si ambos campos están vacíos, conserva la contraseña actual.
-        if (passwordVacia) {
-            usuarioEditar.setPasswordUsuario(null);
-        } else {
-            usuarioEditar.setPasswordUsuario(password);
-        }
-
         // Recupera la Persona asociada al usuario.
         Persona persona = usuarioEditar.getPersona();
 
@@ -408,8 +385,6 @@ public class FormularioUsuarioController {
                 usuarioDAO.modificar(usuarioEditar);
             }
 
-            usuarioEditar.setPasswordUsuario(null); // Evita conservar la contraseña sin hashear en el objeto Java.
-
             String mensaje = edicionEmpleado ? "Empleado actualizado correctamente." : "Usuario actualizado correctamente.";
 
             cancelar(); //regresa al inicio y luego muestra la notificación
@@ -417,8 +392,6 @@ public class FormularioUsuarioController {
             Notificaciones.mostrarExito(contenedorNotificaciones, mensaje);
 
         } catch (SQLException e) {
-            usuarioEditar.setPasswordUsuario(null);
-
             Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo actualizar el usuario.");
             e.printStackTrace();
         }

@@ -149,6 +149,12 @@ public class UsuarioDAO implements iDAO<Usuario>{
             LIMIT 1
         """;
 
+        String sqlPreferencias = """
+        INSERT INTO preferencias_notificaciones
+        (idUsuario, notificarReservas, notificarCancelaciones, notificarCambiosViajes)
+        VALUES (?, TRUE, TRUE, TRUE)
+        """;
+
         if (usuario.getRol() == null) {
             throw new SQLException("El usuario no tiene un rol asignado.");
         }
@@ -266,6 +272,13 @@ public class UsuarioDAO implements iDAO<Usuario>{
                         psPasajero.setInt(1, idUsuario);
                         psPasajero.executeUpdate();
                     }
+                }
+
+                // Registra las preferencias de notificaciones.
+                try (PreparedStatement psPreferencias = con.prepareStatement(sqlPreferencias)) {
+
+                    psPreferencias.setInt(1, idUsuario);
+                    psPreferencias.executeUpdate();
                 }
 
                 // Confirma todas las operaciones.
@@ -459,21 +472,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
                     }
                 }
 
-                // Actualiza la contraseña únicamente si se ingresó una nueva.
-                if (usuario.getPasswordUsuario() != null &&
-                        !usuario.getPasswordUsuario().isBlank()) {
-
-                    String sqlPassword = "UPDATE usuarios SET passwordUsuario = ? WHERE idUsuario = ?";
-
-                    try (PreparedStatement psPassword = con.prepareStatement(sqlPassword)) {
-
-                        psPassword.setString(1, Encriptacion.hashearPassword(usuario.getPasswordUsuario()));
-                        psPassword.setInt(2, usuario.getIdUsuario());
-
-                        psPassword.executeUpdate();
-                    }
-                }
-
                 // Confirma todas las modificaciones.
                 con.commit();
 
@@ -487,6 +485,9 @@ public class UsuarioDAO implements iDAO<Usuario>{
     }
 
     public void actualizarPassword(int idUsuario, String passwordNueva) throws SQLException {
+        if (passwordNueva == null || passwordNueva.isBlank()) {
+            throw new IllegalArgumentException("La contraseña no puede estar vacía.");
+        }
 
         String sql = "UPDATE usuarios SET passwordUsuario = ? WHERE idUsuario = ?";
 

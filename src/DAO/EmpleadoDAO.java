@@ -97,13 +97,6 @@ public class EmpleadoDAO implements iDAO<Empleado> {
             WHERE em.idEmpleado = ?
             """;
 
-        String sqlPassword = """
-            UPDATE usuarios u
-            INNER JOIN empleados em ON u.idUsuario = em.idUsuario
-            SET u.passwordUsuario = ?
-            WHERE em.idEmpleado = ?
-            """;
-
         try (Connection con = ConexionDB.conectar()) {
 
             // Inicia una transacción.
@@ -144,21 +137,6 @@ public class EmpleadoDAO implements iDAO<Empleado> {
                     psUsuario.setInt(2, empleado.getIdEmpleado());
 
                     psUsuario.executeUpdate();
-                }
-
-                // Actualiza la contraseña únicamente si se ingresó una nueva.
-                if (empleado.getPasswordUsuario() != null &&
-                        !empleado.getPasswordUsuario().isBlank()) {
-
-                    try (PreparedStatement psPassword = con.prepareStatement(sqlPassword)) {
-
-                        psPassword.setString(1,
-                                Encriptacion.hashearPassword(empleado.getPasswordUsuario()));
-
-                        psPassword.setInt(2, empleado.getIdEmpleado());
-
-                        psPassword.executeUpdate();
-                    }
                 }
 
                 // Confirma todas las modificaciones.

@@ -83,4 +83,12 @@ public class Validaciones {
     public static boolean telefonoValido(String telefono) {
         return telefono != null && telefono.matches("^[0-9]{8,15}$"); //permite teléfonos de entre 8 y 15 dígitos.
     }
+
+    public static boolean passwordValida(String password) {
+        return password != null
+                && password.length() >= 8
+                && password.matches(".*[A-Z].*")
+                && password.matches(".*[a-z].*")
+                && password.matches(".*[0-9].*");
+    }
 }

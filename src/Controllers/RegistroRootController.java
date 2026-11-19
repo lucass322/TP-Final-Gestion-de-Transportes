@@ -69,6 +69,12 @@ public class RegistroRootController {
             return;
         }
 
+        if (!Validaciones.passwordValida(password)) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,
+                    "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
+            return;
+        }
+
         UsuarioDAO usuarioDao = new UsuarioDAO();
         RolDAO rolDao = new RolDAO();
         Rol rol;

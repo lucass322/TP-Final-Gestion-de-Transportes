@@ -15,7 +15,7 @@
 
 <StackPane fx:id="contenedorNotificaciones" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FormularioUsuarioController">
    <children>
-      <BorderPane prefHeight="500.0" prefWidth="600.0">
+      <BorderPane prefHeight="500.0" prefWidth="430.0">
          <top>
             <VBox fx:id="contenedorCabecera" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="100.0" spacing="8.0" styleClass="vista-header" BorderPane.alignment="CENTER_LEFT">
                <children>
@@ -38,7 +38,7 @@
                </children>
             </HBox>
          </bottom>
-         <right>
+         <center>
             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="600.0" styleClass="formulario-scroll" BorderPane.alignment="CENTER">
                <content>
                   <VBox fx:id="contenedorFormulario" prefHeight="200.0" prefWidth="100.0" spacing="15.0" styleClass="formulario-contenedor">
@@ -64,17 +64,21 @@
                         </Label>
                         <Label fx:id="lblNombreUsuario" styleClass="formulario-label" text="Nombre de usuario" />
                         <TextField fx:id="txtNombreUsuario" prefWidth="400.0" promptText="Ingresar nombre de usuario" styleClass="field-standard" />
-                        <Label fx:id="lblPassword" styleClass="formulario-label" text="Contraseña" />
-                        <PasswordField fx:id="txtPassword" prefWidth="400.0" promptText="Ingresar contraseña" styleClass="field-standard" />
-                        <Label fx:id="lblConfirmarPassword" styleClass="formulario-label" text="Confirmar contraseña" />
-                        <PasswordField fx:id="txtConfirmarPassword" prefWidth="400.0" promptText="Repetir contraseña" styleClass="field-standard" />
+                        <VBox fx:id="contenedorPassword" managed="false" spacing="15.0" visible="false">
+                           <children>
+                              <Label fx:id="lblPassword" styleClass="formulario-label" text="Contraseña" />
+                              <PasswordField fx:id="txtPassword" prefWidth="400.0" promptText="Ingresar contraseña" styleClass="field-standard" />
+                              <Label fx:id="lblConfirmarPassword" styleClass="formulario-label" text="Confirmar contraseña" />
+                              <PasswordField fx:id="txtConfirmarPassword" prefWidth="400.0" promptText="Repetir contraseña" styleClass="field-standard" />
+                           </children>
+                        </VBox>
                         <Label fx:id="lblRol" styleClass="formulario-label" text="Rol de usuario" />
-                        <ComboBox fx:id="cbRol" prefWidth="180.0" promptText="Seleccionar Rol" styleClass="formulario-input" />
+                        <ComboBox fx:id="cbRol" prefWidth="180.0" promptText="Seleccionar Rol" styleClass="field-standard" />
                      </children>
                   </VBox>
                </content>
             </ScrollPane>
-         </right>
+         </center>
       </BorderPane>
    </children>
    <stylesheets>

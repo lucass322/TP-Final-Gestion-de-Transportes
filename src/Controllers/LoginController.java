@@ -216,32 +216,28 @@ public class LoginController implements Initializable {
 
             System.out.println("\nInicio de sesión exitoso.");
 
-            String nombreRol = usuarioAutenticado.getRol().getNombreRol();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
 
-            if (nombreRol.equals("ROOT")) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
+                Parent root = loader.load();
 
-                    Parent root = loader.load();
+                DashboardController controller = loader.getController();
+                controller.setUsuario(usuarioAutenticado);
 
-                    DashboardController controller = loader.getController();
-                    controller.setUsuario(usuarioAutenticado);
+                Stage stage = (Stage) btnIngresar.getScene().getWindow();
 
-                    Stage stage = (Stage) btnIngresar.getScene().getWindow();
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/styles/vistas/dashboard.css").toExternalForm());
 
-                    Scene scene = new Scene(root);
-                    scene.getStylesheets().add(getClass().getResource("/styles/vistas/dashboard.css").toExternalForm());
+                stage.setScene(scene);
+                stage.setTitle("RutaGo - Panel principal");
+                stage.setResizable(false);
+                stage.sizeToScene();
+                stage.centerOnScreen();
 
-                    stage.setScene(scene);
-                    stage.setTitle("RutaGo - Panel ROOT");
-                    stage.setResizable(false);
-                    stage.sizeToScene();
-                    stage.centerOnScreen();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mostrarError("No se pudo cargar el panel de administración.");
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarError("No se pudo cargar el panel principal.");
             }
         });
 

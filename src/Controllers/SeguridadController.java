@@ -5,6 +5,7 @@ import Usuarios.Usuario;
 import Utilidades.Encriptacion;
 import Utilidades.Notificaciones;
 
+import Utilidades.Validaciones;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -64,6 +65,12 @@ public class SeguridadController {
         if (passwordNueva.equals(passwordActual)) {
             Notificaciones.mostrarAdvertencia(contenedorNotificaciones,
                     "La nueva contraseña debe ser diferente a la actual.");
+            return;
+        }
+
+        if (!Validaciones.passwordValida(passwordNueva)) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,
+                    "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
             return;
         }
 

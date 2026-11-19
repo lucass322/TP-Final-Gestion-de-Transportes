@@ -34,6 +34,9 @@ public class DashboardController {
     private Label lblCantidadUsuarios;
 
     @FXML
+    private HBox contenedorTarjetas;
+
+    @FXML
     private HBox contenedorIconoRoles;
 
     @FXML
@@ -100,80 +103,6 @@ public class DashboardController {
         iconoUsuarios.getStyleClass().add("card-icon");
         iconoRoles.getStyleClass().add("card-icon");
         iconoHabilitados.getStyleClass().add("card-icon");
-
-        cargarEstadisticas();
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuarioActual = usuario; //guarda el usuario autenticado
-        lblNombreUsuario.setText(usuario.getNombreUsuario());
-        lblRol.setText(usuario.getRol().getNombreRol());
-
-        configurarMenuPorRol();
-    }
-
-    private String obtenerNombreRol() {
-        return usuarioActual.getRol().getNombreRol();
-    }
-
-    private void configurarMenuPorRol() {
-        btnRoles.setVisible(false);
-        btnRoles.setManaged(false);
-
-        btnUsuarios.setVisible(false);
-        btnUsuarios.setManaged(false);
-
-        btnEmpleados.setVisible(false);
-        btnEmpleados.setManaged(false);
-
-        btnReservas.setVisible(false);
-        btnReservas.setManaged(false);
-
-        btnViajes.setVisible(false);
-        btnViajes.setManaged(false);
-
-        btnConfiguracion.setVisible(false);
-        btnConfiguracion.setManaged(false);
-
-        String nombreRol = obtenerNombreRol();
-
-        switch (nombreRol) {
-            case "ROOT":
-                btnRoles.setVisible(true);
-                btnRoles.setManaged(true);
-
-                btnUsuarios.setVisible(true);
-                btnUsuarios.setManaged(true);
-
-                btnEmpleados.setVisible(true);
-                btnEmpleados.setManaged(true);
-
-                btnReservas.setVisible(true);
-                btnReservas.setManaged(true);
-
-                btnViajes.setVisible(true);
-                btnViajes.setManaged(true);
-
-                btnConfiguracion.setVisible(true);
-                btnConfiguracion.setManaged(true);
-                break;
-
-            case "Empleado":
-                btnReservas.setVisible(true);
-                btnReservas.setManaged(true);
-
-                btnViajes.setVisible(true);
-                btnViajes.setManaged(true);
-                break;
-
-            case "Cliente":
-                btnReservas.setVisible(true);
-                btnReservas.setManaged(true);
-
-                btnViajes.setVisible(true);
-                btnViajes.setManaged(true);
-                break;
-        }
     }
 
     private void cargarEstadisticas() {
@@ -187,6 +116,85 @@ public class DashboardController {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private String obtenerNombreRol() {
+
+        if(usuarioActual == null || usuarioActual.getRol() == null) {
+            return "";
+        }
+
+        return usuarioActual.getRol().getNombreRol();
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuarioActual = usuario; //guarda el usuario autenticado
+
+        lblNombreUsuario.setText(usuario.getNombreUsuario());
+        lblRol.setText(obtenerNombreRol());
+
+        configurarMenuPorRol();
+
+        contenedorTarjetas.setVisible(esRoot());
+        contenedorTarjetas.setManaged(esRoot());
+
+        if(esRoot()) {
+            cargarEstadisticas();
+        }
+    }
+
+    private void configurarBoton(Button boton, boolean visible) {
+        boton.setVisible(visible);
+        boton.setManaged(visible);
+    }
+
+    private void configurarMenuRoot() {
+        configurarBoton(btnRoles, true);
+        configurarBoton(btnUsuarios, true);
+        configurarBoton(btnEmpleados, true);
+        configurarBoton(btnReservas, true);
+        configurarBoton(btnViajes, true);
+        configurarBoton(btnConfiguracion, true);
+    }
+
+    private void configurarMenuEmpleado() {
+        configurarBoton(btnReservas, true);
+        configurarBoton(btnViajes, true);
+        configurarBoton(btnConfiguracion, true);
+    }
+
+    private void configurarMenuPredeterminado() {
+        configurarBoton(btnReservas, true);
+        configurarBoton(btnViajes, true);
+        configurarBoton(btnConfiguracion, true);
+    }
+
+    private void configurarMenuPorRol() {
+
+        String nombreRol = obtenerNombreRol().toUpperCase();
+
+        // Ocultar todas las opciones.
+        configurarBoton(btnRoles, false);
+        configurarBoton(btnUsuarios, false);
+        configurarBoton(btnEmpleados, false);
+        configurarBoton(btnReservas, false);
+        configurarBoton(btnViajes, false);
+        configurarBoton(btnConfiguracion, false);
+
+        switch (nombreRol) {
+
+            case "ROOT":
+                configurarMenuRoot();
+                break;
+
+            case "EMPLEADO":
+                configurarMenuEmpleado();
+                break;
+
+            default:
+                configurarMenuPredeterminado();
+                break;
         }
     }
 
@@ -205,6 +213,11 @@ public class DashboardController {
 
     @FXML
     private void abrirGestionRoles() {
+
+        if(!esRoot()) {
+            return;
+        }
+
         mostrarGestionRoles();
     }
 
@@ -223,6 +236,10 @@ public class DashboardController {
 
     @FXML
     private void abrirGestionUsuarios() {
+        if(!esRoot()) {
+            return;
+        }
+
         mostrarGestionUsuarios();
     }
 
@@ -243,6 +260,11 @@ public class DashboardController {
 
     @FXML
     private void abrirGestionEmpleados() {
+
+        if(!esRoot()){
+            return;
+        }
+
         mostrarGestionEmpleados();
     }
 
@@ -265,6 +287,7 @@ public class DashboardController {
 
     @FXML
     private void abrirConfiguracion() {
+
         mostrarConfiguracion();
     }
 
@@ -272,7 +295,10 @@ public class DashboardController {
     @FXML
     private void volverDashboard() {
         panelContenido.getChildren().setAll(contenedorDashboard);
-        cargarEstadisticas();
+
+        if(esRoot()) {
+            cargarEstadisticas();
+        }
     }
 
     @FXML
@@ -292,5 +318,9 @@ public class DashboardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean esRoot() {
+        return "ROOT".equalsIgnoreCase(obtenerNombreRol());
     }
 }
