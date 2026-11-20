@@ -25,3 +25,55 @@
     -fx-font-family: -font-family;
     -fx-font-size: 13px;
 }
+
+/* ===============================
+   OPCIONES DE NOTIFICACIONES
+=============================== */
+.opcion-notificacion {
+    -fx-background-color: -color-white;
+    -fx-border-color: -color-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 9 12 9 12;
+    -fx-font-family: -font-family;
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-black;
+    -fx-cursor: hand;
+}
+
+.opcion-notificacion:hover {
+    -fx-background-color: #FFF5EF;
+    -fx-border-color: -color-primary;
+}
+
+.opcion-notificacion:selected {
+    -fx-border-color: -color-primary;
+    -fx-background-color: #FFF5EF;
+}
+
+.opcion-notificacion .box {
+    -fx-background-color: -color-white;
+    -fx-border-color: -color-gray;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.opcion-notificacion:selected .box {
+    -fx-background-color: -color-primary;
+    -fx-border-color: -color-primary;
+}
+
+.opcion-notificacion:selected .mark {
+    -fx-background-color: -color-white;
+}
+
+/* ===============================
+   ACERCA DE
+=============================== */
+.acercade-descripcion {
+    -fx-fill: -color-gray;
+    -fx-font-family: -font-family;
+    -fx-font-size: 14px;
+    -fx-line-spacing: 6px;
+}

@@ -1,8 +1,10 @@
 package Controllers;
 
+import DAO.NotificacionesDAO;
 import Usuarios.Usuario;
 import Controllers.SeguridadController;
 
+import Utilidades.Notificaciones;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -16,11 +18,18 @@ import java.io.IOException;
 
 public class ConfiguracionController {
 
-    @FXML private VBox tarjetaPerfil;
-    @FXML private VBox tarjetaSeguridad;
-    @FXML private VBox tarjetaNotificaciones;
-    @FXML private VBox tarjetaAcercaDe;
-    @FXML private StackPane panelContenido;
+    @FXML
+    private VBox tarjetaPerfil;
+    @FXML
+    private VBox tarjetaSeguridad;
+    @FXML
+    private VBox tarjetaNotificaciones;
+    @FXML
+    private VBox tarjetaAcercaDe;
+    @FXML
+    private StackPane panelContenido;
+    @FXML
+    private StackPane contenedorNotificaciones;
 
     private Usuario usuarioActual;
 
@@ -85,5 +94,39 @@ public class ConfiguracionController {
             e.printStackTrace();
         }
     }
-}
 
+    @FXML
+    private void abrirNotificaciones() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Notificaciones.fxml"));
+
+            Parent vista = loader.load();
+
+            NotificacionesController controller = loader.getController();
+            controller.setUsuario(usuarioActual);
+            controller.setPanelContenido(panelContenido);
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo abrir la configuración de notificaciones.");
+        }
+    }
+
+    @FXML
+    private void abrirAcercaDe() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/views/AcercaDe.fxml")
+            );
+
+            Parent vista = loader.load();
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

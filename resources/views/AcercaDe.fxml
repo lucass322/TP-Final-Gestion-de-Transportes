@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+
+    <top>
+        <VBox spacing="6.0" styleClass="vista-header">
+            <padding>
+                <Insets bottom="20.0" left="30.0" right="30.0" top="25.0" />
+            </padding>
+
+            <Label styleClass="vista-titulo" text="Acerca de" />
+
+            <Label styleClass="vista-descripcion" text="Conocé más sobre RutaGo." />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox fx:id="contenedorAcercaDe" alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+            </padding>
+
+            <VBox alignment="CENTER" spacing="10.0" styleClass="configuracion-card">
+                <padding>
+                    <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+                </padding>
+
+                <Label style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #FF8C42;" text="RutaGo" />
+
+                <Label styleClass="configuracion-card-titulo" text="Sistema de gestión de transportes" />
+                <VBox alignment="CENTER_LEFT" maxWidth="850.0">
+                    <Text fx:id="textoDescripcion" styleClass="acercade-descripcion" wrappingWidth="750.0">
+                        RutaGo es un sistema de gestión de transportes desarrollado para facilitar la administración y organización
+                        de las operaciones de una empresa de transporte.
+                        La plataforma permite gestionar usuarios, empleados, pasajeros, viajes y reservas desde un único entorno,
+                        ofreciendo herramientas para optimizar los procesos administrativos y mejorar la organización de los servicios.
+                        Su objetivo es centralizar la información, simplificar las tareas de gestión y brindar una experiencia de uso
+                        clara e intuitiva.
+                    </Text>
+                </VBox>
+            </VBox>
+
+            <VBox spacing="12.0" styleClass="configuracion-card">
+                <padding>
+                    <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+                </padding>
+
+                <Label styleClass="configuracion-card-titulo" text="Información del proyecto" />
+
+                <HBox spacing="8.0">
+                    <Label style="-fx-font-weight: bold;" text="Versión:" />
+                    <Label text="1.0.0" />
+                </HBox>
+
+                <HBox spacing="8.0">
+                    <Label style="-fx-font-weight: bold;" text="Proyecto:" />
+                    <Label text="Trabajo Final de Programación II" />
+                </HBox>
+
+                <HBox spacing="8.0">
+                    <Label style="-fx-font-weight: bold;" text="Tecnologías:" />
+                    <Label text="Java, JavaFX y MySQL" />
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+
+    <stylesheets>
+        <URL value="@../styles/global.css" />
+        <URL value="@../styles/componentes/vistas.css" />
+        <URL value="@../styles/vistas/configuracion.css" />
+    </stylesheets>
+
+</BorderPane>
