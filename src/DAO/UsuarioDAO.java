@@ -8,9 +8,7 @@ import Utilidades.Encriptacion;
 import Excepciones.PasajeroExistenteExcepcion;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class UsuarioDAO implements iDAO<Usuario>{
     public boolean hayRoot() throws SQLException {
@@ -514,7 +512,7 @@ public class UsuarioDAO implements iDAO<Usuario>{
                 "FROM usuarios u " +
                 "LEFT JOIN personas p ON u.idPersona = p.idPersona " +
                 "INNER JOIN roles r ON u.idRol = r.idRol " +
-                "WHERE u.idUsuario = ? AND u.habilitadoUsuario = true";
+                "WHERE u.idUsuario = ? ";
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -590,6 +588,50 @@ public class UsuarioDAO implements iDAO<Usuario>{
                 );
 
                 usuarios.add(usuario);
+            }
+        }
+
+        return usuarios;
+    }
+
+    public Map<Integer, Usuario> listarMap() throws SQLException {
+
+        String sql = "SELECT u.idUsuario, u.nombreUsuario, u.habilitadoUsuario, " +
+                "p.idPersona, p.nombre, p.apellido, p.dni, p.telefono, p.email, p.habilitadoPersona, " +
+                "r.idRol, r.nombreRol, r.habilitadoRol " +
+                "FROM usuarios u " +
+                "LEFT JOIN personas p ON u.idPersona = p.idPersona " +
+                "INNER JOIN roles r ON u.idRol = r.idRol";
+
+        Map<Integer, Usuario> usuarios = new HashMap<>();
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                // Recupera los datos personales si existe una Persona asociada.
+                Persona persona = obtenerPersona(rs);
+
+                // Recupera el rol asignado.
+                Rol rol = new Rol(
+                        rs.getInt("idRol"),
+                        rs.getString("nombreRol"),
+                        rs.getBoolean("habilitadoRol")
+                );
+
+                // Construye el usuario con sus entidades relacionadas.
+                Usuario usuario = new Usuario(
+                        rs.getInt("idUsuario"),
+                        persona,
+                        rol,
+                        rs.getString("nombreUsuario"),
+                        null,
+                        rs.getBoolean("habilitadoUsuario")
+                );
+
+                usuarios.put(usuario.getIdUsuario(), usuario);
             }
         }
 
