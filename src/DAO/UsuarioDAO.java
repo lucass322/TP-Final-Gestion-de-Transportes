@@ -632,7 +632,9 @@ public class UsuarioDAO implements iDAO<Usuario>{
                 );
 
                 usuarios.put(usuario.getIdUsuario(), usuario);
+
             }
+
         }
 
         return usuarios;
