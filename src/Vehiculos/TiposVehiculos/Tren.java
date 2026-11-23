@@ -28,7 +28,7 @@ public class Tren extends Vehiculo {
     }
 
     public void setTipoTraccion(String tipoTraccion) {
-        tipoTraccion = tipoTraccion;
+        this.tipoTraccion = tipoTraccion;
     }
 
     @Override

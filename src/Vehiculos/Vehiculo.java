@@ -12,7 +12,7 @@ public abstract class Vehiculo {
         this.patente = patente;
         this.capacidadPasajeros = capacidadPasajeros;
         this.costoPorKm = costoPorKm;
-        this.activo = true;
+        this.activo = activo;
     }
 
     public Vehiculo() {

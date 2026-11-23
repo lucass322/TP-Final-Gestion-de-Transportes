@@ -6,6 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import java.io.IOException;
+import java.net.URL;
+
 public class Main extends Application {
 
     @Override
@@ -25,12 +28,24 @@ public class Main extends Application {
             titulo = "RutaGo - Crear usuario ROOT";
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(vista));
+        URL recursoVista = getClass().getResource(vista);
+
+        if (recursoVista == null) {
+            throw new IOException("No se encontró la vista: " + vista);
+        }
+
+        FXMLLoader loader = new FXMLLoader(recursoVista);
 
         Parent root = loader.load();
         Scene scene = new Scene(root);
 
-        scene.getStylesheets().add(getClass().getResource("/styles/vistas/login.css").toExternalForm());
+        URL recursoCSS = getClass().getResource("/styles/vistas/login.css");
+
+        if (recursoCSS == null) {
+            throw new IOException("No se encontró el archivo CSS de Login.");
+        }
+
+        scene.getStylesheets().add(recursoCSS.toExternalForm());
 
         stage.setScene(scene);
         stage.setTitle(titulo);

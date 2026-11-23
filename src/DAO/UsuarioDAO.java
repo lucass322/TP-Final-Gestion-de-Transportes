@@ -94,20 +94,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
         }
     }
 
-    public boolean existeDni(String dni) throws SQLException {
-        String sql = "SELECT dni FROM personas WHERE dni = ?";
-
-        try (Connection con = ConexionDB.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, dni);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-        }
-    }
-
     public boolean existeDni(String dni, int idUsuario) throws SQLException {
         String sql = "SELECT p.dni FROM personas p " +
                 "INNER JOIN usuarios u ON p.idPersona = u.idPersona " +
@@ -126,7 +112,7 @@ public class UsuarioDAO implements iDAO<Usuario>{
     }
 
     @Override
-    public void alta(Usuario usuario) throws SQLException, PasajeroExistenteExcepcion {
+    public void alta(Usuario usuario) throws SQLException{
 
         String sqlPersona = "INSERT INTO personas (nombre, apellido, dni, telefono, email) " +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -286,7 +272,7 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
                 // Revierte todas las operaciones si ocurre algún error.
                 con.rollback();
-                throw e;
+                throw e; //vuelve a lanzar el mismo error.
             }
         }
     }
@@ -711,20 +697,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
         }
 
         return 0;
-    }
-
-    public boolean autenticarUsuario(String nombreUsuario, String passwordUsuario) throws SQLException{
-        Usuario usuario = buscarPorNombreUsuario(nombreUsuario);
-
-        if(usuario == null) {
-            return false;
-        }
-
-        if (!usuario.isHabilitadoUsuario() || !usuario.getRol().isHabilitadoRol()) {
-            return false;
-        }
-
-        return Encriptacion.verificarPassword(passwordUsuario, usuario.getPasswordUsuario());
     }
 
     //Autentica al usuario verificando su existencia, estado de habilitación y contraseña.

@@ -6,6 +6,8 @@ import Roles.Rol;
 import Usuarios.Usuario;
 import Utilidades.Encriptacion;
 
+import java.util.Objects;
+
 
 public class Pasajero extends Usuario {
     private int idPasajero;
@@ -38,5 +40,16 @@ public class Pasajero extends Usuario {
 
     public void setIdPasajero(int idPasajero) {
         this.idPasajero = idPasajero;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Pasajero pasajero)) return false;
+        return idPasajero == pasajero.idPasajero;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(idPasajero);
     }
 }
