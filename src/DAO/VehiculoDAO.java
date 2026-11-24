@@ -142,7 +142,7 @@ public class VehiculoDAO implements iDAO<Vehiculo> {
             throw new IllegalArgumentException("El vehículo no puede ser nulo.");
         }
 
-        String sqlVehiculo = "UPDATE vehiculos SET patente = ?, capacidadPasajeros = ?, costoPorKm = ?WHERE idVehiculo = ? AND activo = true";
+        String sqlVehiculo = "UPDATE vehiculos SET patente = ?, capacidadPasajeros = ?, costoPorKm = ? WHERE idVehiculo = ? AND activo = true";
 
         String sqlAvion = """
             UPDATE aviones
@@ -232,7 +232,7 @@ public class VehiculoDAO implements iDAO<Vehiculo> {
 
     public Vehiculo consultar(int id) throws SQLException {
 
-        String sql = "SELECT v.idVehiculo, v.patente, v.capacidadPasajeros, v.costoPorKm, v.activo, a.idVehiculo AS idAvion, a.autonomiaKM, a.cantTurbinas, c.idVehiculo AS idColectivo, c.cantidadPisos, c.tieneBaño, t.idVehiculo AS idTren, t.cantVagones, t.tipoTraccion FROM vehiculos v LEFT JOIN aviones a ON v.idVehiculo = a.idVehiculo LEFT JOIN colectivos c ON v.idVehiculo = c.idVehiculoLEFT JOIN trenes t ON v.idVehiculo = t.idVehiculo WHERE v.idVehiculo = ?";
+        String sql = "SELECT v.idVehiculo, v.patente, v.capacidadPasajeros, v.costoPorKm, v.activo, a.idVehiculo AS idAvion, a.autonomiaKM, a.cantTurbinas, c.idVehiculo AS idColectivo, c.cantidadPisos, c.tieneBaño, t.idVehiculo AS idTren, t.cantVagones, t.tipoTraccion FROM vehiculos v LEFT JOIN aviones a ON v.idVehiculo = a.idVehiculo LEFT JOIN colectivos c ON v.idVehiculo = c.idVehiculo LEFT JOIN trenes t ON v.idVehiculo = t.idVehiculo WHERE v.idVehiculo = ?";
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
