@@ -99,19 +99,16 @@ public class Reserva {
     }
 
     public boolean reservarAsientos(List<String> codigosAsientos) {
-        // Verifica que el pasajero, el viaje y la lista de asientos sean válidos.
         if (!ACTIVA.equals(estado) || pasajero == null || viaje == null || codigosAsientos == null || codigosAsientos.isEmpty()) {
             return false;
         }
 
-        // Comprueba que todos los códigos sean válidos.
         for (String codigo : codigosAsientos) {
             if (codigo == null || codigo.isBlank()) {
                 return false;
             }
         }
 
-        // Verifica que los asientos solicitados no estén repetidos.
         Set<String> asientosSolicitados = new HashSet<>();
 
         for (String codigo : codigosAsientos) {
@@ -126,18 +123,14 @@ public class Reserva {
             }
         }
 
-        // Almacena temporalmente los asientos que se van reservando correctamente.
         List<String> reservados = new ArrayList<>();
 
         for (String codigo : codigosAsientos) {
 
-            // Elimina espacios innecesarios y convierte el código a mayúsculas.
             String codigoNormalizado = codigo.trim().toUpperCase(Locale.ROOT);
 
-            // Intenta reservar el asiento utilizando el metodo de la clase Viaje.
             if (!viaje.reservarAsiento(pasajero, codigoNormalizado)) {
 
-                // Si algún asiento no está disponible, libera los reservados anteriormente.
                 for (String asiento : reservados) {
                     viaje.cancelarReserva(asiento);
                 }
@@ -145,42 +138,29 @@ public class Reserva {
                 return false;
             }
 
-            // Agrega el asiento a la lista temporal de reservas exitosas.
             reservados.add(codigoNormalizado);
         }
-
-        // Incorpora todos los asientos reservados a la reserva actual.
         asientosReservados.addAll(reservados);
-
-        // Informa que todos los asientos fueron reservados correctamente.
         return true;
     }
 
     public boolean cancelarReserva() {
-
-        // Verifica que la reserva esté activa y tenga un viaje y asientos asociados.
         if (!ACTIVA.equals(estado) || viaje == null || asientosReservados == null || asientosReservados.isEmpty()) {
             return false;
         }
-
-        // Comprueba que todos los asientos de la reserva estén actualmente ocupados.
         for (String asiento : asientosReservados) {
             if (!viaje.getAsientosOcupados().contains(asiento)) {
                 return false;
             }
         }
 
-        // Libera todos los asientos asociados a la reserva.
         for (String asiento : asientosReservados) {
             if (!viaje.cancelarReserva(asiento)) {
                 return false;
             }
         }
 
-        // Actualiza el estado de la reserva.
         setEstado(CANCELADA);
-
-        // Informa que la cancelación se realizó correctamente.
         return true;
     }
 }

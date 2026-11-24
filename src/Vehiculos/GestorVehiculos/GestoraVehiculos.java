@@ -27,11 +27,7 @@ public class GestoraVehiculos {
         if (v == null) {
             throw new IllegalArgumentException("El vehículo no puede ser nulo.");
         }
-
-        // Primero se guarda en MySQL
         vehiculoDAO.alta(v);
-
-        // Si se guardó correctamente, se agrega a la lista
         listaVehiculos.add(v);
 
         System.out.println("Vehículo dado de alta exitosamente.");
@@ -44,11 +40,7 @@ public class GestoraVehiculos {
         if (v == null || !v.isActivo()) {
             throw new VehiculoNoDisponibleExcepcion("El vehículo con ID " + id + " no está disponible o ya se encuentra inactivo.");
         }
-
-        // Primero se actualiza en MySQL
         vehiculoDAO.baja(id);
-
-        // Después se actualiza en memoria
         v.setActivo(false);
 
         System.out.println("Baja lógica realizada con éxito para el vehículo ID: " + id);
@@ -62,7 +54,6 @@ public class GestoraVehiculos {
 
         for (int i = 0; i < listaVehiculos.size(); i++) {
             if (listaVehiculos.get(i).getId() == vehiculoModificado.getId()) {
-                // Primero se actualiza en MySQL
                 vehiculoDAO.modificar(vehiculoModificado);
 
                 listaVehiculos.set(i, vehiculoModificado);

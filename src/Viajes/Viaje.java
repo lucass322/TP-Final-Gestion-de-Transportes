@@ -165,8 +165,6 @@ public class Viaje implements Reservable {
 
     @Override
     public boolean reservarAsiento(Pasajero pasajero, String codigoAsiento) {
-
-        // Verifica que el pasajero y el código de asiento sean válidos.
         if (pasajero == null || pasajero.getPersona() == null ||
                 codigoAsiento == null || codigoAsiento.isBlank()) {
 
@@ -174,8 +172,6 @@ public class Viaje implements Reservable {
         }
 
         codigoAsiento = codigoAsiento.trim().toUpperCase(Locale.ROOT);
-
-        // Agrega al pasajero si todavía no está registrado.
         if (!pasajeros.contains(pasajero)) {
             try {
                 agregarPasajero(pasajero);
@@ -183,14 +179,10 @@ public class Viaje implements Reservable {
                 return false;
             }
         }
-
-        // Verifica que el vehículo tenga capacidad disponible.
         if (vehiculoAsignado == null ||
                 asientosOcupados.size() >= vehiculoAsignado.getCapacidadPasajeros()) {
             return false;
         }
-
-        // Comprueba que el asiento esté disponible.
         if (!asientosOcupados.contains(codigoAsiento)) {
             asientosOcupados.add(codigoAsiento);
 
@@ -198,23 +190,17 @@ public class Viaje implements Reservable {
 
             return true;
         }
-
-        // Informa que el asiento ya está ocupado.
         System.out.println("El asiento ya está ocupado.");
 
         return false;
     }
 
     public boolean cancelarReserva(String codigoAsiento) {
-
-        // Verifica que el código de asiento sea válido.
         if (codigoAsiento == null || codigoAsiento.isBlank()) {
             return false;
         }
 
         codigoAsiento = codigoAsiento.trim().toUpperCase(Locale.ROOT);
-
-        // Comprueba si el asiento está ocupado.
         if (asientosOcupados.contains(codigoAsiento)) {
             asientosOcupados.remove(codigoAsiento);
 
@@ -222,29 +208,18 @@ public class Viaje implements Reservable {
 
             return true;
         }
-
-        // Informa que el asiento no estaba ocupado.
         System.out.println("El asiento no estaba ocupado.");
-
         return false;
     }
 
 
     public Pasajero buscarPasajerosPorDni(String dni) {
-
-        // Verifica que el DNI recibido sea válido.
         if (!Validaciones.dniValido(dni)) {
             return null;
         }
 
-        // Recorre la lista de pasajeros del viaje.
         for (Pasajero p : pasajeros) {
-
-            // Comprueba que el pasajero y su persona tengan datos válidos.
-            if (p != null && p.getPersona() != null &&
-                    p.getPersona().getDni() != null) {
-
-                // Compara el DNI del pasajero con el DNI recibido.
+            if (p != null && p.getPersona() != null && p.getPersona().getDni() != null) {
                 if (p.getPersona().getDni().equals(dni)) {
 
                     System.out.println("Pasajero encontrado: " +
@@ -255,36 +230,25 @@ public class Viaje implements Reservable {
                 }
             }
         }
-
-        // Informa que no se encontró ningún pasajero con ese DNI.
         System.out.println("No se encontró ningún pasajero con el DNI: " + dni);
 
         return null;
     }
 
     public void agregarTramo(String nombreTramo, Viaje viajeTramo) {
-        // Verifica que el nombre y el viaje sean válidos.
         if (nombreTramo == null || nombreTramo.isBlank() || viajeTramo == null) {
             return;
         }
-
-        // Evita que un viaje se agregue a sí mismo como tramo.
         if (viajeTramo == this) {
             return;
         }
-
-        // Elimina los espacios al principio y al final del nombre.
         nombreTramo = nombreTramo.trim();
-
-        // Evita registrar dos tramos con el mismo nombre, sin importar mayúsculas/minúsculas.
         for (String nombre : historialViajes.keySet()) {
             if (nombre != null && nombre.equalsIgnoreCase(nombreTramo)) {
                 System.out.println("Ya existe un tramo con ese nombre.");
                 return;
             }
         }
-
-        // Agrega el tramo al itinerario.
         historialViajes.put(nombreTramo, viajeTramo);
 
         System.out.println("Tramo " + nombreTramo + " agregado al itinerario.");
@@ -292,44 +256,29 @@ public class Viaje implements Reservable {
 
 
     public Viaje obtenerTramo(String nombreTramo) {
-        // Verifica que el nombre del tramo sea válido.
         if (nombreTramo == null || nombreTramo.isBlank()) {
             return null;
         }
 
         nombreTramo = nombreTramo.trim();
-
-        // Recorre los nombres de los tramos registrados.
         for (String nombre : historialViajes.keySet()) {
-
-            // Compara los nombres ignorando mayúsculas y minúsculas.
             if (nombre != null && nombre.equalsIgnoreCase(nombreTramo)) {
                 return historialViajes.get(nombre);
             }
         }
-
-        // Informa que no se encontró el tramo solicitado.
         System.out.println("No se encontró el tramo: " + nombreTramo);
 
         return null;
     }
-
-    //NOTA: las velocidades son valores estimados que definimos para calcular la duración, no velocidades reales garantizadas.
     public double calcularDuracionHoras() {
-        //Verifica que el viaje tenga los datos necesarios para calcular su duración.
         if (recorrido == null || vehiculoAsignado == null) {
             throw new IllegalStateException("El viaje debe tener un recorrido y un vehículo asignado.");
         }
-
-        // Verifica que la distancia del recorrido sea válida.
         if (recorrido.getDistanciaKM() <= 0) {
             throw new IllegalStateException("La distancia del recorrido debe ser mayor a cero.");
         }
 
-        // Almacena la velocidad promedio correspondiente al vehículo.
         double velocidadPromedio;
-
-        // Determina la velocidad promedio según el tipo de vehículo asignado.
 
         if (vehiculoAsignado instanceof Avion) {
             velocidadPromedio = 800;
@@ -338,27 +287,18 @@ public class Viaje implements Reservable {
         } else if (vehiculoAsignado instanceof Tren) {
             velocidadPromedio = 100;
         } else {
-            // Informa que se recibió un tipo de vehículo no contemplado.
             throw new IllegalArgumentException("Tipo de vehículo desconocido.");
         }
 
-        //Calcula y devuelve la duración dividiendo la distancia por la velocidad.
         return recorrido.getDistanciaKM() / velocidadPromedio;
     }
 
     public void calcularFechaHoraLlegada() {
-        // Verifica que exista una fecha y hora de salida.
         if (fechaHoraSalida == null) {
             throw new IllegalStateException("El viaje debe tener una fecha y hora de salida.");
         }
-
-        // Obtiene la duración estimada del viaje en horas.
         double duracionHoras = calcularDuracionHoras();
-
-        // Convierte la duración a minutos, redondea al entero más cercano y garantiza una duración mínima de un minuto.
         long duracionMinutos = Math.max(1, Math.round(duracionHoras * 60));
-
-        // Calcula la fecha y hora de llegada sumando los minutos a la salida.
         this.fechaHoraLlegada = fechaHoraSalida.plusMinutes(duracionMinutos);
     }
 }

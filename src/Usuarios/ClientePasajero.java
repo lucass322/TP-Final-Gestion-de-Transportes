@@ -41,8 +41,4 @@ public class ClientePasajero extends Usuario{
 
         return cambio;
     }
-
-    public void verHistorial(){
-        //falta conexion con los viajes para poder guardarlos en una coleccion
-    }
 }
