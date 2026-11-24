@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="contenedorNotificaciones" prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GestionRecorridosController">
+
+    <BorderPane prefHeight="650.0" prefWidth="950.0">
+
+        <top>
+            <VBox spacing="8.0">
+                <padding>
+                    <Insets bottom="20.0" left="30.0" right="30.0" top="25.0" />
+                </padding>
+
+                <Label styleClass="vista-titulo" text="Gestión de recorridos" />
+
+                <Label styleClass="vista-descripcion" text="Administrar los recorridos disponibles en RutaGo." />
+            </VBox>
+        </top>
+
+        <center>
+            <VBox spacing="15.0">
+                <padding>
+                    <Insets bottom="20.0" left="30.0" right="30.0" top="10.0" />
+                </padding>
+
+                <HBox spacing="10.0">
+
+                    <Button fx:id="btnRegistrar" onAction="#abrirFormularioRecorrido" styleClass="button-primary" text="REGISTRAR RECORRIDO" />
+
+                    <Button fx:id="btnEditar" onAction="#editarRecorrido" styleClass="button-secondary" text="EDITAR" />
+
+                    <Button fx:id="btnHabilitar" onAction="#habilitarRecorridos" styleClass="button-success" text="ALTA" />
+
+                    <Button fx:id="btnDeshabilitar" onAction="#deshabilitarRecorridos" styleClass="button-danger" text="BAJA" />
+
+                </HBox>
+
+                <TableView fx:id="tablaRecorridos" VBox.vgrow="ALWAYS">
+
+                    <placeholder>
+                        <Label text="No hay recorridos registrados." />
+                    </placeholder>
+
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="70.0" text="ID" />
+
+                        <TableColumn fx:id="colOrigen" prefWidth="200.0" text="Origen" />
+
+                        <TableColumn fx:id="colDestino" prefWidth="200.0" text="Destino" />
+
+                        <TableColumn fx:id="colDistancia" prefWidth="160.0" text="Distancia (KM)" />
+
+                        <TableColumn fx:id="colEstado" prefWidth="120.0" text="Estado" />
+                    </columns>
+
+                </TableView>
+            </VBox>
+        </center>
+
+    </BorderPane>
+   <stylesheets>
+      <URL value="@../styles/global.css" />
+      <URL value="@../styles/componentes/vistas.css" />
+      <URL value="@../styles/componentes/botones.css" />
+      <URL value="@../styles/componentes/tablas.css" />
+   </stylesheets>
+
+</StackPane>

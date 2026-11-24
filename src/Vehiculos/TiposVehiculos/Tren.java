@@ -12,6 +12,12 @@ public class Tren extends Vehiculo {
         this.tipoTraccion = tipoTraccion;
     }
 
+    public Tren(String patente, int capacidadPasajeros, double costoPorKm, boolean activo, int cantVagones, String tipoTraccion) {
+        super(patente, capacidadPasajeros, costoPorKm, activo);
+        this.cantVagones = cantVagones;
+        this.tipoTraccion = tipoTraccion;
+    }
+
     public Tren() {
     }
 

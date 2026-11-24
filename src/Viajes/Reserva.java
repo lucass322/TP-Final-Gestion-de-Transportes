@@ -13,6 +13,7 @@ public class Reserva {
     private List<String> asientosReservados;
     private LocalDateTime fechaReserva;
     private String estado;
+    private String mensajeError;
 
     public static final String ACTIVA = "ACTIVA";
     public static final String CANCELADA = "CANCELADA";
@@ -91,6 +92,10 @@ public class Reserva {
         }
     }
 
+    public String getMensajeError() {
+        return mensajeError;
+    }
+
     public boolean esValida() {
         return pasajero != null
                 && viaje != null
@@ -102,6 +107,8 @@ public class Reserva {
         if (!ACTIVA.equals(estado) || pasajero == null || viaje == null || codigosAsientos == null || codigosAsientos.isEmpty()) {
             return false;
         }
+
+        mensajeError = null;
 
         for (String codigo : codigosAsientos) {
             if (codigo == null || codigo.isBlank()) {
@@ -129,7 +136,20 @@ public class Reserva {
 
             String codigoNormalizado = codigo.trim().toUpperCase(Locale.ROOT);
 
+            String error = viaje.validarDisponibilidadAsiento(pasajero, codigoNormalizado);
+
+            if (error != null) {
+                mensajeError = error;
+
+                for (String asiento : reservados) {
+                    viaje.cancelarReserva(asiento);
+                }
+
+                return false;
+            }
+
             if (!viaje.reservarAsiento(pasajero, codigoNormalizado)) {
+                mensajeError = "No se pudo reservar el asiento " + codigoNormalizado + ".";
 
                 for (String asiento : reservados) {
                     viaje.cancelarReserva(asiento);

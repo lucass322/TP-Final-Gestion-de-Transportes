@@ -20,7 +20,7 @@ public class GestoraVehiculos {
 
     public GestoraVehiculos() throws SQLException{
         this.vehiculoDAO = new VehiculoDAO();
-        this.listaVehiculos = new ArrayList<>();
+        this.listaVehiculos = new ArrayList<>(vehiculoDAO.listar());
     }
 
     public void altaVehiculo(Vehiculo v) throws SQLException {
@@ -44,6 +44,23 @@ public class GestoraVehiculos {
         v.setActivo(false);
 
         System.out.println("Baja lógica realizada con éxito para el vehículo ID: " + id);
+    }
+
+    public void habilitarVehiculo(int id) throws VehiculoNoDisponibleExcepcion, SQLException {
+
+        Vehiculo v = buscarVehiculoPorId(id);
+
+        if (v == null || v.isActivo()) {
+            throw new VehiculoNoDisponibleExcepcion("El vehículo con ID " + id + " no existe o ya se encuentra activo.");
+        }
+
+        // Primero se actualiza en MySQL.
+        vehiculoDAO.habilitar(id);
+
+        // Después se actualiza en memoria.
+        v.setActivo(true);
+
+        System.out.println("Vehículo habilitado correctamente. ID: " + id);
     }
 
 

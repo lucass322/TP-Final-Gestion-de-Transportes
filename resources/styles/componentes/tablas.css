@@ -1,7 +1,6 @@
 /* ==============================
    TABLA GENERAL
 ============================== */
-
 .table-view {
     -fx-background-color: -color-white;
     -fx-border-color: -color-border;
@@ -32,7 +31,6 @@
 /* ==============================
    CELDAS
 ============================== */
-
 .table-view .table-cell {
     -fx-text-fill: -color-black;
     -fx-alignment: CENTER;
@@ -42,7 +40,6 @@
 /* ==============================
    FILAS
 ============================== */
-
 .table-row-cell:odd {
     -fx-background-color: #F7F7F7;
 }
@@ -54,7 +51,6 @@
 /* ==============================
    SELECCIÓN
 ============================== */
-
 .table-row-cell:selected {
     -fx-background-color: #FFE0CC;
 }
@@ -66,7 +62,6 @@
 /* ==============================
    HOVER
 ============================== */
-
 .table-row-cell:hover {
     -fx-background-color: #FFF1E8;
 }
@@ -78,8 +73,41 @@
 /* ==============================
    PLACEHOLDER
 ============================== */
-
 .table-view .placeholder .label {
     -fx-text-fill: -color-gray;
     -fx-font-size: 13px;
+}
+
+/* ==============================
+   SCROLL DE LAS TABLAS
+============================== */
+/* Barra vertical */
+.table-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12px;
+    -fx-padding: 2px;
+}
+
+/* Barra horizontal */
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 10px;
+    -fx-padding: 2px;
+}
+
+/* Recorrido de la barra */
+.table-view .scroll-bar .track {
+    -fx-background-color: -color-border;
+    -fx-background-radius: 10px;
+}
+
+/* Indicador desplazable */
+.table-view .scroll-bar .thumb {
+    -fx-background-color: -color-primary;
+    -fx-background-radius: 10px;
+}
+
+/* Efecto al pasar el cursor */
+.table-view .scroll-bar .thumb:hover {
+    -fx-background-color: -color-primary-dark;
 }

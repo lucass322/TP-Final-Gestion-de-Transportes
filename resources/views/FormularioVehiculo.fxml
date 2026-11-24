@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="contenedorNotificaciones" prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FormularioVehiculoController">
+    <BorderPane>
+        <top>
+            <VBox spacing="8.0" styleClass="formulario-header">
+                <padding>
+                    <Insets bottom="20.0" left="30.0" right="30.0" top="25.0" />
+                </padding>
+
+                <Label styleClass="vista-titulo" text="Registrar vehículo" />
+
+                <Label styleClass="vista-descripcion" text="Completá los datos del vehículo." />
+            </VBox>
+        </top>
+
+        <center>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="formulario-scroll" vbarPolicy="AS_NEEDED">
+
+                <VBox maxWidth="500.0" spacing="15.0" styleClass="formulario-contenedor">
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="25.0" />
+                    </padding>
+
+                    <!-- DATOS GENERALES -->
+                    <Label styleClass="formulario-label" text="Tipo de vehículo" />
+                    <ComboBox fx:id="cbTipoVehiculo" maxWidth="Infinity" promptText="Seleccionar tipo de vehículo" styleClass="field-standard" />
+                    <Label styleClass="formulario-label" text="Patente" />
+                    <TextField fx:id="txtPatente" promptText="Ingresar patente" styleClass="field-standard" />
+                    <Label styleClass="formulario-label" text="Capacidad de pasajeros" />
+                    <TextField fx:id="txtCapacidadPasajeros" promptText="Ingresar capacidad" styleClass="field-standard" />
+                    <Label styleClass="formulario-label" text="Costo por KM" />
+
+                    <TextField fx:id="txtCostoPorKm" promptText="Ingresar costo por kilómetro" styleClass="field-standard" />
+
+                    <!-- DATOS DE AVION -->
+                    <VBox fx:id="panelAvion" managed="false" spacing="12.0" visible="false">
+                        <Label styleClass="formulario-subtitulo" text="Datos del avión" />
+                        <Label styleClass="formulario-label" text="Autonomía (KM)" />
+                        <TextField fx:id="txtAutonomiaKM" promptText="Ingresar autonomía" styleClass="field-standard" />
+                        <Label styleClass="formulario-label" text="Cantidad de turbinas" />
+                        <TextField fx:id="txtCantTurbinas" promptText="Ingresar cantidad de turbinas" styleClass="field-standard" />
+                    </VBox>
+
+                    <!-- DATOS DE COLECTIVO -->
+                    <VBox fx:id="panelColectivo" managed="false" spacing="12.0" visible="false">
+                        <Label styleClass="formulario-subtitulo" text="Datos del colectivo" />
+                        <Label styleClass="formulario-label" text="Cantidad de pisos" />
+                        <TextField fx:id="txtCantidadPisos" promptText="Ingresar cantidad de pisos" styleClass="field-standard" />
+                        <CheckBox fx:id="chkTieneBano" text="Tiene baño" />
+                    </VBox>
+
+                    <!-- DATOS DE TREN -->
+                    <VBox fx:id="panelTren" managed="false" spacing="12.0" visible="false">
+                        <Label styleClass="formulario-subtitulo" text="Datos del tren" />
+                        <Label styleClass="formulario-label" text="Cantidad de vagones" />
+                        <TextField fx:id="txtCantVagones" promptText="Ingresar cantidad de vagones" styleClass="field-standard" />
+                        <Label styleClass="formulario-label" text="Tipo de tracción" />
+                        <TextField fx:id="txtTipoTraccion" promptText="Ingresar tipo de tracción" styleClass="field-standard" />
+                    </VBox>
+
+                    <!-- BOTONES -->
+                    <VBox spacing="10.0">
+                        <Button fx:id="btnRegistrar" maxWidth="Infinity" onAction="#registrarVehiculo" styleClass="button-primary" text="Registrar vehículo" />
+                        <Button fx:id="btnCancelar" maxWidth="Infinity" onAction="#cancelar" styleClass="button-secondary" text="Cancelar" />
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </center>
+    </BorderPane>
+   <stylesheets>
+      <URL value="@../styles/global.css" />
+      <URL value="@../styles/formulario.css" />
+      <URL value="@../styles/componentes/vistas.css" />
+      <URL value="@../styles/componentes/campos.css" />
+      <URL value="@../styles/componentes/botones.css" />
+   </stylesheets>
+</StackPane>

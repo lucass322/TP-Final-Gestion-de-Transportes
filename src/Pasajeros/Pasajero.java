@@ -3,8 +3,6 @@ package Pasajeros;
 import Usuarios.Usuario;
 import Personas.Persona;
 import Roles.Rol;
-import Usuarios.Usuario;
-import Utilidades.Encriptacion;
 
 import java.util.Objects;
 
@@ -51,5 +49,16 @@ public class Pasajero extends Usuario {
     @Override
     public int hashCode() {
         return Objects.hashCode(idPasajero);
+    }
+
+    @Override
+    public String toString() {
+        if (getPersona() == null) {
+            return "Pasajero #" + idPasajero;
+        }
+
+        return getPersona().getNombre() + " " +
+                getPersona().getApellido() +
+                " - DNI: " + getPersona().getDni();
     }
 }

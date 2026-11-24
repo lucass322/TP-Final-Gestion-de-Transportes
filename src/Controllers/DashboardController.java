@@ -64,7 +64,13 @@ public class DashboardController {
     private Button btnReservas;
 
     @FXML
+    private Button btnVehiculos;
+
+    @FXML
     private Button btnViajes;
+
+    @FXML
+    private Button btnRecorridos;
 
     @FXML
     private Button btnConfiguracion;
@@ -87,6 +93,8 @@ public class DashboardController {
         btnRoles.setGraphic(new FontIcon(FontAwesomeSolid.USER_SHIELD));
         btnUsuarios.setGraphic(new FontIcon(FontAwesomeSolid.USERS));
         btnEmpleados.setGraphic(new FontIcon(FontAwesomeSolid.USER_TIE));
+        btnRecorridos.setGraphic(new FontIcon(FontAwesomeSolid.ROUTE));
+        btnVehiculos.setGraphic(new FontIcon(FontAwesomeSolid.BUS));
         btnReservas.setGraphic(new FontIcon(FontAwesomeSolid.CALENDAR_ALT));
         btnViajes.setGraphic(new FontIcon(FontAwesomeSolid.PLANE));
         btnConfiguracion.setGraphic(new FontIcon(FontAwesomeSolid.COG));
@@ -153,6 +161,8 @@ public class DashboardController {
         configurarBoton(btnRoles, true);
         configurarBoton(btnUsuarios, true);
         configurarBoton(btnEmpleados, true);
+        configurarBoton(btnRecorridos, true);
+        configurarBoton(btnVehiculos, true);
         configurarBoton(btnReservas, true);
         configurarBoton(btnViajes, true);
         configurarBoton(btnConfiguracion, true);
@@ -178,6 +188,8 @@ public class DashboardController {
         configurarBoton(btnRoles, false);
         configurarBoton(btnUsuarios, false);
         configurarBoton(btnEmpleados, false);
+        configurarBoton(btnRecorridos, false);
+        configurarBoton(btnVehiculos, false);
         configurarBoton(btnReservas, false);
         configurarBoton(btnViajes, false);
         configurarBoton(btnConfiguracion, false);
@@ -266,6 +278,110 @@ public class DashboardController {
         }
 
         mostrarGestionEmpleados();
+    }
+
+    private void mostrarGestionRecorridos() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionRecorridos.fxml"));
+
+            Parent vista = loader.load();
+
+            GestionRecorridosController controller = loader.getController();
+            controller.setPanelContenido(panelContenido);
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirGestionRecorridos() {
+
+        if (!esRoot()) {
+            return;
+        }
+
+        mostrarGestionRecorridos();
+    }
+
+    private void mostrarGestionVehiculos() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionVehiculos.fxml"));
+
+            Parent vista = loader.load();
+
+            GestionVehiculosController controller = loader.getController();
+            controller.setPanelContenido(panelContenido);
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirGestionVehiculos() {
+
+        if (!esRoot()) {
+            return;
+        }
+
+        mostrarGestionVehiculos();
+    }
+
+    private void mostrarGestionViajes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionViajes.fxml") );
+
+            Parent vista = loader.load();
+
+            GestionViajesController controller = loader.getController();
+
+            controller.setPanelContenido(panelContenido);
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirGestionViajes() {
+
+        if (!esRoot()) {
+            return;
+        }
+
+        mostrarGestionViajes();
+    }
+
+    private void mostrarGestionReservas() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionReservas.fxml"));
+
+            Parent vista = loader.load();
+
+            GestionReservasController controller = loader.getController();
+            controller.setPanelContenido(panelContenido);
+
+            panelContenido.getChildren().setAll(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirGestionReservas() {
+        mostrarGestionReservas();
     }
 
     private void mostrarConfiguracion() {

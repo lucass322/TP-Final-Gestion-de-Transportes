@@ -24,10 +24,21 @@ public class Viaje implements Reservable {
     private Map<String, Viaje> historialViajes;
     private boolean habilitadoViaje = true;
 
-    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm 'hs'");
 
     public Viaje(int idViaje, Recorrido recorrido, LocalDateTime fechaHoraSalida, Vehiculo vehiculoAsignado) {
         this.idViaje = idViaje;
+        this.recorrido = recorrido;
+        this.fechaHoraSalida = fechaHoraSalida;
+        this.vehiculoAsignado = vehiculoAsignado;
+        this.pasajeros = new ArrayList<>();
+        this.asientosOcupados = new HashSet<>();
+        this.historialViajes = new HashMap<>();
+
+        calcularFechaHoraLlegada();
+    }
+
+    public Viaje(Recorrido recorrido, LocalDateTime fechaHoraSalida, Vehiculo vehiculoAsignado) {
         this.recorrido = recorrido;
         this.fechaHoraSalida = fechaHoraSalida;
         this.vehiculoAsignado = vehiculoAsignado;
@@ -300,6 +311,42 @@ public class Viaje implements Reservable {
         double duracionHoras = calcularDuracionHoras();
         long duracionMinutos = Math.max(1, Math.round(duracionHoras * 60));
         this.fechaHoraLlegada = fechaHoraSalida.plusMinutes(duracionMinutos);
+    }
+
+    public String validarDisponibilidadAsiento(Pasajero pasajero, String codigoAsiento) {
+
+        if (pasajero == null || pasajero.getPersona() == null) {
+            return "El pasajero no es válido.";
+        }
+
+        if (codigoAsiento == null || codigoAsiento.isBlank()) {
+            return "El código de asiento no es válido.";
+        }
+
+        if (vehiculoAsignado == null) {
+            return "El viaje no tiene un vehículo asignado.";
+        }
+
+        codigoAsiento = codigoAsiento.trim().toUpperCase(Locale.ROOT);
+
+        if (asientosOcupados.contains(codigoAsiento)) {
+            return "El asiento " + codigoAsiento + " ya está ocupado.";
+        }
+
+        if (asientosOcupados.size() >= vehiculoAsignado.getCapacidadPasajeros()) {
+            return "El vehículo no tiene capacidad disponible.";
+        }
+
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        if (recorrido == null || fechaHoraSalida == null) {
+            return "Viaje #" + idViaje;
+        }
+
+        return recorrido + " - " + getFechaHoraSalidaFormateada();
     }
 }
 

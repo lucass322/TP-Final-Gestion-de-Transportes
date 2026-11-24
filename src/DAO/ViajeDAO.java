@@ -94,6 +94,28 @@ public class ViajeDAO implements iDAO<Viaje> {
         }
     }
 
+    public void habilitar(int id) throws SQLException {
+
+        String sql = """
+            UPDATE viajes
+            SET habilitadoViaje = TRUE
+            WHERE idViaje = ?
+            AND habilitadoViaje = FALSE
+            """;
+
+        try (Connection conexion = ConexionDB.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas == 0) {
+                throw new SQLException("No se encontró un viaje deshabilitado con el ID indicado.");
+            }
+        }
+    }
+
     @Override
     public void modificar(Viaje viaje) throws SQLException {
 

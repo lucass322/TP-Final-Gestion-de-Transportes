@@ -114,6 +114,27 @@ public class VehiculoDAO implements iDAO<Vehiculo> {
         }
     }
 
+    public void habilitar(int id) throws SQLException {
+
+        String sql = """
+            UPDATE vehiculos
+            SET activo = TRUE
+            WHERE idVehiculo = ?
+            AND activo = FALSE
+            """;
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas == 0) {
+                throw new SQLException("No se encontró el vehículo o ya se encuentra activo.");
+            }
+        }
+    }
 
     public void modificar(Vehiculo v) throws SQLException {
 

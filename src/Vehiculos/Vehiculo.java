@@ -15,6 +15,13 @@ public abstract class Vehiculo {
         this.activo = activo;
     }
 
+    public Vehiculo(String patente, int capacidadPasajeros, double costoPorKm, boolean activo) {
+        this.patente = patente;
+        this.capacidadPasajeros = capacidadPasajeros;
+        this.costoPorKm = costoPorKm;
+        this.activo = activo;
+    }
+
     public Vehiculo() {
     }
 

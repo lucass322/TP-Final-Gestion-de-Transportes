@@ -35,10 +35,8 @@
                       <HBox fx:id="contenedorAcciones" alignment="BOTTOM_LEFT" spacing="10.0">
                           <children>
                               <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#abrirEdicion" styleClass="button-secondary" text="EDITAR" />
-      
-                              <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#baja" styleClass="button-danger" text="BAJA" />
-      
                               <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#alta" styleClass="button-success" text="ALTA" />
+                              <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#baja" styleClass="button-danger" text="BAJA" />
                           </children>
                       </HBox>
       

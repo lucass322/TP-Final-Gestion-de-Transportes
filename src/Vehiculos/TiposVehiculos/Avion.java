@@ -12,6 +12,12 @@ public class Avion extends Vehiculo {
         this.cantTurbinas = cantTurbinas;
     }
 
+    public Avion(String patente, int capacidadPasajeros, double costoPorKm, boolean activo, double autonomiaKM, int cantTurbinas) {
+        super(patente, capacidadPasajeros, costoPorKm, activo);
+        this.autonomiaKM = autonomiaKM;
+        this.cantTurbinas = cantTurbinas;
+    }
+
     public Avion() {
 
     }

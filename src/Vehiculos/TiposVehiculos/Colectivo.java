@@ -12,6 +12,12 @@ public class Colectivo extends Vehiculo {
         this.tieneBaño = tieneBaño;
     }
 
+    public Colectivo(String patente, int capacidadPasajeros, double costoPorKm, boolean activo, int cantidadPisos, boolean tieneBaño) {
+        super(patente, capacidadPasajeros, costoPorKm, activo);
+        this.cantidadPisos = cantidadPisos;
+        this.tieneBaño = tieneBaño;
+    }
+
     public Colectivo() {
     }
 

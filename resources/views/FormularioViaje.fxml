@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="contenedorNotificaciones" prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FormularioViajeController">
+    <BorderPane>
+        <top>
+            <VBox spacing="8.0" styleClass="formulario-header">
+                <padding>
+                    <Insets bottom="20.0" left="30.0" right="30.0" top="25.0" />
+                </padding>
+
+                <Label styleClass="vista-titulo" text="Registrar viaje" />
+
+                <Label styleClass="vista-descripcion" text="Completá los datos para programar un viaje." />
+            </VBox>
+        </top>
+
+        <center>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="formulario-scroll" vbarPolicy="AS_NEEDED">
+                <VBox maxWidth="500.0" spacing="15.0" styleClass="formulario-contenedor">
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="25.0" />
+                    </padding>
+
+                    <!-- RECORRIDO -->
+                    <Label styleClass="formulario-label" text="Recorrido" />
+                    <ComboBox fx:id="cbRecorrido" maxWidth="Infinity" promptText="Seleccionar recorrido" styleClass="field-standard" />
+
+                    <!-- VEHÍCULO -->
+                    <Label styleClass="formulario-label" text="Vehículo" />
+                    <ComboBox fx:id="cbVehiculo" maxWidth="Infinity" promptText="Seleccionar vehículo" styleClass="field-standard" />
+
+                    <!-- FECHA DE SALIDA -->
+                    <Label styleClass="formulario-label" text="Fecha de salida" />
+                    <DatePicker fx:id="dpFechaSalida" maxWidth="Infinity" promptText="Seleccionar fecha" styleClass="field-standard" />
+
+                    <!-- HORA DE SALIDA -->
+                    <Label styleClass="formulario-label" text="Hora de salida" />
+                    <TextField fx:id="txtHoraSalida" promptText="Ingresar hora (HH:mm)" styleClass="field-standard" />
+
+                    <!-- FECHA Y HORA DE LLEGADA -->
+                    <Label styleClass="formulario-label" text="Fecha y hora estimada de llegada" />
+                    <Label fx:id="lblLlegadaCalculada" styleClass="text-secondary" text="Se calculará automáticamente" />
+
+                    <!-- BOTONES -->
+                    <VBox spacing="10.0">
+                        <Button fx:id="btnRegistrar" maxWidth="Infinity" onAction="#registrarViaje" styleClass="button-primary" text="Registrar viaje" />
+                        <Button fx:id="btnCancelar" maxWidth="Infinity" onAction="#cancelar" styleClass="button-secondary" text="Cancelar" />
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </center>
+    </BorderPane>
+
+    <stylesheets>
+        <URL value="@../styles/global.css" />
+        <URL value="@../styles/componentes/vistas.css" />
+        <URL value="@../styles/componentes/botones.css" />
+        <URL value="@../styles/formulario.css" />
+      <URL value="@../styles/componentes/campos.css" />
+      <URL value="@../styles/componentes/tipografias.css" />
+    </stylesheets>
+
+</StackPane>

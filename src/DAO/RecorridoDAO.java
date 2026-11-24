@@ -72,6 +72,28 @@ public class RecorridoDAO implements iDAO<Recorrido> {
         }
     }
 
+    public void habilitar(int id) throws SQLException {
+
+        String sql = """
+            UPDATE recorridos
+            SET habilitadoRecorrido = TRUE
+            WHERE idRecorrido = ?
+            AND habilitadoRecorrido = FALSE
+            """;
+
+        try (Connection conexion = ConexionDB.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas == 0) {
+                throw new SQLException("No se encontró un recorrido deshabilitado con el ID indicado.");
+            }
+        }
+    }
+
     @Override
     public void modificar(Recorrido recorrido) throws SQLException {
 
