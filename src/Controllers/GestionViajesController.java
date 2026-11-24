@@ -70,6 +70,7 @@ public class GestionViajesController {
 
     private GestoraViajes gestoraViajes;
     private StackPane panelContenido;
+    private Usuarios.Usuario usuario;
 
     private String obtenerTipoVehiculo(Vehiculo vehiculo) {
         if (vehiculo instanceof Avion) {
@@ -141,7 +142,17 @@ public class GestionViajesController {
 
     private void cargarViajes() {
 
-        tablaViajes.getItems().setAll(gestoraViajes.listarViajes());
+        List<Viaje> viajes = gestoraViajes.listarViajes();
+
+        boolean esCliente = usuario != null && usuario.getRol() != null && "CLIENTE".equalsIgnoreCase(usuario.getRol().getNombreRol());
+
+        if (esCliente) {
+            viajes = viajes.stream()
+                    .filter(Viaje::isHabilitadoViaje)
+                    .toList();
+        }
+
+        tablaViajes.getItems().setAll(viajes);
     }
 
     private void configurarSeleccion() {
@@ -166,6 +177,12 @@ public class GestionViajesController {
     }
 
     private void cambiarEstadoViajes(boolean habilitar) {
+        if (!tienePermisosAdministrativos()) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones,
+                    "No tenés permisos para modificar el estado de los viajes.");
+            return;
+        }
+
 
         List<Viaje> seleccionados = new ArrayList<>(tablaViajes.getSelectionModel().getSelectedItems());
 
@@ -223,8 +240,42 @@ public class GestionViajesController {
         this.panelContenido = panelContenido;
     }
 
+    private void configurarPermisos() {
+
+        boolean esCliente = usuario != null && usuario.getRol() != null && "CLIENTE".equalsIgnoreCase(usuario.getRol().getNombreRol());
+
+        btnRegistrar.setVisible(!esCliente);
+        btnRegistrar.setManaged(!esCliente);
+
+        btnEditar.setVisible(!esCliente);
+        btnEditar.setManaged(!esCliente);
+
+        btnHabilitar.setVisible(!esCliente);
+        btnHabilitar.setManaged(!esCliente);
+
+        btnDeshabilitar.setVisible(!esCliente);
+        btnDeshabilitar.setManaged(!esCliente);
+    }
+
+    private boolean tienePermisosAdministrativos() {
+        return usuario != null
+                && usuario.getRol() != null
+                && ("ROOT".equalsIgnoreCase(usuario.getRol().getNombreRol())
+                || "EMPLEADO".equalsIgnoreCase(usuario.getRol().getNombreRol()));
+    }
+
+    public void setUsuario(Usuarios.Usuario usuario) {
+        this.usuario = usuario;
+        configurarPermisos();
+    }
+
     @FXML
     private void abrirFormularioViaje() {
+        if (!tienePermisosAdministrativos()) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "No tenés permisos para registrar viajes.");
+            return;
+        }
+
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormularioViaje.fxml"));
@@ -248,6 +299,11 @@ public class GestionViajesController {
 
     @FXML
     private void editarViaje() {
+        if (!tienePermisosAdministrativos()) {
+            Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "No tenés permisos para editar viajes.");
+            return;
+        }
+
 
         Viaje viajeSeleccionado = tablaViajes.getSelectionModel().getSelectedItem();
 

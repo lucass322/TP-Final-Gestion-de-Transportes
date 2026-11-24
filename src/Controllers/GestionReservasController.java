@@ -1,5 +1,6 @@
 package Controllers;
 
+import DAO.ReservaDAO;
 import Viajes.Reserva;
 import Viajes.GestorReservas.GestoraReservas;
 
@@ -70,13 +71,41 @@ public class GestionReservasController {
 
     private GestoraReservas gestoraReservas;
     private StackPane panelContenido;
+    private Usuarios.Usuario usuarioActual;
+    private final ReservaDAO reservaDAO = new ReservaDAO();
 
     private void cargarReservas() {
-        tablaReservas.getItems().setAll(gestoraReservas.listarReservas());
+        if (usuarioActual == null || usuarioActual.getRol() == null) {
+            Notificaciones.mostrarError(contenedorNotificaciones,"No se pudo identificar al usuario actual.");
+            return;
+        }
+
+        String rol = usuarioActual.getRol().getNombreRol();
+
+        try {
+            if ("CLIENTE".equalsIgnoreCase(rol)) {
+
+                tablaReservas.getItems().setAll(gestoraReservas.listarReservasPorUsuario(usuarioActual.getIdUsuario()));
+
+            } else {
+                tablaReservas.getItems().setAll(gestoraReservas.listarReservas());
+            }
+
+        } catch (SQLException e) {
+            Notificaciones.mostrarError(contenedorNotificaciones,"Error al cargar las reservas: " + e.getMessage());
+        }
     }
 
     public void setPanelContenido(StackPane panelContenido) {
         this.panelContenido = panelContenido;
+    }
+
+    public void setUsuario(Usuarios.Usuario usuario) {
+        this.usuarioActual = usuario;
+
+        if (gestoraReservas != null) {
+            cargarReservas();
+        }
     }
 
     private void configurarColumnas() {
@@ -191,6 +220,7 @@ public class GestionReservasController {
 
             FormularioReservaController controller = loader.getController();
             controller.setPanelContenido(panelContenido);
+            controller.setUsuario(usuarioActual);
 
             panelContenido.getChildren().setAll(vista);
 
@@ -213,6 +243,23 @@ public class GestionReservasController {
             return;
         }
 
+        if (usuarioActual != null&& usuarioActual.getRol() != null
+                && "CLIENTE".equalsIgnoreCase(usuarioActual.getRol().getNombreRol())) {
+
+            try {
+                if (!reservaDAO.perteneceAUsuario(reservaSeleccionada.getIdReserva(),usuarioActual.getIdUsuario())) {
+
+                    Notificaciones.mostrarError(contenedorNotificaciones,"No tenés permiso para editar esta reserva.");
+                    return;
+                }
+
+            } catch (SQLException e) {
+                Notificaciones.mostrarError(contenedorNotificaciones,"No se pudo verificar la propiedad de la reserva.");
+                e.printStackTrace();
+                return;
+            }
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormularioReserva.fxml"));
 
@@ -221,6 +268,7 @@ public class GestionReservasController {
             FormularioReservaController controller = loader.getController();
 
             controller.setPanelContenido(panelContenido);
+            controller.setUsuario(usuarioActual);
             controller.prepararEdicion(reservaSeleccionada);
 
             panelContenido.getChildren().setAll(vista);
@@ -250,10 +298,19 @@ public class GestionReservasController {
             }
 
             try {
-                gestoraReservas.cancelarReserva(reserva.getIdReserva());
+                if (usuarioActual != null && usuarioActual.getRol() != null
+                        && "CLIENTE".equalsIgnoreCase(usuarioActual.getRol().getNombreRol())) {
+
+                    gestoraReservas.cancelarReserva(reserva.getIdReserva(), usuarioActual.getIdUsuario());
+
+                } else {
+                    gestoraReservas.cancelarReserva(reserva.getIdReserva());
+                }
 
                 cantidadCancelada++;
 
+            }catch (IllegalArgumentException  e) {
+                errores.add("ID " + reserva.getIdReserva() + ": " + e.getMessage());
             } catch (SQLException e) {
                 errores.add("ID " + reserva.getIdReserva() + ": " + e.getMessage());
             }
@@ -284,12 +341,6 @@ public class GestionReservasController {
         configurarColumnas();
         configurarSeleccion();
 
-        try {
-            gestoraReservas = new GestoraReservas();
-            cargarReservas();
-
-        } catch (SQLException e) {
-            Notificaciones.mostrarError(contenedorNotificaciones, "Error al cargar las reservas: " + e.getMessage());
-        }
+        gestoraReservas = new GestoraReservas();
     }
 }

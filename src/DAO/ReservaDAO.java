@@ -108,8 +108,47 @@ public class ReservaDAO implements iDAO<Reserva> {
             }
         }
     }
+
+    public void baja(int idReserva, int idUsuario) throws SQLException {
+
+        String sql = """
+        UPDATE reservas r
+        INNER JOIN pasajeros p ON r.idPasajero = p.idPasajero
+        SET r.estado = 'CANCELADA'
+        WHERE r.idReserva = ?
+          AND p.idUsuario = ?
+          AND r.estado = 'ACTIVA'
+        """;
+
+        try (Connection conexion = ConexionDB.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, idReserva);
+            ps.setInt(2, idUsuario);
+
+            int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas == 0) {
+                throw new SQLException("La reserva no existe, no pertenece al usuario o ya está cancelada.");
+            }
+        }
+    }
+
+
     @Override
     public void modificar(Reserva reserva) throws SQLException {
+        modificarInterno(reserva, null);
+    }
+
+    public void modificar(Reserva reserva, int idUsuario) throws SQLException {
+        if (idUsuario <= 0) {
+            throw new IllegalArgumentException("El ID de usuario no es válido.");
+        }
+
+        modificarInterno(reserva, idUsuario);
+    }
+
+    private void modificarInterno(Reserva reserva, Integer idUsuario) throws SQLException {
 
         if (reserva == null ||
                 reserva.getIdReserva() <= 0 ||
@@ -124,6 +163,7 @@ public class ReservaDAO implements iDAO<Reserva> {
 
             throw new IllegalArgumentException("El viaje no está disponible.");
         }
+
         List<String> nuevosAsientos = new ArrayList<>();
         Set<String> asientosSolicitados = new HashSet<>();
 
@@ -149,31 +189,32 @@ public class ReservaDAO implements iDAO<Reserva> {
         }
 
         String sqlReserva = """
-            SELECT idPasajero, idViaje, estado
-            FROM reservas
-            WHERE idReserva = ?
-            FOR UPDATE
-            """;
+        SELECT r.idPasajero, r.idViaje, r.estado, p.idUsuario
+        FROM reservas r
+        INNER JOIN pasajeros p ON r.idPasajero = p.idPasajero
+        WHERE r.idReserva = ?
+        FOR UPDATE
+        """;
 
         String sqlOcupados = """
-            SELECT ar.codigoAsiento
-            FROM asientos_reserva ar
-            INNER JOIN reservas r ON ar.idReserva = r.idReserva
-            WHERE r.idViaje = ?
-            AND r.estado = 'ACTIVA'
-            AND r.idReserva <> ?
-            FOR UPDATE
-            """;
+        SELECT ar.codigoAsiento
+        FROM asientos_reserva ar
+        INNER JOIN reservas r ON ar.idReserva = r.idReserva
+        WHERE r.idViaje = ?
+        AND r.estado = 'ACTIVA'
+        AND r.idReserva <> ?
+        FOR UPDATE
+        """;
 
         String sqlEliminar = """
-            DELETE FROM asientos_reserva
-            WHERE idReserva = ?
-            """;
+        DELETE FROM asientos_reserva
+        WHERE idReserva = ?
+        """;
 
         String sqlInsertar = """
-            INSERT INTO asientos_reserva (idReserva, codigoAsiento)
-            VALUES (?, ?)
-            """;
+        INSERT INTO asientos_reserva (idReserva, codigoAsiento)
+        VALUES (?, ?)
+        """;
 
         try (Connection conexion = ConexionDB.conectar()) {
 
@@ -183,6 +224,8 @@ public class ReservaDAO implements iDAO<Reserva> {
 
                 int idPasajeroActual;
                 int idViajeActual;
+                int idUsuarioActual;
+
                 try (PreparedStatement ps = conexion.prepareStatement(sqlReserva)) {
 
                     ps.setInt(1, reserva.getIdReserva());
@@ -195,17 +238,25 @@ public class ReservaDAO implements iDAO<Reserva> {
 
                         idPasajeroActual = rs.getInt("idPasajero");
                         idViajeActual = rs.getInt("idViaje");
+                        idUsuarioActual = rs.getInt("idUsuario");
 
                         if (!Reserva.ACTIVA.equals(rs.getString("estado"))) {
                             throw new SQLException("La reserva no está activa.");
                         }
                     }
                 }
+
+                // Verificar que la reserva pertenezca al usuario.
+                if (idUsuario != null && idUsuarioActual != idUsuario) {
+                    throw new SQLException("No tenés permiso para modificar esta reserva.");
+                }
+
                 if (idPasajeroActual != reserva.getPasajero().getIdPasajero() ||
                         idViajeActual != reserva.getViaje().getIdViaje()) {
 
                     throw new IllegalArgumentException("No se puede cambiar el pasajero ni el viaje de una reserva.");
                 }
+
                 Set<String> asientosOcupados = new HashSet<>();
 
                 try (PreparedStatement ps = conexion.prepareStatement(sqlOcupados)) {
@@ -216,9 +267,7 @@ public class ReservaDAO implements iDAO<Reserva> {
                     try (ResultSet rs = ps.executeQuery()) {
 
                         while (rs.next()) {
-                            asientosOcupados.add(
-                                    rs.getString("codigoAsiento").toUpperCase(Locale.ROOT)
-                            );
+                            asientosOcupados.add(rs.getString("codigoAsiento").toUpperCase(Locale.ROOT));
                         }
                     }
                 }
@@ -229,11 +278,13 @@ public class ReservaDAO implements iDAO<Reserva> {
                         throw new SQLException("El asiento " + asiento + " ya está reservado.");
                     }
                 }
+
                 try (PreparedStatement ps = conexion.prepareStatement(sqlEliminar)) {
 
                     ps.setInt(1, reserva.getIdReserva());
                     ps.executeUpdate();
                 }
+
                 try (PreparedStatement ps = conexion.prepareStatement(sqlInsertar)) {
 
                     for (String asiento : nuevosAsientos) {
@@ -247,6 +298,7 @@ public class ReservaDAO implements iDAO<Reserva> {
                 }
 
                 conexion.commit();
+
                 reserva.setAsientosReservados(nuevosAsientos);
 
                 asientosOcupados.addAll(nuevosAsientos);
@@ -262,6 +314,7 @@ public class ReservaDAO implements iDAO<Reserva> {
             }
         }
     }
+
 
     @Override
     public Reserva consultar(int id) throws SQLException {
@@ -364,4 +417,68 @@ public class ReservaDAO implements iDAO<Reserva> {
 
         return reservas;
     }
+
+    public List<Reserva> listarPorUsuario(int idUsuario) throws SQLException {
+
+        if (idUsuario <= 0) {
+            throw new IllegalArgumentException("El ID de usuario no es válido.");
+        }
+
+        List<Reserva> reservas = new ArrayList<>();
+        List<Integer> idsReservas = new ArrayList<>();
+
+        String sql = """
+        SELECT r.idReserva
+        FROM reservas r
+        INNER JOIN pasajeros p ON r.idPasajero = p.idPasajero
+        WHERE p.idUsuario = ?
+        ORDER BY r.fechaReserva DESC
+        """;
+
+        try (Connection conexion = ConexionDB.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, idUsuario);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    idsReservas.add(rs.getInt("idReserva"));
+                }
+            }
+        }
+
+        for (int id : idsReservas) {
+
+            Reserva reserva = consultar(id);
+
+            if (reserva != null) {
+                reservas.add(reserva);
+            }
+        }
+
+        return reservas;
+    }
+
+    public boolean perteneceAUsuario(int idReserva, int idUsuario) throws SQLException {
+        String sql = """
+        SELECT COUNT(*)
+        FROM reservas r
+        INNER JOIN pasajeros p ON r.idPasajero = p.idPasajero
+        WHERE r.idReserva = ?
+          AND p.idUsuario = ?
+        """;
+
+        try (Connection conexion = ConexionDB.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, idReserva);
+            ps.setInt(2, idUsuario);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        }
+    }
+
 }

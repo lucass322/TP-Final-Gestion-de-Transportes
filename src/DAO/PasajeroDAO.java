@@ -271,4 +271,23 @@ public class PasajeroDAO implements iDAO<Pasajero> {
         return lista;
     }
 
+    public Pasajero consultarPorUsuario(int idUsuario) throws SQLException {
+
+        String sql = "SELECT idPasajero FROM pasajeros WHERE idUsuario = ?";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idUsuario);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return consultar(rs.getInt("idPasajero"));
+                }
+            }
+        }
+
+        return null;
+    }
 }

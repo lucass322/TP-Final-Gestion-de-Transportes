@@ -7,6 +7,7 @@ import DAO.PasajeroDAO;
 import DAO.ViajeDAO;
 import Viajes.GestorReservas.GestoraReservas;
 import Viajes.Reserva;
+import Usuarios.Usuario;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Arrays;
-import java.util.ArrayList;
 
 public class FormularioReservaController {
 
@@ -49,13 +49,58 @@ public class FormularioReservaController {
     @FXML
     private Button btnRegistrar;
 
-    @FXML
-    private Button btnCancelar;
-
     private Reserva reservaEnEdicion;
+    private Usuario usuarioActual;
+    private boolean esCliente;
 
     public void setPanelContenido(StackPane panelContenido) {
         this.panelContenido = panelContenido;
+    }
+
+
+    public void setUsuario(Usuario usuario) {
+        this.usuarioActual = usuario;
+
+        esCliente = usuario != null&& usuario.getRol() != null && "CLIENTE".equalsIgnoreCase(usuario.getRol().getNombreRol());
+
+        btnRegistrar.setDisable(false);
+
+        if (esCliente) {
+            configurarFormularioCliente();
+
+            try {
+                gestoraReservas.listarReservasPorUsuario(usuario.getIdUsuario());
+            } catch (SQLException e) {
+                Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo cargar el historial de reservas.");
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private void configurarFormularioCliente() {
+        try {
+            cbPasajero.setDisable(true);
+            Pasajero pasajero = pasajeroDAO.consultarPorUsuario(usuarioActual.getIdUsuario());
+
+            if (pasajero == null || !pasajero.isHabilitadoUsuario() || pasajero.getPersona() == null
+                    || !pasajero.getPersona().isHabilitadoPersona()) {
+
+                Notificaciones.mostrarError(contenedorNotificaciones, "No se encontró un pasajero habilitado asociado a tu usuario.");
+
+                btnRegistrar.setDisable(true);
+                return;
+            }
+
+            cbPasajero.getItems().setAll(pasajero);
+            cbPasajero.setValue(pasajero);
+
+        } catch (SQLException e) {
+            Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo cargar tu información de pasajero.");
+
+            btnRegistrar.setDisable(true);
+            e.printStackTrace();
+        }
     }
 
     public void prepararEdicion(Reserva reserva) {
@@ -112,18 +157,12 @@ public class FormularioReservaController {
         cargarPasajeros();
         cargarViajes();
 
-        try {
-            gestoraReservas = new GestoraReservas();
-        } catch (SQLException e) {
-            Notificaciones.mostrarError(contenedorNotificaciones, "No se pudieron inicializar las reservas.");
-            e.printStackTrace();
-        }
+        gestoraReservas = new GestoraReservas();
     }
 
 
     @FXML
     private void registrarReserva() {
-
         if (gestoraReservas == null) {
             Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo inicializar el sistema de reservas.");
             return;
@@ -150,7 +189,11 @@ public class FormularioReservaController {
                         reservaEnEdicion.getEstado()
                 );
 
-                gestoraReservas.modificarReserva(reservaModificada);
+                if (esCliente) {
+                    gestoraReservas.modificarReserva(reservaModificada,usuarioActual.getIdUsuario());
+                } else {
+                    gestoraReservas.modificarReserva(reservaModificada);
+                }
 
                 volverGestionReservas();
 
@@ -158,11 +201,36 @@ public class FormularioReservaController {
             }
 
             // MODO REGISTRO
-            Pasajero pasajero = cbPasajero.getValue();
+            Pasajero pasajero;
+
+            if (esCliente) {
+
+                if (usuarioActual == null || usuarioActual.getIdUsuario() <= 0) {
+                    throw new IllegalArgumentException("No se pudo identificar al usuario.");
+                }
+
+                pasajero = pasajeroDAO.consultarPorUsuario(usuarioActual.getIdUsuario());
+
+                if (pasajero == null) {
+                    throw new IllegalArgumentException("No tenés un pasajero asociado a tu usuario.");
+                }
+
+            } else {
+                pasajero = cbPasajero.getValue();
+            }
+
             Viaje viaje = cbViaje.getValue();
 
             if (pasajero == null || viaje == null) {
                 Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "Seleccioná un pasajero y un viaje.");
+                return;
+            }
+
+            if (!pasajero.isHabilitadoUsuario()|| pasajero.getPersona() == null
+                    || !pasajero.getPersona().isHabilitadoPersona()) {
+
+                Notificaciones.mostrarAdvertencia(contenedorNotificaciones, "El pasajero seleccionado no está habilitado.");
+
                 return;
             }
 
@@ -177,7 +245,11 @@ public class FormularioReservaController {
                 return;
             }
 
-            gestoraReservas.altaReserva(reserva);
+            if (esCliente) {
+                gestoraReservas.altaReserva(reserva, usuarioActual.getIdUsuario());
+            } else {
+                gestoraReservas.altaReserva(reserva);
+            }
 
             Notificaciones.mostrarExito(contenedorNotificaciones, "Reserva registrada correctamente.");
 
@@ -202,6 +274,10 @@ public class FormularioReservaController {
 
             Parent vista = loader.load();
 
+            GestionReservasController controller = loader.getController();
+            controller.setPanelContenido(panelContenido);
+            controller.setUsuario(usuarioActual);
+
             panelContenido.getChildren().setAll(vista);
 
         } catch (IOException e) {
@@ -211,7 +287,6 @@ public class FormularioReservaController {
     }
 
     private void volverGestionReservas() {
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/GestionReservas.fxml"));
 
@@ -219,6 +294,7 @@ public class FormularioReservaController {
 
             GestionReservasController controller = loader.getController();
             controller.setPanelContenido(panelContenido);
+            controller.setUsuario(usuarioActual);
 
             panelContenido.getChildren().setAll(vista);
 

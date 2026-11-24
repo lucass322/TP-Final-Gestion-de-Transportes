@@ -12,103 +12,224 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" styleClass="dashboard-root" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DashboardController">
-   <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0" spacing="15.0" styleClass="dashboard-header" BorderPane.alignment="CENTER_LEFT">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets left="25.0" right="25.0" />
-         </padding>
-         <children>
-            <Label fx:id="lblLogo" styleClass="dashboard-logo" text="RutaGO" HBox.hgrow="ALWAYS" />
-            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox fx:id="usuarioInfo" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" spacing="2.0" styleClass="usuario-info">
-               <children>
-                  <Label fx:id="lblNombreUsuario" />
-                  <Label fx:id="lblRol" styleClass="usuario-rol" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-   </top>
-   <left>
-      <VBox fx:id="vboxMenuLateral" prefHeight="200.0" prefWidth="230.0" spacing="12.0" styleClass="dashboard-sidebar" BorderPane.alignment="TOP_LEFT">
-         <padding>
-            <Insets bottom="20.0" left="15.0" right="15.0" top="20.0" />
-         </padding>
-         <children>
-            <Label fx:id="lblTituloMenu" styleClass="sidebar-titulo" text="ADMINISTRACIÓN" />
-            <Button fx:id="btnDashboard" mnemonicParsing="false" onAction="#volverDashboard" styleClass="sidebar-button" text="Dashboard" />
-            <Button fx:id="btnRoles" mnemonicParsing="false" onAction="#abrirGestionRoles" styleClass="sidebar-button" text="Roles" />
-            <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#abrirGestionUsuarios" styleClass="sidebar-button" text="Usuarios" />
-            <Button fx:id="btnEmpleados" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionEmpleados" styleClass="sidebar-button" text="Empleados" visible="false" />
-             <Button fx:id="btnRecorridos" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionRecorridos" styleClass="sidebar-button" text="Recorridos" visible="false" />
-             <Button fx:id="btnVehiculos" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionVehiculos" styleClass="sidebar-button" text="Vehículos" visible="false"/>
-             <Button fx:id="btnReservas" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionReservas" styleClass="sidebar-button" text="Reservas" visible="false" />
-             <Button fx:id="btnViajes" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionViajes" styleClass="sidebar-button" text="Viajes" visible="false" />
-            <Button fx:id="btnConfiguracion" mnemonicParsing="false" onAction="#abrirConfiguracion" styleClass="sidebar-button" text="Configuración" />
-            <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-            <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión">
-               <styleClass>
-                  <String fx:value="sidebar-button" />
-                  <String fx:value="sidebar-logout" />
-               </styleClass>
-            </Button>
-         </children>
-      </VBox>
-   </left>
-   <center>
-      <StackPane fx:id="panelContenido" prefHeight="150.0" prefWidth="200.0" styleClass="dashboard-content" BorderPane.alignment="CENTER">
-         <children>
-            <VBox fx:id="contenedorDashboard" spacing="20.0" styleClass="dashboard-inicio" StackPane.alignment="TOP_LEFT">
-               <children>
-                  <Label fx:id="lblBienvenida" styleClass="dashboard-titulo" text="Bienvenido a RutaGo" />
-                  <Label fx:id="lblDescripcion" styleClass="dashboard-descripcion" text="Panel de administración general del sistema." />
-                  <HBox fx:id="contenedorTarjetas" alignment="CENTER_LEFT" spacing="20.0" styleClass="dashboard-tarjetas">
-                     <children>
-                        <VBox fx:id="cardUsuarios" alignment="CENTER_LEFT" prefHeight="130.0" prefWidth="220.0" spacing="10.0" styleClass="dashboard-card">
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                           <children>
-                              <HBox fx:id="contenedorIconoUsuarios" prefHeight="100.0" prefWidth="200.0" />
-                              <Label fx:id="lblTituloUsuarios" styleClass="card-titulo" text="Usuarios registrados" />
-                              <Label fx:id="lblCantidadUsuarios" styleClass="card-valor" text="0" />
-                           </children>
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0" spacing="15.0" styleClass="dashboard-header" BorderPane.alignment="CENTER_LEFT">
+            <padding>
+                <Insets left="25.0" right="25.0"/>
+            </padding>
+            <children>
+                <Label fx:id="lblLogo" styleClass="dashboard-logo" text="RutaGO" HBox.hgrow="ALWAYS"/>
+
+                <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+
+                <VBox fx:id="usuarioInfo" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" spacing="2.0" styleClass="usuario-info">
+                    <children>
+                        <Label fx:id="lblNombreUsuario"/>
+                        <Label fx:id="lblRol" styleClass="usuario-rol"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox fx:id="vboxMenuLateral" prefHeight="200.0" prefWidth="230.0" spacing="12.0" styleClass="dashboard-sidebar" BorderPane.alignment="TOP_LEFT">
+
+            <padding>
+                <Insets bottom="20.0" left="15.0" right="15.0" top="20.0"/>
+            </padding>
+
+            <children>
+                <Label fx:id="lblTituloMenu" styleClass="sidebar-titulo" text="ADMINISTRACIÓN"/>
+
+                <Button fx:id="btnDashboard" mnemonicParsing="false" onAction="#volverDashboard" styleClass="sidebar-button" text="Dashboard"/>
+                <Button fx:id="btnRoles" mnemonicParsing="false" onAction="#abrirGestionRoles" styleClass="sidebar-button" text="Roles"/>
+                <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#abrirGestionUsuarios" styleClass="sidebar-button" text="Usuarios"/>
+                <Button fx:id="btnEmpleados" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionEmpleados" styleClass="sidebar-button" text="Empleados" visible="false"/>
+                <Button fx:id="btnRecorridos" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionRecorridos" styleClass="sidebar-button" text="Recorridos" visible="false"/>
+                <Button fx:id="btnVehiculos" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionVehiculos" styleClass="sidebar-button" text="Vehículos" visible="false"/>
+                <Button fx:id="btnReservas" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionReservas" styleClass="sidebar-button" text="Reservas" visible="false"/>
+                <Button fx:id="btnViajes" focusTraversable="false" managed="false" mnemonicParsing="false" onAction="#abrirGestionViajes" styleClass="sidebar-button" text="Viajes" visible="false"/>
+                <Button fx:id="btnConfiguracion" mnemonicParsing="false" onAction="#abrirConfiguracion" styleClass="sidebar-button" text="Configuración"/>
+                <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS"/>
+                <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión">
+                    <styleClass>
+                        <String fx:value="sidebar-button"/>
+                        <String fx:value="sidebar-logout"/>
+                    </styleClass>
+                </Button>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="panelContenido"
+                   prefHeight="150.0" prefWidth="200.0"
+                   styleClass="dashboard-content"
+                   BorderPane.alignment="CENTER">
+
+            <children>
+                <VBox fx:id="contenedorDashboard"
+                      spacing="20.0"
+                      styleClass="dashboard-inicio"
+                      StackPane.alignment="TOP_LEFT">
+
+                    <children>
+                        <Label fx:id="lblBienvenida"
+                               styleClass="dashboard-titulo"
+                               text="Bienvenido a RutaGo"/>
+
+                        <Label fx:id="lblDescripcion"
+                               styleClass="dashboard-descripcion"
+                               text="Panel de administración general del sistema."/>
+
+                        <!-- Contenedor general de tarjetas -->
+                        <VBox fx:id="contenedorTarjetas"
+                              spacing="20.0"
+                              styleClass="dashboard-tarjetas">
+
+                            <children>
+
+                                <!-- Primera fila -->
+                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                    <children>
+
+                                        <VBox fx:id="cardUsuarios"
+                                              alignment="CENTER_LEFT"
+                                              prefHeight="130.0"
+                                              prefWidth="220.0"
+                                              spacing="10.0"
+                                              styleClass="dashboard-card">
+                                            <padding>
+                                                <Insets bottom="15.0"
+                                                        left="15.0"
+                                                        right="15.0"
+                                                        top="15.0"/>
+                                            </padding>
+                                            <children>
+                                                <HBox fx:id="contenedorIconoUsuarios"/>
+                                                <Label styleClass="card-titulo"
+                                                       text="Usuarios registrados"/>
+                                                <Label fx:id="lblCantidadUsuarios"
+                                                       styleClass="card-valor"
+                                                       text="0"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox fx:id="cardRoles"
+                                              alignment="CENTER_LEFT"
+                                              prefHeight="130.0"
+                                              prefWidth="220.0"
+                                              spacing="10.0"
+                                              styleClass="dashboard-card">
+                                            <padding>
+                                                <Insets bottom="15.0"
+                                                        left="15.0"
+                                                        right="15.0"
+                                                        top="15.0"/>
+                                            </padding>
+                                            <children>
+                                                <HBox fx:id="contenedorIconoRoles"/>
+                                                <Label styleClass="card-titulo"
+                                                       text="Roles disponibles"/>
+                                                <Label fx:id="lblCantidadRoles"
+                                                       styleClass="card-valor"
+                                                       text="0"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox fx:id="cardUsuariosHabilitados"
+                                              alignment="CENTER_LEFT"
+                                              prefHeight="130.0"
+                                              prefWidth="220.0"
+                                              spacing="10.0"
+                                              styleClass="dashboard-card">
+                                            <padding>
+                                                <Insets bottom="15.0"
+                                                        left="15.0"
+                                                        right="15.0"
+                                                        top="15.0"/>
+                                            </padding>
+                                            <children>
+                                                <HBox fx:id="contenedorIconoHabilitados"/>
+                                                <Label styleClass="card-titulo"
+                                                       text="Usuarios habilitados"/>
+                                                <Label fx:id="lblCantidadUsuariosHabilitados"
+                                                       styleClass="card-valor"
+                                                       text="0"/>
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                                <!-- Segunda fila -->
+                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                    <children>
+
+                                        <VBox fx:id="cardViajes"
+                                              alignment="CENTER_LEFT"
+                                              prefHeight="130.0"
+                                              prefWidth="220.0"
+                                              spacing="10.0"
+                                              styleClass="dashboard-card">
+                                            <padding>
+                                                <Insets bottom="15.0"
+                                                        left="15.0"
+                                                        right="15.0"
+                                                        top="15.0"/>
+                                            </padding>
+                                            <children>
+                                                <HBox fx:id="contenedorIconoViajes"/>
+                                                <Label styleClass="card-titulo"
+                                                       text="Viajes registrados"/>
+                                                <Label fx:id="lblCantidadViajes"
+                                                       styleClass="card-valor"
+                                                       text="0"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox fx:id="cardVehiculos"
+                                              alignment="CENTER_LEFT"
+                                              prefHeight="130.0"
+                                              prefWidth="220.0"
+                                              spacing="10.0"
+                                              styleClass="dashboard-card">
+                                            <padding>
+                                                <Insets bottom="15.0"
+                                                        left="15.0"
+                                                        right="15.0"
+                                                        top="15.0"/>
+                                            </padding>
+                                            <children>
+                                                <HBox fx:id="contenedorIconoVehiculos"/>
+                                                <Label styleClass="card-titulo"
+                                                       text="Vehículos registrados"/>
+                                                <Label fx:id="lblCantidadVehiculos"
+                                                       styleClass="card-valor"
+                                                       text="0"/>
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
                         </VBox>
-                        <VBox fx:id="cardRoles" alignment="CENTER_LEFT" prefHeight="130.0" prefWidth="220.0" spacing="10.0" styleClass="dashboard-card">
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                           <children>
-                              <HBox fx:id="contenedorIconoRoles" prefHeight="100.0" prefWidth="200.0" />
-                              <Label fx:id="lblTituloRoles" styleClass="card-titulo" text="Roles disponibles" />
-                              <Label fx:id="lblCantidadRoles" styleClass="card-valor" text="0" />
-                           </children>
-                        </VBox>
-                        <VBox fx:id="cardUsuariosHabilitados" alignment="CENTER_LEFT" prefHeight="130.0" prefWidth="220.0" spacing="10.0" styleClass="dashboard-card">
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                           <children>
-                              <HBox fx:id="contenedorIconoHabilitados" prefHeight="100.0" prefWidth="200.0" />
-                              <Label fx:id="lblTituloUsuariosHabilitados" styleClass="card-titulo" text="Usuarios habilitados" />
-                              <Label fx:id="lblCantidadUsuariosHabilitados" styleClass="card-valor" text="0" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-               </padding>
-            </VBox>
-         </children>
-      </StackPane>
-   </center>
-   <stylesheets>
-      <URL value="@../styles/global.css" />
-      <URL value="@../styles/vistas/dashboard.css" />
-   </stylesheets>
+                    </children>
+
+                    <padding>
+                        <Insets bottom="25.0" left="25.0"
+                                right="25.0" top="25.0"/>
+                    </padding>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+
+    <stylesheets>
+        <URL value="@../styles/global.css"/>
+        <URL value="@../styles/vistas/dashboard.css"/>
+    </stylesheets>
+
 </BorderPane>

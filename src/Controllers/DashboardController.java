@@ -5,6 +5,11 @@ import DAO.RolDAO;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import Viajes.GestorViajes.GestoraViajes;
+import DAO.VehiculoDAO;
+import Vehiculos.Vehiculo;
+import Viajes.Viaje;
+
 
 import Usuarios.Usuario;
 import javafx.fxml.FXML;
@@ -20,6 +25,9 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class DashboardController {
     @FXML
     private Label lblNombreUsuario;
@@ -34,7 +42,7 @@ public class DashboardController {
     private Label lblCantidadUsuarios;
 
     @FXML
-    private HBox contenedorTarjetas;
+    private VBox contenedorTarjetas;
 
     @FXML
     private HBox contenedorIconoRoles;
@@ -84,6 +92,18 @@ public class DashboardController {
     @FXML
     private VBox contenedorDashboard;
 
+    @FXML private VBox cardUsuarios;
+    @FXML private VBox cardRoles;
+    @FXML private VBox cardUsuariosHabilitados;
+    @FXML private VBox cardViajes;
+    @FXML private VBox cardVehiculos;
+
+    @FXML private HBox contenedorIconoViajes;
+    @FXML private Label lblCantidadViajes;
+
+    @FXML private HBox contenedorIconoVehiculos;
+    @FXML private Label lblCantidadVehiculos;
+
     private Usuario usuarioActual;
 
     @FXML
@@ -103,14 +123,20 @@ public class DashboardController {
         FontIcon iconoUsuarios = new FontIcon(FontAwesomeSolid.USERS);
         FontIcon iconoRoles = new FontIcon(FontAwesomeSolid.SHIELD_ALT);
         FontIcon iconoHabilitados = new FontIcon(FontAwesomeSolid.USER_CHECK);
+        FontIcon iconoViajes = new FontIcon(FontAwesomeSolid.PLANE);
+        FontIcon iconoVehiculos = new FontIcon(FontAwesomeSolid.BUS);
 
         contenedorIconoUsuarios.getChildren().add(iconoUsuarios);
         contenedorIconoRoles.getChildren().add(iconoRoles);
         contenedorIconoHabilitados.getChildren().add(iconoHabilitados);
+        contenedorIconoViajes.getChildren().add(iconoViajes);
+        contenedorIconoVehiculos.getChildren().add(iconoVehiculos);
 
         iconoUsuarios.getStyleClass().add("card-icon");
         iconoRoles.getStyleClass().add("card-icon");
         iconoHabilitados.getStyleClass().add("card-icon");
+        iconoViajes.getStyleClass().add("card-icon");
+        iconoVehiculos.getStyleClass().add("card-icon");
     }
 
     private void cargarEstadisticas() {
@@ -127,6 +153,48 @@ public class DashboardController {
         }
     }
 
+    private void cargarEstadisticasViajesVehiculos() {
+        try {
+            GestoraViajes gestoraViajes = new GestoraViajes();
+            List<Viaje> viajes = gestoraViajes.listarViajes();
+
+            long cantidadViajes = viajes.stream()
+                    .filter(Viaje::isHabilitadoViaje)
+                    .count();
+
+            VehiculoDAO vehiculoDAO = new VehiculoDAO();
+            List<Vehiculo> vehiculos = vehiculoDAO.listar();
+
+            long cantidadVehiculos = vehiculos.stream()
+                    .filter(Vehiculo::isActivo)
+                    .count();
+
+            lblCantidadViajes.setText(String.valueOf(cantidadViajes));
+            lblCantidadVehiculos.setText(String.valueOf(cantidadVehiculos));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            lblCantidadViajes.setText("—");
+            lblCantidadVehiculos.setText("—");
+        }
+    }
+
+    private void configurarTarjetasPorRol() {
+        boolean esRoot = esRoot();
+
+        configurarTarjeta(cardUsuarios, esRoot);
+        configurarTarjeta(cardRoles, esRoot);
+        configurarTarjeta(cardUsuariosHabilitados, esRoot);
+
+        configurarTarjeta(cardViajes, true);
+        configurarTarjeta(cardVehiculos, true);
+    }
+
+    private void configurarTarjeta(VBox tarjeta, boolean visible) {
+        tarjeta.setVisible(visible);
+        tarjeta.setManaged(visible);
+    }
+
     private String obtenerNombreRol() {
 
         if(usuarioActual == null || usuarioActual.getRol() == null) {
@@ -137,21 +205,22 @@ public class DashboardController {
     }
 
     public void setUsuario(Usuario usuario) {
-        this.usuarioActual = usuario; //guarda el usuario autenticado
+        this.usuarioActual = usuario;
 
         lblNombreUsuario.setText(usuario.getNombreUsuario());
         lblRol.setText(obtenerNombreRol());
 
         configurarMenuPorRol();
+        configurarTarjetasPorRol();
 
-        contenedorTarjetas.setVisible(esRoot());
-        contenedorTarjetas.setManaged(esRoot());
-
-        if(esRoot()) {
+        // Estadísticas generales exclusivas de ROOT.
+        if (esRoot()) {
             cargarEstadisticas();
         }
-    }
 
+        // Estadísticas de viajes y vehículos para todos los roles.
+        cargarEstadisticasViajesVehiculos();
+    }
     private void configurarBoton(Button boton, boolean visible) {
         boton.setVisible(visible);
         boton.setManaged(visible);
@@ -342,8 +411,8 @@ public class DashboardController {
             Parent vista = loader.load();
 
             GestionViajesController controller = loader.getController();
-
             controller.setPanelContenido(panelContenido);
+            controller.setUsuario(usuarioActual);
 
             panelContenido.getChildren().setAll(vista);
 
@@ -356,8 +425,11 @@ public class DashboardController {
     @FXML
     private void abrirGestionViajes() {
 
-        if (!esRoot()) {
-            return;
+        if (esRoot()
+                || "EMPLEADO".equalsIgnoreCase(obtenerNombreRol())
+                || "CLIENTE".equalsIgnoreCase(obtenerNombreRol())) {
+
+            mostrarGestionViajes();
         }
 
         mostrarGestionViajes();
@@ -371,6 +443,7 @@ public class DashboardController {
 
             GestionReservasController controller = loader.getController();
             controller.setPanelContenido(panelContenido);
+            controller.setUsuario(usuarioActual);
 
             panelContenido.getChildren().setAll(vista);
 

@@ -257,6 +257,21 @@ public class UsuarioDAO implements iDAO<Usuario>{
         }
     }
 
+    public void altaCliente(Usuario usuario) throws SQLException {
+        if (usuario == null) {
+            throw new SQLException("El usuario no es válido.");
+        }
+
+        Rol rolCliente = new RolDAO().listar().stream()
+                .filter(rol -> "CLIENTE".equalsIgnoreCase(rol.getNombreRol()))
+                .findFirst()
+                .orElseThrow(() -> new SQLException("No se encontró el rol CLIENTE."));
+
+        usuario.setRol(rolCliente);
+
+        alta(usuario);
+    }
+
     @Override
     public void baja(int id) throws SQLException {
         String sql = "UPDATE usuarios u " +

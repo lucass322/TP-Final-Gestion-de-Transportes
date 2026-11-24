@@ -44,6 +44,7 @@ public class FormularioUsuarioController {
     @FXML private Label lblTitulo;
     @FXML private Label lblDescripcion;
     @FXML private VBox contenedorPassword;
+    @FXML private Label lblRol;
 
     @FXML
     private StackPane contenedorNotificaciones;
@@ -58,6 +59,14 @@ public class FormularioUsuarioController {
 
     public void setDesdeLogin(boolean desdeLogin) {
         this.desdeLogin = desdeLogin;
+
+        if (desdeLogin) {
+            lblRol.setVisible(false);
+            lblRol.setManaged(false);
+
+            cbRol.setVisible(false);
+            cbRol.setManaged(false);
+        }
     }
 
     @FXML
@@ -66,6 +75,12 @@ public class FormularioUsuarioController {
         contenedorPassword.setManaged(true);
 
         cargarRoles();
+
+        if (desdeLogin) {
+            cbRol.setVisible(false);
+            cbRol.setManaged(false);
+        }
+
     }
 
     public void prepararEdicion(Usuario usuario) {
@@ -159,7 +174,7 @@ public class FormularioUsuarioController {
             return;
         }
 
-        boolean rolSeleccionado = cbRol.getSelectionModel().getSelectedIndex() > 0;
+        boolean rolSeleccionado = desdeLogin || cbRol.getSelectionModel().getSelectedIndex() > 0;
 
         if (!Validaciones.camposCompletos(
                 txtNombre.getText(),
@@ -237,7 +252,22 @@ public class FormularioUsuarioController {
         }
 
         // Recupera el rol seleccionado.
-        Rol rol = cbRol.getSelectionModel().getSelectedItem();
+        Rol rol;
+
+        if (desdeLogin) {
+            try {
+                rol = rolDAO.listar().stream()
+                        .filter(r -> "CLIENTE".equalsIgnoreCase(r.getNombreRol()))
+                        .findFirst()
+                        .orElseThrow(() -> new SQLException("No se encontró el rol CLIENTE."));
+            } catch (SQLException e) {
+                Notificaciones.mostrarError(contenedorNotificaciones, "No se pudo asignar el rol CLIENTE.");
+                e.printStackTrace();
+                return;
+            }
+        } else {
+            rol = cbRol.getSelectionModel().getSelectedItem();
+        }
 
         // Crea el objeto Persona con los datos personales.
         Persona nuevaPersona = new Persona(
@@ -258,7 +288,11 @@ public class FormularioUsuarioController {
 
 
         try {
-            usuarioDAO.alta(nuevoUsuario);
+            if (desdeLogin) {
+                usuarioDAO.altaCliente(nuevoUsuario);
+            } else {
+                usuarioDAO.alta(nuevoUsuario);
+            }
 
             if (desdeLogin) {
                 Notificaciones.mostrarExito(contenedorNotificaciones, "Cuenta registrada correctamente.",
