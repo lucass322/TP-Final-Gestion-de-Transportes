@@ -54,7 +54,7 @@ public class RolDAO implements iDAO<Rol>{
 
     @Override
     public void alta(Rol rol) throws SQLException {
-        if ("ROOT".equalsIgnoreCase(rol.getNombreRol())) { //excluye ROOT
+        if ("ROOT".equalsIgnoreCase(rol.getNombreRol())) {
             throw new IllegalArgumentException("El nombre ROOT está reservado.");
         }
 
@@ -114,7 +114,7 @@ public class RolDAO implements iDAO<Rol>{
 
     @Override
     public void modificar(Rol rol) throws SQLException {
-        if ("ROOT".equalsIgnoreCase(rol.getNombreRol())) { //evita la asignación a otro rol
+        if ("ROOT".equalsIgnoreCase(rol.getNombreRol())) {
             throw new IllegalArgumentException("No se puede asignar el nombre ROOT a otro rol.");
         }
 
@@ -125,7 +125,7 @@ public class RolDAO implements iDAO<Rol>{
         }
 
         if (rolActual != null && "ROOT".equalsIgnoreCase(rolActual.getNombreRol())) {
-            throw new IllegalArgumentException("No se puede modificar el rol ROOT."); //evita modificar el rol root
+            throw new IllegalArgumentException("No se puede modificar el rol ROOT.");
         }
 
         Rol rolExistente = buscarRolPorNombre(rol.getNombreRol());
@@ -134,7 +134,7 @@ public class RolDAO implements iDAO<Rol>{
             throw new IllegalArgumentException("Ya existe un rol con ese nombre.");
         }
 
-        String sql = "UPDATE roles SET nombreRol = ? WHERE idRol = ? AND UPPER (nombreRol) <> 'ROOT'"; //excluye ROOT
+        String sql = "UPDATE roles SET nombreRol = ? WHERE idRol = ? AND UPPER (nombreRol) <> 'ROOT'";
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {

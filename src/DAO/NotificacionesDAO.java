@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class NotificacionesDAO {
-
-    //Busca las preferencias asociadas al idUsuario. Si todavía no existen, devuelve null.
     public PreferenciasNotificaciones consultarPreferencias(int idUsuario)
             throws SQLException {
 
@@ -47,8 +45,6 @@ public class NotificacionesDAO {
 
         return null;
     }
-
-    //Actualiza las tres preferencias del usuario indicado.
     public void guardarPreferencias(PreferenciasNotificaciones preferencias)
             throws SQLException {
 

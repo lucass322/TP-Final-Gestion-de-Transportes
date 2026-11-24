@@ -194,7 +194,7 @@ public class ViajeDAO implements iDAO<Viaje> {
                 vehiculo
         );
 
-        // Conserva la fecha de llegada almacenada en la base de datos.
+
         viaje.setFechaHoraLlegada(fechaHoraLlegada);
 
         viaje.setHabilitadoViaje(habilitadoViaje);

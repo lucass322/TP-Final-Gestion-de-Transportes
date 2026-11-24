@@ -13,11 +13,9 @@ import java.util.*;
 public class UsuarioDAO implements iDAO<Usuario>{
     public boolean hayRoot() throws SQLException {
         String sql = "SELECT COUNT(*) FROM usuarios u INNER JOIN roles r ON u.idRol = r.idRol WHERE r.nombreRol = ?";
-        // Buscamos en usuarios todos los registros relacionados con un determinado rol y contamos cuántos existen.
 
         try(Connection con = ConexionDB.conectar();
             PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setString(1, "ROOT");
 
             try(ResultSet rs = ps.executeQuery()) {
@@ -35,12 +33,9 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
         try(Connection con = ConexionDB.conectar();
             PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setString(1, nombreUsuario);
 
-            try (ResultSet rs = ps.executeQuery()){  // Verificamos si existe algún registro en la base de datos que coincida
-                                                     // con el nombre de usuario recibido como parámetro. Si encuentra uno,
-                                                     // devuelve true; de lo contrario, devuelve false
+            try (ResultSet rs = ps.executeQuery()){
                 return rs.next();
             }
         }
@@ -48,13 +43,10 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
     public boolean existeNombreUsuario(String nombreUsuario, int idUsuario) throws SQLException {
         String sql = "SELECT nombreUsuario FROM usuarios WHERE nombreUsuario = ? AND idUsuario != ?";
-
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setString(1, nombreUsuario);
             ps.setInt(2, idUsuario);
-
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
@@ -63,15 +55,10 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
     public boolean existeEmail(String email) throws SQLException {
         String sql = "SELECT email FROM personas WHERE email = ?";
-
         try (Connection con = ConexionDB.conectar();
             PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setString(1, email);
-
-            try(ResultSet rs = ps.executeQuery()) { // Verificamos si existe algún registro en la base de datos que coincida
-                                                    // con el email recibido como parámetro. Si encuentra uno,
-                                                    // devuelve true; de lo contrario, devuelve false
+            try(ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
         }
@@ -121,12 +108,9 @@ public class UsuarioDAO implements iDAO<Usuario>{
                 "VALUES (?, ?, ?, ?)";
 
         String sqlEmpleado = "INSERT INTO empleados (idUsuario) VALUES (?)";
-
         String sqlPasajero = "INSERT INTO pasajeros (idUsuario) VALUES (?)";
-
         String sqlExistePasajero = """
-            SELECT 1
-            FROM pasajeros pa
+            SELECT 1  FROM pasajeros pa
             INNER JOIN usuarios u ON pa.idUsuario = u.idUsuario
             INNER JOIN personas per ON u.idPersona = per.idPersona
             WHERE per.dni = ?
@@ -258,21 +242,17 @@ public class UsuarioDAO implements iDAO<Usuario>{
                     }
                 }
 
-                // Registra las preferencias de notificaciones.
                 try (PreparedStatement psPreferencias = con.prepareStatement(sqlPreferencias)) {
 
                     psPreferencias.setInt(1, idUsuario);
                     psPreferencias.executeUpdate();
                 }
 
-                // Confirma todas las operaciones.
                 con.commit();
 
             } catch (SQLException e) {
-
-                // Revierte todas las operaciones si ocurre algún error.
                 con.rollback();
-                throw e; //vuelve a lanzar el mismo error.
+                throw e;
             }
         }
     }
@@ -324,14 +304,9 @@ public class UsuarioDAO implements iDAO<Usuario>{
         }
 
         try (Connection con = ConexionDB.conectar()) {
-
-            // Inicia una transacción para realizar las modificaciones.
             con.setAutoCommit(false);
 
             try {
-
-                // Verifica el rol actual del usuario en la base de datos.
-
                 try (PreparedStatement psRol = con.prepareStatement(sqlRolActual)) {
 
                     psRol.setInt(1, usuario.getIdUsuario());
@@ -342,7 +317,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
                             throw new SQLException("El usuario no existe.");
                         }
 
-                        // Impide modificar el usuario ROOT.
                         if ("ROOT".equalsIgnoreCase(rs.getString("nombreRol"))) {
                             throw new SQLException("El usuario ROOT no puede modificarse.");
                         }
@@ -357,17 +331,13 @@ public class UsuarioDAO implements iDAO<Usuario>{
                     }
                 }
 
-                // Verifica que el usuario tenga una Persona asociada.
                 if (usuario.getPersona() == null) {
                     throw new SQLException("El usuario debe tener una persona asociada.");
                 }
-
-                // Verifica que se esté modificando la Persona correspondiente al usuario.
                 if (usuario.getPersona().getIdPersona() != idPersonaActual) {
                     throw new SQLException("La persona asociada al usuario no coincide.");
                 }
 
-                // Verifica que el rol seleccionado exista y no sea ROOT.
                 String sqlRolNuevo = "SELECT nombreRol FROM roles WHERE idRol = ?";
 
                 try (PreparedStatement psRolNuevo = con.prepareStatement(sqlRolNuevo)) {
@@ -380,14 +350,11 @@ public class UsuarioDAO implements iDAO<Usuario>{
                             throw new SQLException("El rol seleccionado no existe.");
                         }
 
-                        // Recupera el nombre del nuevo rol.
                         nombreRolNuevo = rs.getString("nombreRol");
 
                         if ("ROOT".equalsIgnoreCase(rs.getString("nombreRol"))) {
                             throw new SQLException("No se puede asignar el rol ROOT mediante una edición.");
                         }
-
-                        // Comprueba que el rol seleccionado sea válido.
                         if (!"EMPLEADO".equalsIgnoreCase(nombreRolNuevo) &&
                                 !"CLIENTE".equalsIgnoreCase(nombreRolNuevo)) {
 
@@ -395,8 +362,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
                         }
                     }
                 }
-
-                // Actualiza los datos personales.
                 try (PreparedStatement psPersona = con.prepareStatement(sqlPersona)) {
 
                     psPersona.setString(1, usuario.getPersona().getNombre());
@@ -408,8 +373,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
                     psPersona.executeUpdate();
                 }
-
-                // Actualiza los datos de la cuenta.
                 try (PreparedStatement psUsuario = con.prepareStatement(sqlUsuario)) {
 
                     psUsuario.setInt(1, usuario.getRol().getIdRol());
@@ -418,37 +381,23 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
                     psUsuario.executeUpdate();
                 }
-
-                // Comprueba si cambió el rol del usuario.
                 if (!nombreRolActual.equalsIgnoreCase(nombreRolNuevo)) {
-
-                    // Si pasa de EMPLEADO a CLIENTE.
                     if ("EMPLEADO".equalsIgnoreCase(nombreRolActual) &&
                             "CLIENTE".equalsIgnoreCase(nombreRolNuevo)) {
-
-                        // Elimina su registro de empleados.
                         try (PreparedStatement psEliminar = con.prepareStatement(sqlEliminarEmpleado)) {
                             psEliminar.setInt(1, usuario.getIdUsuario());
                             psEliminar.executeUpdate();
                         }
-
-                        // Crea su registro de pasajero.
                         try (PreparedStatement psInsertar = con.prepareStatement(sqlInsertarPasajero)) {
                             psInsertar.setInt(1, usuario.getIdUsuario());
                             psInsertar.executeUpdate();
                         }
-
-                        // Si pasa de CLIENTE a EMPLEADO.
                     } else if ("CLIENTE".equalsIgnoreCase(nombreRolActual) &&
                             "EMPLEADO".equalsIgnoreCase(nombreRolNuevo)) {
-
-                        // Elimina su registro de pasajeros.
                         try (PreparedStatement psEliminar = con.prepareStatement(sqlEliminarPasajero)) {
                             psEliminar.setInt(1, usuario.getIdUsuario());
                             psEliminar.executeUpdate();
                         }
-
-                        // Crea su registro de empleado.
                         try (PreparedStatement psInsertar = con.prepareStatement(sqlInsertarEmpleado)) {
                             psInsertar.setInt(1, usuario.getIdUsuario());
                             psInsertar.executeUpdate();
@@ -456,12 +405,10 @@ public class UsuarioDAO implements iDAO<Usuario>{
                     }
                 }
 
-                // Confirma todas las modificaciones.
                 con.commit();
 
             } catch (SQLException e) {
 
-                // Revierte todos los cambios si ocurre algún error.
                 con.rollback();
                 throw e;
             }
@@ -508,18 +455,13 @@ public class UsuarioDAO implements iDAO<Usuario>{
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
-
-                    // Recupera los datos personales si existe una Persona asociada.
                     Persona persona = obtenerPersona(rs);
-
-                    // Recupera el rol asignado al usuario.
                     Rol rol = new Rol(
                             rs.getInt("idRol"),
                             rs.getString("nombreRol"),
                             rs.getBoolean("habilitadoRol")
                     );
 
-                    // Construye el usuario con sus entidades relacionadas.
                     return new Usuario(
                             rs.getInt("idUsuario"),
                             persona,
@@ -552,18 +494,14 @@ public class UsuarioDAO implements iDAO<Usuario>{
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-
-                // Recupera los datos personales si existe una Persona asociada.
                 Persona persona = obtenerPersona(rs);
 
-                // Recupera el rol asignado.
                 Rol rol = new Rol(
                         rs.getInt("idRol"),
                         rs.getString("nombreRol"),
                         rs.getBoolean("habilitadoRol")
                 );
 
-                // Construye el usuario con sus entidades relacionadas.
                 Usuario usuario = new Usuario(
                         rs.getInt("idUsuario"),
                         persona,
@@ -597,17 +535,14 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
             while (rs.next()) {
 
-                // Recupera los datos personales si existe una Persona asociada.
                 Persona persona = obtenerPersona(rs);
 
-                // Recupera el rol asignado.
                 Rol rol = new Rol(
                         rs.getInt("idRol"),
                         rs.getString("nombreRol"),
                         rs.getBoolean("habilitadoRol")
                 );
 
-                // Construye el usuario con sus entidades relacionadas.
                 Usuario usuario = new Usuario(
                         rs.getInt("idUsuario"),
                         persona,
@@ -644,18 +579,12 @@ public class UsuarioDAO implements iDAO<Usuario>{
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
-
-                    // Recupera los datos personales si existe una Persona asociada.
                     Persona persona = obtenerPersona(rs);
-
-                    // Recupera el rol asignado.
                     Rol rol = new Rol(
                             rs.getInt("idRol"),
                             rs.getString("nombreRol"),
                             rs.getBoolean("habilitadoRol")
                     );
-
-                    // Construye el usuario con sus entidades relacionadas.
                     return new Usuario(
                             rs.getInt("idUsuario"),
                             persona,
@@ -700,9 +629,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
         return 0;
     }
-
-    //Autentica al usuario verificando su existencia, estado de habilitación y contraseña.
-    // Si la autenticación es correcta, devuelve el objeto Usuario completo; de lo contrario, devuelve null.
     public Usuario obtenerUsuarioAutenticado(String nombreUsuario, String passwordUsuario) throws SQLException {
         Usuario usuario = buscarPorNombreUsuario(nombreUsuario);
 
@@ -728,15 +654,12 @@ public class UsuarioDAO implements iDAO<Usuario>{
         }
 
         String placeholders = String.join(", ", Collections.nCopies(idsUsuarios.size(), "?"));
-        //Genera un marcador (?) por cada usuario seleccionado para la cláusula IN.
 
         String sql = "UPDATE usuarios u " +
                 "INNER JOIN roles r ON u.idRol = r.idRol " +
                 "SET u.habilitadoUsuario = ? " +
                 "WHERE u.idUsuario IN (" + placeholders + ") " +
                 "AND UPPER(r.nombreRol) <> ?";
-
-        // Actualiza el estado de los usuarios seleccionados, excluyendo a ROOT.
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -745,8 +668,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
             for (int i = 0; i < idsUsuarios.size(); i++) {
                 ps.setInt(i + 2, idsUsuarios.get(i));
             }
-
-            //Excluye al usuario ROOT de la actualización.
             ps.setString(idsUsuarios.size() + 2, "ROOT");
 
             ps.executeUpdate();
@@ -757,7 +678,6 @@ public class UsuarioDAO implements iDAO<Usuario>{
 
         int idPersona = rs.getInt("idPersona");
 
-        // Comprueba si el usuario tiene una persona asociada.
         if (rs.wasNull()) {
             return null;
         }

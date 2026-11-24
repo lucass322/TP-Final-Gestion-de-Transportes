@@ -31,8 +31,6 @@ public class EmpleadoDAO implements iDAO<Empleado> {
                         "No se pudo registrar el empleado. El usuario no existe o no tiene rol EMPLEADO."
                 );
             }
-
-            // Recupera el ID del empleado generado.
             try (ResultSet rs = ps.getGeneratedKeys()) {
 
                 if (rs.next()) {
@@ -98,13 +96,9 @@ public class EmpleadoDAO implements iDAO<Empleado> {
             """;
 
         try (Connection con = ConexionDB.conectar()) {
-
-            // Inicia una transacción.
             con.setAutoCommit(false);
 
             try {
-
-                // Comprueba que el empleado exista.
                 try (PreparedStatement psExiste = con.prepareStatement(sqlExiste)) {
 
                     psExiste.setInt(1, empleado.getIdEmpleado());
@@ -116,8 +110,6 @@ public class EmpleadoDAO implements iDAO<Empleado> {
                         }
                     }
                 }
-
-                // Actualiza los datos personales.
                 try (PreparedStatement psPersona = con.prepareStatement(sqlPersona)) {
 
                     psPersona.setString(1, empleado.getPersona().getNombre());
@@ -129,8 +121,6 @@ public class EmpleadoDAO implements iDAO<Empleado> {
 
                     psPersona.executeUpdate();
                 }
-
-                // Actualiza los datos de la cuenta.
                 try (PreparedStatement psUsuario = con.prepareStatement(sqlUsuario)) {
 
                     psUsuario.setString(1, empleado.getNombreUsuario());
@@ -138,13 +128,9 @@ public class EmpleadoDAO implements iDAO<Empleado> {
 
                     psUsuario.executeUpdate();
                 }
-
-                // Confirma todas las modificaciones.
                 con.commit();
 
             } catch (SQLException ex) {
-
-                // Revierte los cambios si ocurre algún error.
                 con.rollback();
                 throw ex;
             }
@@ -184,8 +170,6 @@ public class EmpleadoDAO implements iDAO<Empleado> {
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
-
-                    // Construye la Persona asociada.
                     Persona persona = new Persona(
                             rs.getInt("idPersona"),
                             rs.getString("nombre"),
@@ -195,15 +179,11 @@ public class EmpleadoDAO implements iDAO<Empleado> {
                             rs.getString("email"),
                             rs.getBoolean("habilitadoPersona")
                     );
-
-                    // Construye el Rol del usuario.
                     Rol rol = new Rol(
                             rs.getInt("idRol"),
                             rs.getString("nombreRol"),
                             rs.getBoolean("habilitadoRol")
                     );
-
-                    // Construye el Empleado con sus datos relacionados.
                     return new Empleado(
                             rs.getInt("idEmpleado"),
                             rs.getInt("idUsuario"),
@@ -251,8 +231,6 @@ public class EmpleadoDAO implements iDAO<Empleado> {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-
-                // Construye la Persona asociada.
                 Persona persona = new Persona(
                         rs.getInt("idPersona"),
                         rs.getString("nombre"),
@@ -262,15 +240,11 @@ public class EmpleadoDAO implements iDAO<Empleado> {
                         rs.getString("email"),
                         rs.getBoolean("habilitadoPersona")
                 );
-
-                // Construye el Rol del usuario.
                 Rol rol = new Rol(
                         rs.getInt("idRol"),
                         rs.getString("nombreRol"),
                         rs.getBoolean("habilitadoRol")
                 );
-
-                // Construye el Empleado con sus datos relacionados.
                 lista.add(new Empleado(
                         rs.getInt("idEmpleado"),
                         rs.getInt("idUsuario"),

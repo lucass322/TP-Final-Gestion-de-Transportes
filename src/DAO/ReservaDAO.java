@@ -42,8 +42,6 @@ public class ReservaDAO implements iDAO<Reserva> {
 
             try {
                 int idReserva;
-
-                // Inserta los datos generales de la reserva.
                 try (PreparedStatement ps = conexion.prepareStatement(
                         sqlReserva, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -62,8 +60,6 @@ public class ReservaDAO implements iDAO<Reserva> {
                         idReserva = rs.getInt(1);
                     }
                 }
-
-                // Inserta los asientos asociados a la reserva.
                 try (PreparedStatement ps = conexion.prepareStatement(sqlAsientos)) {
 
                     for (String asiento : reserva.getAsientosReservados()) {
@@ -112,7 +108,6 @@ public class ReservaDAO implements iDAO<Reserva> {
             }
         }
     }
-
     @Override
     public void modificar(Reserva reserva) throws SQLException {
 
@@ -129,8 +124,6 @@ public class ReservaDAO implements iDAO<Reserva> {
 
             throw new IllegalArgumentException("El viaje no está disponible.");
         }
-
-        // Normaliza y valida los nuevos asientos.
         List<String> nuevosAsientos = new ArrayList<>();
         Set<String> asientosSolicitados = new HashSet<>();
 
@@ -190,8 +183,6 @@ public class ReservaDAO implements iDAO<Reserva> {
 
                 int idPasajeroActual;
                 int idViajeActual;
-
-                // Verifica que la reserva exista y siga activa.
                 try (PreparedStatement ps = conexion.prepareStatement(sqlReserva)) {
 
                     ps.setInt(1, reserva.getIdReserva());
@@ -210,15 +201,11 @@ public class ReservaDAO implements iDAO<Reserva> {
                         }
                     }
                 }
-
-                // El pasajero y el viaje deben ser los originales.
                 if (idPasajeroActual != reserva.getPasajero().getIdPasajero() ||
                         idViajeActual != reserva.getViaje().getIdViaje()) {
 
                     throw new IllegalArgumentException("No se puede cambiar el pasajero ni el viaje de una reserva.");
                 }
-
-                // Recupera los asientos ocupados por otras reservas.
                 Set<String> asientosOcupados = new HashSet<>();
 
                 try (PreparedStatement ps = conexion.prepareStatement(sqlOcupados)) {
@@ -236,22 +223,17 @@ public class ReservaDAO implements iDAO<Reserva> {
                     }
                 }
 
-                // Comprueba que los nuevos asientos estén disponibles.
                 for (String asiento : nuevosAsientos) {
 
                     if (asientosOcupados.contains(asiento)) {
                         throw new SQLException("El asiento " + asiento + " ya está reservado.");
                     }
                 }
-
-                // Elimina los asientos anteriores.
                 try (PreparedStatement ps = conexion.prepareStatement(sqlEliminar)) {
 
                     ps.setInt(1, reserva.getIdReserva());
                     ps.executeUpdate();
                 }
-
-                // Registra los nuevos asientos.
                 try (PreparedStatement ps = conexion.prepareStatement(sqlInsertar)) {
 
                     for (String asiento : nuevosAsientos) {
@@ -265,8 +247,6 @@ public class ReservaDAO implements iDAO<Reserva> {
                 }
 
                 conexion.commit();
-
-                // Sincroniza los objetos en memoria.
                 reserva.setAsientosReservados(nuevosAsientos);
 
                 asientosOcupados.addAll(nuevosAsientos);
@@ -314,18 +294,13 @@ public class ReservaDAO implements iDAO<Reserva> {
                 estado = rs.getString("estado");
             }
         }
-
-        // Recupera el pasajero asociado.
         Pasajero pasajero = new PasajeroDAO().consultar(idPasajero);
-
-        // Recupera el viaje asociado.
         Viaje viaje = new ViajeDAO().consultar(idViaje);
 
         if (pasajero == null || viaje == null) {
             throw new SQLException("No se pudo recuperar el pasajero o el viaje de la reserva.");
         }
 
-        // Recupera los asientos de la reserva.
         List<String> asientos = new ArrayList<>();
 
         String sqlAsientos = """
